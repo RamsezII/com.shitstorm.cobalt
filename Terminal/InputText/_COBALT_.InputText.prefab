@@ -198,8 +198,8 @@ GameObject:
   - component: {fileID: 7181463110064890683}
   - component: {fileID: 5114585752179305931}
   - component: {fileID: 4228349379191794805}
-  - component: {fileID: 2721572147118600330}
   - component: {fileID: 5810676719039240620}
+  - component: {fileID: 2721572147118600330}
   m_Layer: 5
   m_Name: _COBALT_.InputText
   m_TagString: Untagged
@@ -251,6 +251,21 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5810676719039240620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8187446968260224186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79aa77b4e2cfb2e4188bdd225e186022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rT: {fileID: 0}
+  parent_body_rT: {fileID: 0}
+  input_field: {fileID: 0}
 --- !u!114 &2721572147118600330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,18 +367,3 @@ MonoBehaviour:
   isAlert: 0
   m_InputValidator: {fileID: 0}
   m_ShouldActivateOnSelect: 1
---- !u!114 &5810676719039240620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8187446968260224186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79aa77b4e2cfb2e4188bdd225e186022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rT: {fileID: 0}
-  parent_body_rT: {fileID: 0}
-  input_field: {fileID: 0}

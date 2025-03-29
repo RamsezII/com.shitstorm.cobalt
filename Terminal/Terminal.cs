@@ -1,7 +1,5 @@
-using _ARK_;
 using _SGUI_;
 using _UTIL_;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +7,8 @@ namespace _COBALT_
 {
     public partial class Terminal : SguiWindow
     {
-        public ListListener<Terminal> terminals = new();
+        public static readonly ListListener<Terminal> terminals = new();
+        public bool HasFocus => terminals.IsLast(this);
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -17,6 +16,8 @@ namespace _COBALT_
         static void OnBeforeSceneLoad()
         {
             Application.logMessageReceivedThreaded -= OnLogMessageReceived;
+            lock (logs_queue)
+                logs_queue.Clear();
             Application.logMessageReceivedThreaded += OnLogMessageReceived;
         }
 
@@ -27,18 +28,23 @@ namespace _COBALT_
             base.Awake();
 
             AwakeUI();
-
             terminals.AddElement(this);
-            terminals.AddListener2(OnTerminalsStack);
+            terminals.AddListener2(OnTerminalList);
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void OnTerminalsStack(List<Terminal> list)
+        public static bool TryGetActiveTerminal(out Terminal terminal) => (terminal = GetActiveTerminal()) != null;
+        public static Terminal GetActiveTerminal()
         {
-            NUCLEOR.delegates.onLateUpdate -= PullLogs;
-            if (list.Count > 0 && list[^1] == this)
-                NUCLEOR.delegates.onLateUpdate += PullLogs;
+            lock (terminals)
+                return terminals._list.Count > 0 ? terminals._list[^1] : null;
+        }
+
+        void OnTerminalList(List<Terminal> list)
+        {
+            if (HasFocus)
+                PullLogs();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -46,9 +52,8 @@ namespace _COBALT_
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
             terminals.RemoveElement(this);
-            terminals._listeners2 -= OnTerminalsStack;
+            terminals._listeners2 -= OnTerminalList;
         }
     }
 }

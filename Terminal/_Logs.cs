@@ -28,21 +28,54 @@ namespace _COBALT_
             public static implicit operator LogInfos(in (string, string, LogType) value) => new(value.Item1, value.Item2, value.Item3);
         }
 
-        static readonly ThreadSafe<List<LogInfos>> logs_queue = new();
+        static readonly List<LogInfos> logs_queue = new();
 
         //--------------------------------------------------------------------------------------------------------------
 
         static void OnLogMessageReceived(string message, string stackTrace, LogType type)
         {
             message = message.TrimEnd('\n', '\r');
-            logs_queue.Value.Add((message, stackTrace, type));
+            LogInfos log = new(message, stackTrace, type);
+
+            if (TryGetActiveTerminal(out Terminal terminal))
+            {
+                terminal.PullLogs();
+                terminal.AddLog(log);
+            }
+            else
+                lock (logs_queue)
+                    logs_queue.Add(log);
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
         void PullLogs()
         {
+            lock (logs_queue)
+                if (logs_queue.Count > 0)
+                {
+                    foreach (LogInfos log in logs_queue)
+                        AddLog(log);
+                    logs_queue.Clear();
+                }
+        }
 
+        void AddLog(in LogInfos log)
+        {
+            switch (log.type)
+            {
+                case LogType.Error:
+                case LogType.Exception:
+                case LogType.Assert:
+                    AddLine($"<color=red>{log.message}</color>");
+                    break;
+                case LogType.Warning:
+                    AddLine($"<color=yellow>{log.message}</color>");
+                    break;
+                default:
+                    AddLine(log.message);
+                    break;
+            }
         }
     }
 }

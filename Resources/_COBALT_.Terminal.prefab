@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 7675337436154733284}
   - component: {fileID: 7245508819186193031}
   m_Layer: 5
-  m_Name: Content
+  m_Name: layout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 2949966450349092012}
   - component: {fileID: 8221335420176152783}
   m_Layer: 5
-  m_Name: Viewport
+  m_Name: mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -829,6 +829,7 @@ MonoBehaviour:
   button_hide: {fileID: 0}
   button_fullscreen: {fileID: 0}
   button_close: {fileID: 0}
+  stdout: 
 --- !u!224 &7496193123802770289 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1070991455050409694, guid: 4919d5e9b2082144ba72c94703740d4b,
