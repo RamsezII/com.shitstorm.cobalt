@@ -23,6 +23,7 @@ namespace _COBALT_
         {
             Vector2 preferred_values = input_field.textComponent.GetPreferredValues(text, parent_body_rT.rect.width, float.PositiveInfinity);
             rT.sizeDelta = preferred_values;
+            input_field.text = text;
         }
     }
 }

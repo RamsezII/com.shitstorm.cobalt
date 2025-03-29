@@ -8,9 +8,9 @@
 
         void AwakeUI()
         {
-            input_out = transform.Find("rT/body/scroll_view/mask/layout/output").GetComponent<InputText>();
-            input_realtime = transform.Find("rT/body/scroll_view/Viewport/Content/realtime").GetComponent<InputText>();
-            input_in = transform.Find("rT/body/scroll_view/Viewport/Content/in").GetComponent<InputText>();
+            input_out = transform.Find("rT/body/scroll_view/mask/layout/out").GetComponent<InputText>();
+            input_realtime = transform.Find("rT/body/scroll_view/mask/layout/live").GetComponent<InputText>();
+            input_in = transform.Find("rT/body/scroll_view/mask/layout/in").GetComponent<InputText>();
         }
 
         //--------------------------------------------------------------------------------------------------------------

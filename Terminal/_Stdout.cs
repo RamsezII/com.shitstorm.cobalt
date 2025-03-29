@@ -1,4 +1,4 @@
-﻿using _ARK_;
+﻿using _UTIL_;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -10,6 +10,7 @@ namespace _COBALT_
         readonly Queue<object> lines = new();
         [SerializeField, TextArea(1, 10)] string stdout;
         const byte maxLines = 100;
+        public readonly OnValue<bool> refreshLines = new();
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -19,11 +20,8 @@ namespace _COBALT_
             {
                 while (lines.Count >= maxLines)
                     lines.Dequeue();
-
                 lines.Enqueue(line);
-
-                lock (NUCLEOR.instance.mainThreadLock)
-                    NUCLEOR.delegates.onEndOfFrame += RefreshLines;
+                refreshLines.Update(true);
             }
         }
 
@@ -36,6 +34,7 @@ namespace _COBALT_
                     sb.AppendLine(line.ToString());
             }
             stdout = sb.TroncatedForLog();
+            input_out.AutoSize(stdout);
         }
     }
 }

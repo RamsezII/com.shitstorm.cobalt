@@ -1,3 +1,4 @@
+using _ARK_;
 using _SGUI_;
 using _UTIL_;
 using System.Collections.Generic;
@@ -27,9 +28,26 @@ namespace _COBALT_
         {
             base.Awake();
 
+            tmp_title.SetTrad(typeof(Terminal).FullName);
+
             AwakeUI();
             terminals.AddElement(this);
             terminals.AddListener2(OnTerminalList);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Start()
+        {
+            base.Start();
+            refreshLines.AddListener(flag =>
+            {
+                refreshLines._value = false;
+                NUCLEOR.delegates.onEndOfFrame -= RefreshLines;
+                NUCLEOR.delegates.onEndOfFrame += RefreshLines;
+            });
+
+            NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(10, () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers)));
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -54,6 +72,7 @@ namespace _COBALT_
             base.OnDestroy();
             terminals.RemoveElement(this);
             terminals._listeners2 -= OnTerminalList;
+            USAGES.RemoveUser(this);
         }
     }
 }
