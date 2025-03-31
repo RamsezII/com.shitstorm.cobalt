@@ -45,19 +45,32 @@ namespace _COBALT_
             public CMD_STATUS Executate(in CommandLine line)
             {
                 commandline = line;
+
+                if (command.action != null)
+                    status = command.action(line);
+
                 if (command.commands.Count == 0)
-                    if (command.action != null)
-                        status = command.action(line);
-                    else if (routine.MoveNext())
+                {
+                    if (routine != null && routine.MoveNext())
                         status = routine.Current;
-                    else if (line.TryReadArgument(out string argument))
-                        if (this.command.commands.TryGetValue(argument, out Command command))
+                    else
+                        Dispose();
+                }
+                else if (line.TryReadArgument(out string argument))
+                    if (this.command.commands.TryGetValue(argument, out Command command))
+                    {
+                        Executor executor = new(stack, command);
+                        if (line.signal == CMD_SIGNAL.EXEC)
                         {
-                            Executor executor = new(stack, command);
-                            if (line.signal == CMD_SIGNAL.EXEC)
-                                stack.AddElement(executor);
-                            status = executor.Executate(line);
+                            stack.AddElement(executor);
+                            executor.Executate(line);
                         }
+                        else
+                            executor.Executate(line);
+                    }
+                    else
+                        Debug.LogWarning($"Command not found: \"{argument}\"");
+
                 return status;
             }
 
