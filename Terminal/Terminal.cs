@@ -11,7 +11,9 @@ namespace _COBALT_
         public static readonly ListListener<Terminal> terminals = new();
         public bool HasFocus => terminals.IsLast(this);
 
-        public readonly OnValue<bool> refresh_stdin = new();
+        public readonly OnValue<bool>
+            flag_stdin = new(),
+            isActive = new();
 
         public Command shell;
 
@@ -41,6 +43,17 @@ namespace _COBALT_
             terminals.AddListener2(OnTerminalList);
         }
 
+        private void OnEnable()
+        {
+            NUCLEOR.delegates.getInputs -= OnGetInputs;
+            NUCLEOR.delegates.getInputs += OnGetInputs;
+        }
+
+        private void OnDisable()
+        {
+            NUCLEOR.delegates.getInputs -= OnGetInputs;
+        }
+
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void Start()
@@ -49,18 +62,23 @@ namespace _COBALT_
 
             refresh_stdout.AddListener(flag =>
             {
-                NUCLEOR.delegates.onEndOfFrame -= RefreshStdout;
+                NUCLEOR.delegates.onStartOfFrame -= RefreshStdout;
                 if (flag)
-                    NUCLEOR.delegates.onEndOfFrame += RefreshStdout;
+                    NUCLEOR.delegates.onStartOfFrame += RefreshStdout;
             });
 
-            refresh_stdin.AddListener(flag =>
+            flag_stdin.AddListener(flag =>
             {
+                NUCLEOR.delegates.onStartOfFrame -= RefreshStdin;
                 if (flag)
-                    RefreshStdin();
+                    NUCLEOR.delegates.onStartOfFrame += RefreshStdin;
             });
 
-            MachineSettings.machine_name.AddListener(value => refresh_stdin.Update(true));
+            isActive.AddListener(active => gameObject.SetActive(active));
+
+            isActive.Update(true);
+
+            MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
 
             NUCLEOR.delegates.onEndOfFrame += () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers);
         }

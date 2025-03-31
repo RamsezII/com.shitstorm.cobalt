@@ -39,9 +39,14 @@ namespace _COBALT_
             stdout = sb.TroncatedForLog();
 
             input_stdout.input_field.text = stdout;
-            input_stdout.AutoSize();
+            input_stdout.AutoSize(true);
 
             RefreshStdin();
+        }
+
+        public void ClearStdout()
+        {
+            scroll_view.verticalNormalizedPosition = 0;
         }
     }
 }
