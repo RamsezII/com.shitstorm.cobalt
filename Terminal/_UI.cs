@@ -33,8 +33,6 @@ namespace _COBALT_
 
             rT_selection = (RectTransform)transform.Find("rT/body/selection");
             img_selection = rT_selection.GetComponent<RawImage>();
-
-            input_stdin.input_field.onValidateInput += OnValidateStdin;
         }
 
         //--------------------------------------------------------------------------------------------------------------

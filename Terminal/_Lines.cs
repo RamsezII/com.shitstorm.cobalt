@@ -9,7 +9,7 @@ namespace _COBALT_
 
         [SerializeField, TextArea(1, 10)] string stdout;
 
-        const byte max_lines = 100;
+        const byte max_lines = 250;
 
         //--------------------------------------------------------------------------------------------------------------
 

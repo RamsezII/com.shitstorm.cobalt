@@ -29,8 +29,6 @@ namespace _COBALT_
         static void OnBeforeSceneLoad()
         {
             Application.logMessageReceivedThreaded -= OnLogMessageReceived;
-            lock (pending_logs)
-                pending_logs.Clear();
             Application.logMessageReceivedThreaded += OnLogMessageReceived;
         }
 

@@ -10,25 +10,6 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        char OnValidateStdin(string text, int charIndex, char addedChar)
-        {
-            flag_stdin.Update(true);
-            switch (addedChar)
-            {
-                case '\t':
-                    Debug.Log("COMPLETION");
-                    return '\0';
-
-                case '\n':
-                    {
-                        Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
-                        input_stdin.input_field.text = null;
-                        return '\0';
-                    }
-            }
-            return addedChar;
-        }
-
         public void RefreshStdout()
         {
             StringBuilder sb = new();
