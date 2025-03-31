@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79aa77b4e2cfb2e4188bdd225e186022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   terminal: {fileID: 0}
   rT: {fileID: 0}
   rT_parent: {fileID: 0}

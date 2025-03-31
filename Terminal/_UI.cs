@@ -10,6 +10,9 @@ namespace _COBALT_
         public RectTransform rT_stdin;
         [SerializeField] internal InputText input_stdout, input_realtime, input_prefixe, input_stdin;
 
+        public RectTransform rT_selection;
+        public RawImage img_selection;
+
         //--------------------------------------------------------------------------------------------------------------
 
         void AwakeUI()
@@ -27,6 +30,9 @@ namespace _COBALT_
             input_realtime.type = InputText.Types.Realtime;
             input_prefixe.type = InputText.Types.Prefixe;
             input_stdin.type = InputText.Types.Stdin;
+
+            rT_selection = (RectTransform)transform.Find("rT/body/selection");
+            img_selection = rT_selection.GetComponent<RawImage>();
 
             input_stdin.input_field.onValidateInput += OnValidateStdin;
 

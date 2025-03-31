@@ -33,15 +33,13 @@ namespace _COBALT_
 
             if (type == Types.Stdin)
             {
-                float offset_x = terminal.input_prefixe.input_field.preferredWidth;
-                float width = terminal.scroll_view.content.rect.width - offset_x;
+                float prefixe_width = terminal.input_prefixe.input_field.textComponent.GetPreferredValues(terminal.input_prefixe.input_field.text + "_", terminal.scroll_view.content.rect.width, float.PositiveInfinity).x;
 
-                float line_height = input_field.textComponent.GetPreferredValues("A", width, float.PositiveInfinity).y;
+                float line_height = input_field.textComponent.GetPreferredValues("A", terminal.scroll_view.content.rect.width - prefixe_width, float.PositiveInfinity).y;
 
                 text_height += terminal.scroll_view.viewport.rect.height - line_height;
 
-                rT.anchoredPosition = new(offset_x, 0);
-                rT.sizeDelta = new(width, text_height);
+                rT.sizeDelta = new(-prefixe_width, text_height);
 
                 terminal.rT_stdin.sizeDelta = new(0, text_height);
             }

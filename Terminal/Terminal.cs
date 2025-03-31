@@ -13,6 +13,8 @@ namespace _COBALT_
 
         public readonly OnValue<bool> refresh_stdin = new();
 
+        public Command shell;
+
         //--------------------------------------------------------------------------------------------------------------
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -28,6 +30,8 @@ namespace _COBALT_
 
         protected override void Awake()
         {
+            shell = new Command(prefixe: "~");
+
             base.Awake();
 
             tmp_title.SetTrad(typeof(Terminal).Name);
@@ -56,7 +60,7 @@ namespace _COBALT_
                     RefreshStdin();
             });
 
-            refresh_stdin.Update(true);
+            MachineSettings.machine_name.AddListener(value => refresh_stdin.Update(true));
 
             NUCLEOR.delegates.onEndOfFrame += () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers);
         }
