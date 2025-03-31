@@ -5,25 +5,48 @@ namespace _COBALT_
 {
     internal class InputText : MonoBehaviour
     {
-        [HideInInspector] public RectTransform rT, parent_body_rT;
+        public enum Types { Stdout, Realtime, Prefixe, Stdin, }
+
+        public Types type;
+        [HideInInspector] public Terminal terminal;
+        [HideInInspector] public RectTransform rT, rT_parent;
         [HideInInspector] public TMP_InputField input_field;
+        public float text_height;
 
         //--------------------------------------------------------------------------------------------------------------
 
         private void Awake()
         {
+            terminal = GetComponentInParent<Terminal>();
             rT = (RectTransform)transform;
-            parent_body_rT = (RectTransform)rT.parent;
             input_field = GetComponent<TMP_InputField>();
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public void AutoSize(in string text)
+        public void AutoSize()
         {
-            Vector2 preferred_values = input_field.textComponent.GetPreferredValues(text, parent_body_rT.rect.width, float.PositiveInfinity);
-            rT.sizeDelta = preferred_values;
-            input_field.text = text;
+            if (string.IsNullOrWhiteSpace(input_field.text))
+                text_height = 0;
+            else
+                text_height = input_field.textComponent.preferredHeight;
+
+            if (type == Types.Stdin)
+            {
+                float offset_x = terminal.input_prefixe.input_field.preferredWidth;
+                float width = terminal.scroll_view.content.rect.width - offset_x;
+
+                float line_height = input_field.textComponent.GetPreferredValues("A", width, float.PositiveInfinity).y;
+
+                text_height += terminal.scroll_view.viewport.rect.height - line_height;
+
+                rT.anchoredPosition = new(offset_x, 0);
+                rT.sizeDelta = new(width, text_height);
+
+                terminal.rT_stdin.sizeDelta = new(0, text_height);
+            }
+            else if (type != Types.Prefixe)
+                rT.sizeDelta = new(0, text_height);
         }
     }
 }

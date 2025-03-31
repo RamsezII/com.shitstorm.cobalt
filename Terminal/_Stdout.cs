@@ -7,10 +7,11 @@ namespace _COBALT_
 {
     partial class Terminal
     {
-        readonly Queue<object> lines = new();
         [SerializeField, TextArea(1, 10)] string stdout;
-        const byte maxLines = 100;
-        public readonly OnValue<bool> refreshLines = new();
+
+        const byte max_lines = 100;
+        readonly Queue<object> lines = new();
+        public readonly OnValue<bool> refresh_stdout = new();
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -18,15 +19,17 @@ namespace _COBALT_
         {
             lock (lines)
             {
-                while (lines.Count >= maxLines)
+                while (lines.Count >= max_lines)
                     lines.Dequeue();
                 lines.Enqueue(line);
-                refreshLines.Update(true);
+                refresh_stdout.Update(true);
             }
         }
 
-        public void RefreshLines()
+        public void RefreshStdout()
         {
+            refresh_stdout.Update(false);
+
             StringBuilder sb = new();
             lock (lines)
             {
@@ -34,7 +37,11 @@ namespace _COBALT_
                     sb.AppendLine(line.ToString());
             }
             stdout = sb.TroncatedForLog();
-            input_out.AutoSize(stdout);
+
+            input_stdout.input_field.text = stdout;
+            input_stdout.AutoSize();
+
+            RefreshStdin();
         }
     }
 }

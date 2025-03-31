@@ -11,6 +11,8 @@ namespace _COBALT_
         public static readonly ListListener<Terminal> terminals = new();
         public bool HasFocus => terminals.IsLast(this);
 
+        public readonly OnValue<bool> refresh_stdin = new();
+
         //--------------------------------------------------------------------------------------------------------------
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -28,7 +30,7 @@ namespace _COBALT_
         {
             base.Awake();
 
-            tmp_title.SetTrad(typeof(Terminal).FullName);
+            tmp_title.SetTrad(typeof(Terminal).Name);
 
             AwakeUI();
             terminals.AddElement(this);
@@ -40,14 +42,23 @@ namespace _COBALT_
         protected override void Start()
         {
             base.Start();
-            refreshLines.AddListener(flag =>
+
+            refresh_stdout.AddListener(flag =>
             {
-                refreshLines._value = false;
-                NUCLEOR.delegates.onEndOfFrame -= RefreshLines;
-                NUCLEOR.delegates.onEndOfFrame += RefreshLines;
+                NUCLEOR.delegates.onEndOfFrame -= RefreshStdout;
+                if (flag)
+                    NUCLEOR.delegates.onEndOfFrame += RefreshStdout;
             });
 
-            NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(10, () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers)));
+            refresh_stdin.AddListener(flag =>
+            {
+                if (flag)
+                    RefreshStdin();
+            });
+
+            refresh_stdin.Update(true);
+
+            NUCLEOR.delegates.onEndOfFrame += () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers);
         }
 
         //--------------------------------------------------------------------------------------------------------------
