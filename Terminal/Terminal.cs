@@ -12,7 +12,9 @@ namespace _COBALT_
         public bool HasFocus => terminals.IsLast(this);
 
         public readonly OnValue<bool>
+            flag_stdout = new(),
             flag_stdin = new(),
+            flag_clampbottom = new(),
             isActive = new();
 
         public Command shell;
@@ -39,6 +41,7 @@ namespace _COBALT_
             tmp_title.SetTrad(typeof(Terminal).Name);
 
             AwakeUI();
+
             terminals.AddElement(this);
             terminals.AddListener2(OnTerminalList);
         }
@@ -47,11 +50,17 @@ namespace _COBALT_
         {
             NUCLEOR.delegates.getInputs -= OnGetInputs;
             NUCLEOR.delegates.getInputs += OnGetInputs;
+
+            NUCLEOR.delegates.onPlayerInputs -= OnApplyInputs;
+            NUCLEOR.delegates.onPlayerInputs += OnApplyInputs;
+
+            RefreshStdout();
         }
 
         private void OnDisable()
         {
             NUCLEOR.delegates.getInputs -= OnGetInputs;
+            NUCLEOR.delegates.onPlayerInputs -= OnApplyInputs;
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -60,27 +69,37 @@ namespace _COBALT_
         {
             base.Start();
 
-            refresh_stdout.AddListener(flag =>
+            input_realtime.input_field.text = null;
+            RefreshRealtime();
+
+            flag_stdout.AddListener(flag =>
             {
-                NUCLEOR.delegates.onStartOfFrame -= RefreshStdout;
-                if (flag)
-                    NUCLEOR.delegates.onStartOfFrame += RefreshStdout;
+                NUCLEOR.delegates.onStartOfFrame_once -= RefreshStdout;
+                if (flag && isActive.Value)
+                    NUCLEOR.delegates.onStartOfFrame_once += RefreshStdout;
             });
 
             flag_stdin.AddListener(flag =>
             {
-                NUCLEOR.delegates.onStartOfFrame -= RefreshStdin;
-                if (flag)
-                    NUCLEOR.delegates.onStartOfFrame += RefreshStdin;
+                NUCLEOR.delegates.onStartOfFrame_once -= RefreshStdin;
+                if (flag && isActive.Value)
+                    NUCLEOR.delegates.onStartOfFrame_once += RefreshStdin;
+            });
+
+            flag_clampbottom.AddListener(flag =>
+            {
+                NUCLEOR.delegates.onEndOfFrame_once -= ClampBottom;
+                if (flag && isActive.Value)
+                    NUCLEOR.delegates.onEndOfFrame_once += ClampBottom;
             });
 
             isActive.AddListener(active => gameObject.SetActive(active));
 
-            isActive.Update(true);
+            isActive.Update(false);
 
             MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
 
-            NUCLEOR.delegates.onEndOfFrame += () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers);
+            NUCLEOR.delegates.onEndOfFrame_once += () => USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers);
         }
 
         //--------------------------------------------------------------------------------------------------------------
