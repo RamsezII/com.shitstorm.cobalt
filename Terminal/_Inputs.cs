@@ -83,15 +83,5 @@ namespace _COBALT_
             inputs_up = inputs_hold & ~inputs;
             inputs_hold = inputs;
         }
-
-        void OnApplyInputs()
-        {
-            if (inputs_hold.HasFlag(InputsFlags.Ctrl) && inputs_down.HasFlag(InputsFlags.L_key))
-                ClearStdout();
-
-            if (scroll_y != 0)
-                if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
-                    scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
-        }
     }
 }

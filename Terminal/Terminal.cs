@@ -73,8 +73,8 @@ namespace _COBALT_
             NUCLEOR.delegates.getInputs -= OnGetInputs;
             NUCLEOR.delegates.getInputs += OnGetInputs;
 
-            NUCLEOR.delegates.onPlayerInputs -= OnApplyInputs;
-            NUCLEOR.delegates.onPlayerInputs += OnApplyInputs;
+            NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
+            NUCLEOR.delegates.onPlayerInputs += OnUpdate;
 
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
@@ -91,7 +91,7 @@ namespace _COBALT_
         private void OnDisable()
         {
             NUCLEOR.delegates.getInputs -= OnGetInputs;
-            NUCLEOR.delegates.onPlayerInputs -= OnApplyInputs;
+            NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
 
             USAGES.RemoveUser(this);

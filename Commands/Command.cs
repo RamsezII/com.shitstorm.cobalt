@@ -16,20 +16,12 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public Command(in bool hide_stdout, in Traductions manual, in Func<CommandLine, CMD_STATUS> action) : this(hide_stdout, manual)
-        {
-            this.action = action;
-        }
-
-        public Command(in bool hide_stdout, in Traductions manual, in Func<Executor, IEnumerator<CMD_STATUS>> routine) : this(hide_stdout, manual)
-        {
-            this.routine = routine;
-        }
-
-        public Command(in bool hide_stdout, in Traductions manual)
+        public Command(in bool hide_stdout, in Traductions manual, in Func<CommandLine, CMD_STATUS> action, in Func<Executor, IEnumerator<CMD_STATUS>> routine)
         {
             this.hide_stdout = hide_stdout;
             this.manual = manual;
+            this.action = action;
+            this.routine = routine;
         }
     }
 }

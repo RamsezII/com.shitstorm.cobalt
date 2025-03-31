@@ -34,10 +34,7 @@ namespace _COBALT_
                 this.command = command;
 
                 if (command.routine != null)
-                {
                     routine = command.routine(this);
-                    routine.Reset();
-                }
             }
 
             //--------------------------------------------------------------------------------------------------------------
@@ -61,12 +58,8 @@ namespace _COBALT_
                     {
                         Executor executor = new(stack, command);
                         if (line.signal == CMD_SIGNAL.EXEC)
-                        {
                             stack.AddElement(executor);
-                            executor.Executate(line);
-                        }
-                        else
-                            executor.Executate(line);
+                        executor.Executate(line);
                     }
                     else
                         Debug.LogWarning($"Command not found: \"{argument}\"");

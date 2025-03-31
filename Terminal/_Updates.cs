@@ -14,6 +14,18 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
+        void OnUpdate()
+        {
+            if (inputs_hold.HasFlag(InputsFlags.Ctrl) && inputs_down.HasFlag(InputsFlags.L_key))
+                ClearStdout();
+
+            if (scroll_y != 0)
+                if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
+                    scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
         void OnLateUpdate()
         {
             if (flag_realtime.PullValue)
