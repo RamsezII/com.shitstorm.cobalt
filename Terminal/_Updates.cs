@@ -13,7 +13,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void CheckFlags()
+        void OnLateUpdate()
         {
             if (flag_realtime.PullValue)
                 RefreshRealtime();
