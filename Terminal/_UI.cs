@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using _ARK_;
+using _SGUI_;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    partial class Terminal
+    partial class Terminal : IMGUI_global.IUser
     {
         public ScrollRect scrollview;
         public RectTransform rT_scrollview, rT_stdin;
@@ -37,6 +39,22 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
+        void StartUI()
+        {
+            input_realtime.input_field.text = null;
+            flag_realtime.Update(true);
 
+            input_stdin.input_field.onValidateInput = OnValidateStdin;
+
+            input_stdin.input_field.onSelect.AddListener(text =>
+            {
+                IMGUI_global.instance.users.RemoveElement(this);
+                IMGUI_global.instance.users.AddElement(this);
+            });
+
+            input_stdin.input_field.onDeselect.AddListener(text => IMGUI_global.instance.users.RemoveElement(this));
+
+            MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
+        }
     }
 }

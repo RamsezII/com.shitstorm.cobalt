@@ -21,6 +21,9 @@ namespace _COBALT_
             if (flag_stdout.PullValue)
                 RefreshStdout();
 
+            if (flag_alt.Value != default)
+                OnAltKey();
+
             if (flag_stdin.PullValue)
                 RefreshStdin();
 

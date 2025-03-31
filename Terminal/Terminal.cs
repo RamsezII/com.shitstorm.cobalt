@@ -100,13 +100,8 @@ namespace _COBALT_
         protected override void Start()
         {
             base.Start();
-
-            input_realtime.input_field.text = null;
-            flag_realtime.Update(true);
-
+            StartUI();
             isActive.AddListener(active => gameObject.SetActive(active));
-
-            MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
         }
 
         //--------------------------------------------------------------------------------------------------------------

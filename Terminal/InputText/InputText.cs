@@ -1,10 +1,9 @@
-using _SGUI_;
 using TMPro;
 using UnityEngine;
 
 namespace _COBALT_
 {
-    internal partial class InputText : MonoBehaviour, IMGUI_global.IUser
+    internal class InputText : MonoBehaviour
     {
         public enum Types { Stdout, Realtime, Prefixe, Stdin, }
 
@@ -27,24 +26,6 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        private void Start()
-        {
-            if (type == Types.Stdin)
-            {
-                input_field.onValidateInput = OnValidateStdin;
-
-                input_field.onSelect.AddListener(text =>
-                {
-                    IMGUI_global.instance.users.RemoveElement(this);
-                    IMGUI_global.instance.users.AddElement(this);
-                });
-
-                input_field.onDeselect.AddListener(text => IMGUI_global.instance.users.RemoveElement(this));
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
         public void AutoSize(in bool apply)
         {
             if (string.IsNullOrWhiteSpace(input_field.text))
@@ -54,24 +35,6 @@ namespace _COBALT_
 
             if (apply)
                 rT.sizeDelta = new(rT.sizeDelta.x, text_height);
-        }
-
-        void IMGUI_global.IUser.OnOnGUI()
-        {
-            Event e = Event.current;
-
-            if (e.type == EventType.KeyDown && e.alt)
-            {
-                switch (e.keyCode)
-                {
-                    case KeyCode.LeftArrow:
-                    case KeyCode.RightArrow:
-                    case KeyCode.UpArrow:
-                    case KeyCode.DownArrow:
-                        e.Use(); // Empêche TMP d’interpréter
-                        break;
-                }
-            }
         }
     }
 }
