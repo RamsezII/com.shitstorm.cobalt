@@ -47,7 +47,6 @@ namespace _COBALT_
         void OnAltKey()
         {
             KeyCode key = flag_alt.PullValue;
-            Debug.Log($"ALT KEY: \"{key}\"");
         }
     }
 }
