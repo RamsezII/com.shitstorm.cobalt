@@ -12,6 +12,7 @@ namespace _COBALT_
 
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
+            flag_stdin.Update(true);
             switch (addedChar)
             {
                 case '\t':
@@ -30,8 +31,6 @@ namespace _COBALT_
 
         public void RefreshStdout()
         {
-            flag_stdout.Update(false);
-
             StringBuilder sb = new();
             lock (lines)
             {
@@ -44,10 +43,10 @@ namespace _COBALT_
             input_stdout.AutoSize(true);
 
             RefreshStdin();
-            ClampBottom();
+            flag_clampbottom.Update(true);
         }
 
-        public void RefreshRealtime()
+        void RefreshRealtime()
         {
             input_realtime.AutoSize(true);
             rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);
@@ -55,8 +54,6 @@ namespace _COBALT_
 
         public void RefreshStdin()
         {
-            flag_stdin.Update(false);
-
             string prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{shell.prefixe.SetColor("#73B2D9")}$";
             input_prefixe.input_field.text = prefixe;
 
@@ -70,9 +67,9 @@ namespace _COBALT_
             input_stdin.AutoSize(false);
 
             input_stdin.rT.sizeDelta = new(-prefixe_width, 0);
-            rT_stdin.sizeDelta = new(0, stdin_height);
+            rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, stdin_height);
 
-            scrollview.content.sizeDelta = new(0, input_stdout.text_height + input_realtime.text_height + stdin_height);
+            scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + stdin_height);
         }
 
         public void ClearStdout()
@@ -82,9 +79,7 @@ namespace _COBALT_
 
         public void ClampBottom()
         {
-            flag_clampbottom.Update(false);
-
-            float bottom_view = -scrollview.viewport.anchoredPosition.y + scrollview.viewport.rect.height;
+            float bottom_view = -scrollview.viewport.rect.height - scrollview.content.anchoredPosition.y;
             float bottom_stdin = -input_stdout.text_height - input_stdin.text_height;
 
             if (bottom_stdin < bottom_view)

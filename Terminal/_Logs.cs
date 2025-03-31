@@ -28,7 +28,24 @@ namespace _COBALT_
             public static implicit operator LogInfos(in (string, string, LogType) value) => new(value.Item1, value.Item2, value.Item3);
         }
 
-        static readonly List<LogInfos> logs_queue = new();
+        static readonly List<LogInfos> pending_logs = new();
+        static readonly OnValue<Action<LogInfos>> onLog = new();
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        static void InitLogs()
+        {
+            lock (onLog)
+                lock (pending_logs)
+                {
+                    pending_logs.Clear();
+                    onLog._value = log =>
+                    {
+                        lock (pending_logs)
+                            pending_logs.Add(log);
+                    };
+                }
+        }
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -36,31 +53,13 @@ namespace _COBALT_
         {
             message = message.TrimEnd('\n', '\r');
             LogInfos log = new(message, stackTrace, type);
-
-            if (TryGetActiveTerminal(out Terminal terminal))
-            {
-                terminal.PullLogs();
-                terminal.AddLog(log);
-            }
-            else
-                lock (logs_queue)
-                    logs_queue.Add(log);
+            lock (onLog)
+                onLog._value(log);
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void PullLogs()
-        {
-            lock (logs_queue)
-                if (logs_queue.Count > 0)
-                {
-                    foreach (LogInfos log in logs_queue)
-                        AddLog(log);
-                    logs_queue.Clear();
-                }
-        }
-
-        void AddLog(in LogInfos log)
+        void AddLine_log(LogInfos log)
         {
             switch (log.type)
             {

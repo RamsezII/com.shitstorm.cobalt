@@ -90,7 +90,8 @@ namespace _COBALT_
                 ClearStdout();
 
             if (scroll_y != 0)
-                scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
+                if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
+                    scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
         }
     }
 }

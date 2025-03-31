@@ -7,7 +7,7 @@ namespace _COBALT_
     {
         public enum Types { Stdout, Realtime, Prefixe, Stdin, }
 
-        [HideInInspector] public RectTransform rT;
+        [HideInInspector] public RectTransform rT, rT_parent;
         [HideInInspector] public TMP_InputField input_field;
 
         public Types type;
@@ -18,6 +18,7 @@ namespace _COBALT_
         private void Awake()
         {
             rT = (RectTransform)transform;
+            rT_parent = (RectTransform)transform.parent;
             input_field = GetComponent<TMP_InputField>();
         }
 
@@ -28,10 +29,10 @@ namespace _COBALT_
             if (string.IsNullOrWhiteSpace(input_field.text))
                 text_height = 0;
             else
-                text_height = input_field.textComponent.preferredHeight;
+                text_height = input_field.textComponent.GetPreferredValues(input_field.text, rT_parent.rect.width, float.PositiveInfinity).y;
 
             if (apply)
-                rT.sizeDelta = new(0, text_height);
+                rT.sizeDelta = new(rT.sizeDelta.x, text_height);
         }
     }
 }
