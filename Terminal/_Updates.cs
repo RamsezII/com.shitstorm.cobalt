@@ -1,5 +1,6 @@
 ﻿using _ARK_;
 using _UTIL_;
+using UnityEngine;
 
 namespace _COBALT_
 {
@@ -29,6 +30,12 @@ namespace _COBALT_
 
             if (flag_clampbottom.PullValue)
                 NUCLEOR.delegates.onEndOfFrame_once += ClampBottom;
+        }
+
+        void RefreshRealtime()
+        {
+            input_realtime.AutoSize(true);
+            rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);
         }
     }
 }

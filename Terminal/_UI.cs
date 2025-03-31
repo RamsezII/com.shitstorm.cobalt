@@ -14,6 +14,8 @@ namespace _COBALT_
         public RectTransform rT_selection;
         public RawImage img_selection;
 
+        public float line_height;
+
         //--------------------------------------------------------------------------------------------------------------
 
         void AwakeUI()

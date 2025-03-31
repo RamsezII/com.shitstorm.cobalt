@@ -15,8 +15,6 @@ namespace _COBALT_
 
         public readonly OnValue<bool> isActive = new();
 
-        public Command shell;
-
         //--------------------------------------------------------------------------------------------------------------
 
         static Terminal()
@@ -43,8 +41,6 @@ namespace _COBALT_
 
         protected override void Awake()
         {
-            shell = new Command(prefixe: "~");
-
             base.Awake();
 
             tmp_title.SetTrad(typeof(Terminal).Name);
@@ -67,6 +63,8 @@ namespace _COBALT_
                     pending_logs.Clear();
                     onLog._value = AddLine_log;
                 }
+
+            AwakeShell();
         }
 
         private void OnEnable()
@@ -80,7 +78,7 @@ namespace _COBALT_
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
 
-            USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers);
+            USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
             flag_stdout.Update(true);
 

@@ -1,30 +1,35 @@
-﻿using System;
+﻿using _UTIL_;
+using System;
 using System.Collections.Generic;
 
 namespace _COBALT_
 {
-    public partial class Command
+    public sealed partial class Command
     {
-        public readonly static Command root_instance = new();
-
         public readonly Dictionary<string, Command> commands = new(StringComparer.OrdinalIgnoreCase);
 
-        public string prefixe;
-
-        public Action action;
-        public IEnumerator<float> routine;
+        //string prefixe = $"{"user".SetColor("#73CC26")}:{"~".SetColor("#73B2D9")}$";
+        public readonly bool hide_stdout;
+        public readonly Traductions manual;
+        public readonly Func<CommandLine, CMD_STATUS> action;
+        public readonly Func<Executor, IEnumerator<CMD_STATUS>> routine;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public Command(in string prefixe = null, in Action action = null, in IEnumerator<float> routine = null)
+        public Command(in bool hide_stdout, in Traductions manual, in Func<CommandLine, CMD_STATUS> action) : this(hide_stdout, manual)
         {
-            if (prefixe == null)
-                this.prefixe = GetType().FullName;
-            else
-                this.prefixe = prefixe;
-
             this.action = action;
+        }
+
+        public Command(in bool hide_stdout, in Traductions manual, in Func<Executor, IEnumerator<CMD_STATUS>> routine) : this(hide_stdout, manual)
+        {
             this.routine = routine;
+        }
+
+        public Command(in bool hide_stdout, in Traductions manual)
+        {
+            this.hide_stdout = hide_stdout;
+            this.manual = manual;
         }
     }
 }
