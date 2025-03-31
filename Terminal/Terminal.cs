@@ -2,6 +2,7 @@ using _ARK_;
 using _SGUI_;
 using _UTIL_;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace _COBALT_
 {
@@ -84,6 +85,8 @@ namespace _COBALT_
             flag_stdout.Update(true);
 
             ClearStdout();
+
+            EventSystem.current.SetSelectedGameObject(input_stdin.input_field.gameObject);
         }
 
         private void OnDisable()

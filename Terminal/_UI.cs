@@ -44,6 +44,9 @@ namespace _COBALT_
             input_realtime.input_field.text = null;
             flag_realtime.Update(true);
 
+            input_stdin.input_field.text = null;
+            flag_stdin.Update(true);
+
             input_stdin.input_field.onValidateInput = OnValidateStdin;
 
             input_stdin.input_field.onSelect.AddListener(text =>
