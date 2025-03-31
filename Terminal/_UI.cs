@@ -30,10 +30,10 @@ namespace _COBALT_
             input_prefixe = rT_stdin.Find("prefixe").GetComponent<InputText>();
             input_stdin = rT_stdin.Find("in").GetComponent<InputText>();
 
-            input_stdout.type = InputText.Types.Stdout;
-            input_realtime.type = InputText.Types.Realtime;
-            input_prefixe.type = InputText.Types.Prefixe;
-            input_stdin.type = InputText.Types.Stdin;
+            input_stdout.AwakeUI();
+            input_realtime.AwakeUI();
+            input_prefixe.AwakeUI();
+            input_stdin.AwakeUI();
 
             rT_selection = (RectTransform)transform.Find("rT/body/selection");
             img_selection = rT_selection.GetComponent<RawImage>();
@@ -58,6 +58,9 @@ namespace _COBALT_
             });
 
             input_stdin.input_field.onDeselect.AddListener(text => IMGUI_global.instance.users.RemoveElement(this));
+
+            transform.Find("rT/header/buttons/close/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
+            transform.Find("rT/header/buttons/hide/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
 
             MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
         }

@@ -35,6 +35,7 @@ namespace _COBALT_
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
             flag_stdin.Update(true);
+            flag_clampbottom.Update(true);
 
             switch (addedChar)
             {

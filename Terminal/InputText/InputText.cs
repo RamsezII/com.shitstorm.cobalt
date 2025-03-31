@@ -5,18 +5,15 @@ namespace _COBALT_
 {
     internal class InputText : MonoBehaviour
     {
-        public enum Types { Stdout, Realtime, Prefixe, Stdin, }
-
         [HideInInspector] public Terminal terminal;
         [HideInInspector] public RectTransform rT, rT_parent;
         [HideInInspector] public TMP_InputField input_field;
 
-        public Types type;
         public float text_height;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        private void Awake()
+        public void AwakeUI()
         {
             terminal = GetComponentInParent<Terminal>();
             rT = (RectTransform)transform;
