@@ -64,7 +64,7 @@ namespace _COBALT_
         void OnNucleorBusiness(List<Schedulable> list) => flag_progress.Update(true);
         void RefreshProgressBars()
         {
-            if (!NUCLEOR.instance.scheduler.IsBusy || NUCLEOR.instance.scheduler.list._list[0].routine == null)
+            if (NUCLEOR.instance.scheduler.list.IsEmpty || NUCLEOR.instance.scheduler.list._list[0].routine == null)
                 input_realtime.input_field.text = null;
             else
             {
