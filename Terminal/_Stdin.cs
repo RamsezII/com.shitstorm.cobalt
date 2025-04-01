@@ -13,7 +13,6 @@ namespace _COBALT_
         void IMGUI_global.IUser.OnOnGUI()
         {
             Event e = Event.current;
-
             if (e.type == EventType.KeyDown && e.alt)
                 switch (e.keyCode)
                 {
