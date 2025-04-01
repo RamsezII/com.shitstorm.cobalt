@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using _ARK_;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _COBALT_
@@ -23,17 +24,14 @@ namespace _COBALT_
 
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor executor)
             {
-                float timer = 0;
-                while (timer < 1)
-                {
-                    timer += .5f * Time.unscaledDeltaTime;
+                Schedulable task = NUCLEOR.instance.scheduler.AddRoutine(Util.EWaitForSeconds(3, false, null));
+
+                while (task.routine.Current < .3f)
                     yield return new CMD_STATUS()
                     {
                         prefixe = "loading scene...",
                         state = CMD_STATE.BLOCKING,
-                        progress = timer,
                     };
-                }
             }
         }
     }

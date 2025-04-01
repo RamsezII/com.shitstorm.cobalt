@@ -1,5 +1,7 @@
 ﻿using _ARK_;
 using _UTIL_;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace _COBALT_
@@ -7,7 +9,7 @@ namespace _COBALT_
     partial class Terminal
     {
         public readonly OnValue<bool>
-            flag_realtime = new(),
+            flag_progress = new(),
             flag_stdout = new(),
             flag_stdin = new(),
             flag_clampbottom = new();
@@ -22,12 +24,7 @@ namespace _COBALT_
             if (scroll_y != 0)
                 if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
                     scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
-        }
 
-        //--------------------------------------------------------------------------------------------------------------
-
-        void OnLateUpdate()
-        {
             Command.Executor executor = executors_stack._list[^1];
             switch (executor.status.state)
             {
@@ -36,34 +33,20 @@ namespace _COBALT_
                     break;
 
                 case CMD_STATE.BLOCKING:
-                    flag_realtime.Update(true);
                     executor.Iterate();
                     break;
 
                 case CMD_STATE.WAIT_FOR_STDIN:
                     break;
             }
+        }
 
-            if (flag_realtime.PullValue)
-            {
-                if (executors_stack._list.Count == 1)
-                    input_realtime.input_field.text = null;
-                else
-                {
-                    CMD_STATUS status = executor.status;
+        //--------------------------------------------------------------------------------------------------------------
 
-                    float body_width = rT_body.rect.width;
-                    float char_width = input_realtime.input_field.textComponent.GetPreferredValues("_", body_width, float.PositiveInfinity).x;
-                    int max_chars = (int)(body_width / char_width);
-
-                    int bar_count = max_chars - 5;
-                    int count = (int)(Mathf.Clamp01(status.progress) * bar_count);
-
-                    input_realtime.input_field.text = $"{new string('▓', count)}{new string('░', bar_count - count)} {Mathf.RoundToInt(100 * status.progress),3}%";
-                }
-                input_realtime.AutoSize(true);
-                rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);
-            }
+        void OnLateUpdate()
+        {
+            if (flag_progress.PullValue)
+                RefreshProgressBars();
 
             if (flag_stdout.PullValue)
                 RefreshStdout();
@@ -76,6 +59,30 @@ namespace _COBALT_
 
             if (flag_clampbottom.PullValue)
                 NUCLEOR.delegates.onEndOfFrame_once += ClampBottom;
+        }
+
+        void OnNucleorBusiness(List<Schedulable> list) => flag_progress.Update(true);
+        void RefreshProgressBars()
+        {
+            if (!NUCLEOR.instance.scheduler.IsBusy || NUCLEOR.instance.scheduler.list._list[0].routine == null)
+                input_realtime.input_field.text = null;
+            else
+            {
+                float body_width = rT_body.rect.width;
+                float char_width = input_realtime.input_field.textComponent.GetPreferredValues("_", body_width, float.PositiveInfinity).x;
+                int max_chars = (int)(body_width / char_width);
+
+                float progress = NUCLEOR.instance.scheduler.list._list[0].routine.Current;
+
+                int bar_count = max_chars - 5;
+                int count = (int)(Mathf.Clamp01(progress) * bar_count);
+
+                input_realtime.input_field.text = $"{new string('▓', count)}{new string('░', bar_count - count)} {Mathf.RoundToInt(100 * progress),3}%";
+
+                flag_progress.Update(true);
+            }
+            input_realtime.AutoSize(true);
+            rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);
         }
     }
 }

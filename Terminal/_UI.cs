@@ -45,7 +45,7 @@ namespace _COBALT_
         void StartUI()
         {
             input_realtime.input_field.text = null;
-            flag_realtime.Update(true);
+            flag_progress.Update(true);
 
             input_stdin.input_field.text = null;
             flag_stdin.Update(true);

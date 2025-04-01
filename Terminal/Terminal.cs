@@ -79,6 +79,9 @@ namespace _COBALT_
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
 
+            NUCLEOR.instance.scheduler.list._listeners2 -= OnNucleorBusiness;
+            NUCLEOR.instance.scheduler.list.AddListener2(OnNucleorBusiness);
+
             USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
             flag_stdout.Update(true);
@@ -93,6 +96,7 @@ namespace _COBALT_
             NUCLEOR.delegates.getInputs -= OnGetInputs;
             NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
+            NUCLEOR.instance.scheduler.list._listeners2 -= OnNucleorBusiness;
 
             USAGES.RemoveUser(this);
         }
