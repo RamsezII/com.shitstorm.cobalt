@@ -104,6 +104,7 @@ namespace _COBALT_
             base.Start();
             StartUI();
             isActive.AddListener(active => gameObject.SetActive(active));
+            executors_stack.AddListener2(list => flag_stdin.Update(true));
         }
 
         //--------------------------------------------------------------------------------------------------------------

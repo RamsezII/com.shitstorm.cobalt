@@ -39,28 +39,31 @@ namespace _COBALT_
             switch (addedChar)
             {
                 case '\t':
+                    try
                     {
-
+                        executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.TAB));
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogException(e, this);
                     }
                     return '\0';
 
                 case '\n':
+                    Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
+                    try
                     {
-                        Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
-                        try
-                        {
-                            executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.EXEC));
-                        }
-                        catch (System.Exception e)
-                        {
-                            Debug.LogException(e, this);
-                        }
-                        finally
-                        {
-                            input_stdin.input_field.text = null;
-                        }
-                        flag_stdin.Update(true);
+                        executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.EXEC));
                     }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogException(e, this);
+                    }
+                    finally
+                    {
+                        input_stdin.input_field.text = null;
+                    }
+                    flag_stdin.Update(true);
                     return '\0';
             }
             return addedChar;
@@ -68,45 +71,33 @@ namespace _COBALT_
 
         public void RefreshStdin()
         {
-            if (executors_stack._list.Count > 1)
-            {
-                Command.Executor executor = executors_stack._list[^1];
-                if (executor.status.state == CMD_STATE.BLOCKING)
-                    if (executor.routine.MoveNext())
-                        flag_stdin.Update(true);
-                    else
-                        executor.Dispose();
-            }
-
             CMD_STATUS status = executors_stack._list[^1].status;
+
+            input_prefixe.input_field.text = status.prefixe;
+
+            Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(status.prefixe + "_", scrollview.content.rect.width, float.PositiveInfinity);
+            line_height = prefered_dims.y;
+
+            input_stdin.rT.sizeDelta = new(-prefered_dims.x, 0);
 
             if (status.state == CMD_STATE.WAIT_FOR_STDIN)
             {
-                input_prefixe.input_field.text = status.prefixe;
-
-                Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(status.prefixe + "_", scrollview.content.rect.width, float.PositiveInfinity);
-                line_height = prefered_dims.y;
-
-                float prefixe_width = prefered_dims.x;
                 float stdin_height = Mathf.Max(input_stdin.text_height, scrollview.viewport.rect.height);
 
                 input_prefixe.AutoSize(false);
                 input_stdin.AutoSize(false);
 
-                input_stdin.rT.sizeDelta = new(-prefixe_width, 0);
                 rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, stdin_height);
 
                 scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + stdin_height);
             }
             else
             {
-                input_prefixe.input_field.text = string.Empty;
                 input_stdin.input_field.text = string.Empty;
 
                 input_prefixe.AutoSize(false);
                 input_stdin.AutoSize(false);
 
-                input_stdin.rT.sizeDelta = new(0, 0);
                 rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, scrollview.viewport.rect.height);
 
                 scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + scrollview.viewport.rect.height - line_height);

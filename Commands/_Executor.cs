@@ -39,6 +39,15 @@ namespace _COBALT_
 
             //--------------------------------------------------------------------------------------------------------------
 
+            public CMD_STATUS Iterate()
+            {
+                if (routine != null && routine.MoveNext())
+                    status = routine.Current;
+                else
+                    Dispose();
+                return status;
+            }
+
             public CMD_STATUS Executate(in CommandLine line)
             {
                 commandline = line;

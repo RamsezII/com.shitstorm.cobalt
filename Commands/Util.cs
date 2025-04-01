@@ -8,7 +8,7 @@ namespace _COBALT_
         CHECK,
         ERR,
         EXEC,
-        RAB,
+        TAB,
         ALT,
         ALT_UP,
         ALT_DOWN,

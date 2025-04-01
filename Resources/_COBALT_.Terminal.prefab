@@ -1096,6 +1096,7 @@ MonoBehaviour:
   scroll_y: 0
   stdout: 
   scrollview: {fileID: 0}
+  rT_body: {fileID: 0}
   rT_scrollview: {fileID: 0}
   rT_stdin: {fileID: 0}
   input_stdout: {fileID: 0}
@@ -1306,7 +1307,7 @@ PrefabInstance:
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}
@@ -1326,7 +1327,7 @@ PrefabInstance:
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 494
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}
@@ -1371,7 +1372,7 @@ PrefabInstance:
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}

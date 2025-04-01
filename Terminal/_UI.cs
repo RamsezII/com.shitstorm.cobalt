@@ -8,7 +8,7 @@ namespace _COBALT_
     partial class Terminal : IMGUI_global.IUser
     {
         public ScrollRect scrollview;
-        public RectTransform rT_scrollview, rT_stdin;
+        public RectTransform rT_body, rT_scrollview, rT_stdin;
         [SerializeField] internal InputText input_stdout, input_realtime, input_prefixe, input_stdin;
 
         public RectTransform rT_selection;
@@ -20,7 +20,8 @@ namespace _COBALT_
 
         void AwakeUI()
         {
-            rT_scrollview = (RectTransform)transform.Find("rT/body/scroll_view");
+            rT_body = (RectTransform)transform.Find("rT/body");
+            rT_scrollview = (RectTransform)rT_body.Find("scroll_view");
             scrollview = rT_scrollview.GetComponent<ScrollRect>();
 
             input_realtime = transform.Find("rT/body/realtime").GetComponent<InputText>();
