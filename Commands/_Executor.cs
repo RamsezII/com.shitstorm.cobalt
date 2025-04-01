@@ -1,4 +1,5 @@
-﻿using _UTIL_;
+﻿using _ARK_;
+using _UTIL_;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,26 +53,34 @@ namespace _COBALT_
             {
                 commandline = line;
 
-                if (command.action != null)
-                    status = command.action(line);
-
                 if (command.commands.Count == 0)
                 {
-                    if (routine != null && routine.MoveNext())
+                    if (command.action != null)
+                        command.action(line);
+                    else if (routine != null && routine.MoveNext())
                         status = routine.Current;
                     else
                         Dispose();
                 }
-                else if (line.TryReadArgument(out string argument))
-                    if (this.command.commands.TryGetValue(argument, out Command command))
+                else
+                {
+                    status = new CMD_STATUS()
                     {
-                        Executor executor = new(stack, command);
-                        if (line.signal == CMD_SIGNAL.EXEC)
-                            stack.AddElement(executor);
-                        executor.Executate(line);
-                    }
-                    else
-                        Debug.LogWarning($"Command not found: \"{argument}\"");
+                        state = CMD_STATE.WAIT_FOR_STDIN,
+                        prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$",
+                    };
+
+                    if (line.TryReadArgument(out string argument))
+                        if (this.command.commands.TryGetValue(argument, out Command command))
+                        {
+                            Executor executor = new(stack, command);
+                            if (line.signal == CMD_SIGNAL.EXEC)
+                                stack.AddElement(executor);
+                            executor.Executate(line);
+                        }
+                        else
+                            Debug.LogWarning($"Command not found: \"{argument}\"");
+                }
 
                 return status;
             }
