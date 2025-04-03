@@ -18,6 +18,7 @@ namespace _COBALT_
             public byte id = ++id_counter;
 
             public CommandLine line;
+            public Command cmd_out = cmd_echo;
             public readonly IEnumerator<CMD_STATUS> routine;
             public CMD_STATUS status;
 
@@ -71,16 +72,20 @@ namespace _COBALT_
                         prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$",
                     };
 
-                    if (line.ReadArgument(out string argument, out _, command._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
-                        if (this.command._commands.TryGetValue(argument, out Command command))
+                    if (line.ReadArgument(out string name_cmd1, out _, command._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
+                        if (command._commands.TryGetValue(name_cmd1, out Command cmd1))
                         {
-                            Executor executor = new(stack, command);
+                            Executor executor = new(stack, cmd1);
                             if (line.signal == CMD_SIGNAL.EXEC)
                                 stack.AddElement(executor);
                             executor.Executate(line);
+
+                            if (line.TryReadPipe())
+                                if (line.ReadArgument(out string name_cmd2, out _, cmd_root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
+                                    Debug.Log($"\"{name_cmd1}\" piped into: \"{name_cmd2}\"");
                         }
                         else if (line.signal == CMD_SIGNAL.EXEC)
-                            Debug.LogWarning($"Command not found: \"{argument}\"");
+                            Debug.LogWarning($"Command not found: \"{name_cmd1}\"");
                 }
 
                 return status;

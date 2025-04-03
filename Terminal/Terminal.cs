@@ -29,7 +29,7 @@ namespace _COBALT_
         {
             Application.logMessageReceivedThreaded -= OnLogMessageReceived;
             Application.logMessageReceivedThreaded += OnLogMessageReceived;
-            Command.root_shell._commands.Clear();
+            Command.cmd_root_shell._commands.Clear();
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -79,16 +79,13 @@ namespace _COBALT_
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
 
-            NUCLEOR.instance.scheduler.list._listeners2 -= OnNucleorBusiness;
-            NUCLEOR.instance.scheduler.list.AddListener2(OnNucleorBusiness);
-
             USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
             flag_stdout.Update(true);
 
             ClearStdout();
 
-            EventSystem.current.SetSelectedGameObject(input_stdin.input_field.gameObject);
+            NUCLEOR.delegates.onEndOfFrame_once += () => EventSystem.current.SetSelectedGameObject(input_stdin.input_field.gameObject);
         }
 
         private void OnDisable()
@@ -96,8 +93,6 @@ namespace _COBALT_
             NUCLEOR.delegates.getInputs -= OnGetInputs;
             NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
-            if (NUCLEOR.instance != null)
-                NUCLEOR.instance.scheduler.list._listeners2 -= OnNucleorBusiness;
 
             USAGES.RemoveUser(this);
         }

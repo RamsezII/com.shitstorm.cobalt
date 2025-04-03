@@ -61,5 +61,7 @@ namespace _COBALT_
             else
                 return true;
         }
+
+        public bool TryReadPipe() => Util_ark.TryReadPipe(text, ref read_i);
     }
 }

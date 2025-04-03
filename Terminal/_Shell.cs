@@ -15,23 +15,25 @@ namespace _COBALT_
 
         void AwakeExecutors()
         {
-            Command.Executor executor = new(executors_stack, Command.root_shell);
+            Command.Executor executor = new(executors_stack, Command.cmd_root_shell);
             executors_stack.AddElement(executor);
 
-            Command.root_shell.AddCommand(new Command(
+            Command.cmd_root_shell.AddCommand(Command.cmd_echo, "echo");
+
+            Command.cmd_root_shell.AddCommand(new Command(
                 new("Of the whats to and the hows to... nowamsayn [burp]"),
                 line =>
                 {
-                    if (line.ReadArgument(out string argument, out bool isNotEmpty, Command.root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
+                    if (line.ReadArgument(out string argument, out bool isNotEmpty, Command.cmd_root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
                         if (line.signal == CMD_SIGNAL.EXEC)
                             if (isNotEmpty)
-                                if (Command.root_shell._commands.TryGetValue(argument, out Command command))
+                                if (Command.cmd_root_shell._commands.TryGetValue(argument, out Command command))
                                     Debug.Log(command.manual);
                                 else
                                     Debug.LogWarning($"Command \"{argument}\" not found");
                             else
                             {
-                                var groupedByValue = Command.root_shell._commands.GroupBy(pair => pair.Value);
+                                var groupedByValue = Command.cmd_root_shell._commands.GroupBy(pair => pair.Value);
                                 foreach (var group in groupedByValue)
                                 {
                                     StringBuilder sb = new();

@@ -1,7 +1,6 @@
 ﻿using _ARK_;
 using _UTIL_;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace _COBALT_
@@ -61,18 +60,20 @@ namespace _COBALT_
                 NUCLEOR.delegates.onEndOfFrame_once += ClampBottom;
         }
 
-        void OnNucleorBusiness(List<Schedulable> list) => flag_progress.Update(true);
         void RefreshProgressBars()
         {
-            if (NUCLEOR.instance.scheduler.list.IsEmpty || NUCLEOR.instance.scheduler.list._list[0].routine == null)
+            Command.Executor executor = executors_stack._list[^1];
+            if (executor.status.state != CMD_STATE.BLOCKING)
                 input_realtime.input_field.text = null;
             else
             {
+                flag_progress.Update(true);
+
                 float body_width = rT_body.rect.width;
                 float char_width = input_realtime.input_field.textComponent.GetPreferredValues("_", body_width, float.PositiveInfinity).x;
                 int max_chars = (int)(body_width / char_width);
 
-                float progress = NUCLEOR.instance.scheduler.list._list[0].routine.Current;
+                float progress = executor.status.progress;
 
                 int bar_count = max_chars - 5;
                 int count = (int)(Mathf.Clamp01(progress) * bar_count);

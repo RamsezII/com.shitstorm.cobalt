@@ -108,6 +108,8 @@ namespace _COBALT_
                     try
                     {
                         executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.EXEC));
+                        if (executors_stack._list[^1].status.state == CMD_STATE.BLOCKING)
+                            flag_progress.Update(true);
                     }
                     catch (Exception e)
                     {
