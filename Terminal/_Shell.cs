@@ -1,6 +1,7 @@
 ﻿using _UTIL_;
 using System;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace _COBALT_
@@ -18,19 +19,29 @@ namespace _COBALT_
             executors_stack.AddElement(executor);
 
             Command.root_shell.AddCommand("help", new Command(
-                new("help on whats to and hows to, nowamsayn [burp]"),
+                new("Of the whats to and the hows to... nowamsayn [burp]"),
                 line =>
                 {
                     if (line.ReadArgument(out string argument, out bool isNotEmpty, Command.root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
                         if (line.signal == CMD_SIGNAL.EXEC)
                             if (isNotEmpty)
                                 if (Command.root_shell._commands.TryGetValue(argument, out Command command))
-                                    Debug.Log($"{argument} : \"{command.manual}\"");
+                                    Debug.Log($"{argument} : {command.manual}");
                                 else
                                     Debug.LogWarning($"Command \"{argument}\" not found");
                             else
-                                foreach (var pair in Command.root_shell._commands)
-                                    Debug.Log($"{pair.Key} : \"{pair.Value.manual}\"");
+                            {
+                                var groupedByValue = Command.root_shell._commands.GroupBy(pair => pair.Value);
+                                foreach (var group in groupedByValue)
+                                {
+                                    StringBuilder sb = new();
+                                    foreach (var pair in group)
+                                        sb.Append($"{pair.Key}, ");
+
+                                    sb.Remove(sb.Length - 2, 2);
+                                    Debug.Log($"{sb}: {group.Key.manual}");
+                                }
+                            }
                 }
             ),
             "manual");
