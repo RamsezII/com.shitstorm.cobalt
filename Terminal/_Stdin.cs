@@ -45,6 +45,8 @@ namespace _COBALT_
                 return;
 
             tab_frame = Time.frameCount;
+            stdin_save = input_stdin.input_field.text;
+
             try
             {
                 CommandLine line = new(
@@ -54,6 +56,7 @@ namespace _COBALT_
                     );
 
                 executors_stack._list[^1].Executate(line);
+                stdin_save = line.text;
                 input_stdin.input_field.text = line.text;
                 input_stdin.input_field.caretPosition = line.cursor_i;
             }

@@ -11,8 +11,6 @@ namespace _COBALT_
         public int cpl_index;
         public CMD_SIGNAL signal;
         public int cursor_i, read_i, start_i, next_i, arg_i = -1;
-        public bool IsCplThis => signal == CMD_SIGNAL.TAB && cursor_i >= start_i && cursor_i <= read_i;
-        public bool IsCplOverboard => signal == CMD_SIGNAL.TAB && cursor_i < read_i;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -26,7 +24,8 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public bool TryReadArgument(out string argument, out bool isNotEmpty, IEnumerable<string> completions_candidates)
+        /// <returns> stop parsing if false </returns>
+        public bool ReadArgument(out string argument, out bool isNotEmpty, in IEnumerable<string> completions_candidates = null)
         {
             Util_ark.SkipCharactersUntil(text, ref read_i, true);
             start_i = read_i;
@@ -47,10 +46,20 @@ namespace _COBALT_
                 isNotEmpty = false;
             }
 
-            if (IsCplThis)
-                ComputeCompletion_tab(argument, completions_candidates);
-
-            return isNotEmpty;
+            // try completion
+            if (signal >= CMD_SIGNAL.TAB && cursor_i >= start_i && cursor_i <= read_i)
+            {
+                if (completions_candidates != null)
+                {
+                    if (signal == CMD_SIGNAL.TAB)
+                        ComputeCompletion_tab(argument, completions_candidates);
+                    else if (signal >= CMD_SIGNAL.ALT_UP)
+                        ComputeCompletion_alt(argument, completions_candidates);
+                }
+                return false;
+            }
+            else
+                return true;
         }
     }
 }

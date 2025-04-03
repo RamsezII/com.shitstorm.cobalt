@@ -16,7 +16,7 @@ namespace _COBALT_
                 new("scene command"),
                 line =>
                 {
-                    if (line.TryReadArgument(out string scene_name, out _, new string[] { "scene_test1", "scene_test2", "scene_test3", }))
+                    if (line.ReadArgument(out string scene_name, out _, new string[] { "scene_test1", "scene_test2", "scene_test3", }))
                         if (line.signal == CMD_SIGNAL.EXEC)
                         {
                             Debug.Log($"Load scene: {scene_name}");

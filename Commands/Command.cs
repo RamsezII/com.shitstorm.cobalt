@@ -36,9 +36,11 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public Command AddCommand(in string name, in Command command)
+        public Command AddCommand(in string name, in Command command, params string[] aliases)
         {
             _commands.Add(name, command);
+            for (int i = 0; i < aliases.Length; ++i)
+                _commands.Add(aliases[i], command);
             return command;
         }
     }
