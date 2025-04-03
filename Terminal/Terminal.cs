@@ -110,6 +110,9 @@ namespace _COBALT_
             StartUI();
             isActive.AddListener(active => gameObject.SetActive(active));
             executors_stack.AddListener2(list => flag_stdin.Update(true));
+
+            IMGUI_global.instance.users.RemoveElement(this);
+            IMGUI_global.instance.users.AddElement(this);
         }
 
         //--------------------------------------------------------------------------------------------------------------

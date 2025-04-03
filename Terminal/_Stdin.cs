@@ -11,7 +11,6 @@ namespace _COBALT_
         [SerializeField] string stdin_save;
         [SerializeField] int cpl_index;
         [SerializeField] int tab_frame;
-        [SerializeField] int caret_position;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -38,8 +37,6 @@ namespace _COBALT_
 
         void OnChangeStdin(string text)
         {
-            caret_position = input_stdin.input_field.caretPosition;
-
             if (tab_frame == Time.frameCount)
                 return;
 
