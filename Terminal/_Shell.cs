@@ -26,7 +26,7 @@ namespace _COBALT_
                         if (line.signal == CMD_SIGNAL.EXEC)
                             if (isNotEmpty)
                                 if (Command.root_shell._commands.TryGetValue(argument, out Command command))
-                                    Debug.Log($"{argument} : {command.manual}");
+                                    Debug.Log(command.manual);
                                 else
                                     Debug.LogWarning($"Command \"{argument}\" not found");
                             else
