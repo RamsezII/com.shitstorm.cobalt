@@ -9,13 +9,13 @@ namespace _COBALT_
     partial class Terminal
     {
         //prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$";
-        public readonly ListListener<Command.Executor> executors_stack = new();
+        public readonly ListListener<Executor> executors_stack = new();
 
         //--------------------------------------------------------------------------------------------------------------
 
         void AwakeExecutors()
         {
-            Command.Executor executor = new(executors_stack, Command.cmd_root_shell);
+            Executor executor = new(executors_stack, Command.cmd_root_shell);
             executors_stack.AddElement(executor);
 
             Command.cmd_root_shell.AddCommand(Command.cmd_echo, "echo");

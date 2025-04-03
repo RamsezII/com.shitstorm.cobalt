@@ -1,6 +1,5 @@
 ﻿using _ARK_;
 using _UTIL_;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _COBALT_
@@ -24,7 +23,7 @@ namespace _COBALT_
                 if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
                     scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
 
-            Command.Executor executor = executors_stack._list[^1];
+            Executor executor = executors_stack._list[^1];
             switch (executor.status.state)
             {
                 case CMD_STATE.DONE:
@@ -62,7 +61,7 @@ namespace _COBALT_
 
         void RefreshProgressBars()
         {
-            Command.Executor executor = executors_stack._list[^1];
+            Executor executor = executors_stack._list[^1];
             if (executor.status.state != CMD_STATE.BLOCKING)
                 input_realtime.input_field.text = null;
             else

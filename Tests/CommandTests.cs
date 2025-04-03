@@ -28,7 +28,7 @@ namespace _COBALT_
                 routine: EPipeTest),
                 "pipe-test");
 
-            static IEnumerator<CMD_STATUS> EPipeTest(Command.Executor executor)
+            static IEnumerator<CMD_STATUS> EPipeTest(Executor executor)
             {
                 if (executor.line.ReadArgument(out string argument, out bool isNotEmpty, Command.cmd_root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
                     if (executor.line.signal == CMD_SIGNAL.EXEC)
@@ -38,7 +38,7 @@ namespace _COBALT_
                                 const int loops = 5;
                                 for (int i = 0; i < loops; ++i)
                                 {
-                                    new Command.Executor(executor.stack, command).Executate(new($"'{i}'", executor.line.signal));
+                                    new Executor(executor.stack, command).Executate(new($"'{i}'", executor.line.signal));
                                     float timer = 0;
                                     while (timer < 1)
                                     {
