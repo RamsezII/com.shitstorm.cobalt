@@ -12,20 +12,30 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            Command cmd_load_scene = Command.root_shell.AddCommand("load-scene", new Command(
+            Command cmd = Command.root_shell.AddCommand("load-scene", new Command(
                 new("scene command"),
                 line =>
                 {
-                    if (line.signal == CMD_SIGNAL.EXEC)
+                    bool notEmpty = line.TryReadArgument(out string scene_name);
+                    if (line.IsCplThis)
+                        line.ComputeCompletion_tab(scene_name, new string[] { "scene_test1", "scene_test2", "scene_test3", });
+                    else if (notEmpty && line.signal == CMD_SIGNAL.EXEC)
+                    {
+                        Debug.Log($"Load scene: {scene_name}");
                         NUCLEOR.instance.scheduler.AddRoutine(Util.EWaitForSeconds(3, false, null));
+                    }
                 }));
 
-            Command.root_shell.AddCommand("LoadScene", cmd_load_scene);
+            Command.root_shell.AddCommand("LoadScene", cmd);
 
-            cmd_load_scene.AddCommand("scene_test1", cmd_load_scene);
-            cmd_load_scene.AddCommand("scene_test2", cmd_load_scene);
+            cmd = Command.root_shell.AddCommand("cmd-test", new Command(
+                new("test command"),
+                null));
 
-            cmd_load_scene.AddCommand("scene_test3", cmd_load_scene);
+            cmd.AddCommand("arg_test1", cmd);
+            cmd.AddCommand("arg_test2", cmd);
+
+            cmd.AddCommand("arg_test3", cmd);
         }
     }
 }

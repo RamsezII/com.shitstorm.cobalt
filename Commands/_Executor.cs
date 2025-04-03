@@ -70,10 +70,10 @@ namespace _COBALT_
                         prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$",
                     };
 
-                    string argument = line.ReadArgument();
+                    bool notEmpty = line.TryReadArgument(out string argument);
                     if (line.IsCplThis)
                         line.ComputeCompletion_tab(argument, command._commands.Keys);
-                    else if (!line.IsCplOverboard)
+                    else if (notEmpty && !line.IsCplOverboard)
                         if (this.command._commands.TryGetValue(argument, out Command command))
                         {
                             Executor executor = new(stack, command);
