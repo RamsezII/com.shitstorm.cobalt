@@ -132,6 +132,9 @@ namespace _COBALT_
             Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(status.prefixe + "_", scrollview.content.rect.width, float.PositiveInfinity);
             line_height = prefered_dims.y;
 
+            if (string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
+                prefered_dims.x = 0;
+
             input_stdin.rT.sizeDelta = new(-prefered_dims.x, 0);
 
             if (status.state == CMD_STATE.WAIT_FOR_STDIN)

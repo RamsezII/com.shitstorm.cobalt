@@ -17,7 +17,7 @@ namespace _COBALT_
             static byte id_counter;
             public byte id = ++id_counter;
 
-            public CommandLine commandline;
+            public CommandLine line;
             public readonly IEnumerator<CMD_STATUS> routine;
             public CMD_STATUS status;
 
@@ -52,7 +52,7 @@ namespace _COBALT_
 
             public CMD_STATUS Executate(in CommandLine line)
             {
-                commandline = line;
+                this.line = line;
 
                 if (command._commands.Count == 0)
                 {

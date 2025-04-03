@@ -18,7 +18,7 @@ namespace _COBALT_
             Command.Executor executor = new(executors_stack, Command.root_shell);
             executors_stack.AddElement(executor);
 
-            Command.root_shell.AddCommand("help", new Command(
+            Command.root_shell.AddCommand(new Command(
                 new("Of the whats to and the hows to... nowamsayn [burp]"),
                 line =>
                 {
@@ -44,7 +44,7 @@ namespace _COBALT_
                             }
                 }
             ),
-            "manual");
+            "help", "manual");
 
             executors_stack._list[^1].Executate(CommandLine.EMPTY);
         }
