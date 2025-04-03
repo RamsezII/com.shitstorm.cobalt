@@ -1,4 +1,5 @@
 ﻿using _ARK_;
+using System.Collections.Generic;
 
 namespace _COBALT_
 {
@@ -25,13 +26,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public string ReadArgument()
-        {
-            TryReadArgument(out string argument);
-            return argument;
-        }
-
-        public bool TryReadArgument(out string argument)
+        public bool TryReadArgument(out string argument, out bool isNotEmpty, IEnumerable<string> completions_candidates)
         {
             Util_ark.SkipCharactersUntil(text, ref read_i, true);
             start_i = read_i;
@@ -43,11 +38,19 @@ namespace _COBALT_
             {
                 argument = text[start_i..read_i];
                 ++arg_i;
-                return true;
+
+                isNotEmpty = true;
+            }
+            else
+            {
+                argument = string.Empty;
+                isNotEmpty = false;
             }
 
-            argument = string.Empty;
-            return false;
+            if (IsCplThis)
+                ComputeCompletion_tab(argument, completions_candidates);
+
+            return isNotEmpty;
         }
     }
 }

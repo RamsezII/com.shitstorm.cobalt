@@ -16,14 +16,12 @@ namespace _COBALT_
                 new("scene command"),
                 line =>
                 {
-                    bool notEmpty = line.TryReadArgument(out string scene_name);
-                    if (line.IsCplThis)
-                        line.ComputeCompletion_tab(scene_name, new string[] { "scene_test1", "scene_test2", "scene_test3", });
-                    else if (notEmpty && line.signal == CMD_SIGNAL.EXEC)
-                    {
-                        Debug.Log($"Load scene: {scene_name}");
-                        NUCLEOR.instance.scheduler.AddRoutine(Util.EWaitForSeconds(3, false, null));
-                    }
+                    if (line.TryReadArgument(out string scene_name, out _, new string[] { "scene_test1", "scene_test2", "scene_test3", }))
+                        if (line.signal == CMD_SIGNAL.EXEC)
+                        {
+                            Debug.Log($"Load scene: {scene_name}");
+                            NUCLEOR.instance.scheduler.AddRoutine(Util.EWaitForSeconds(3, false, null));
+                        }
                 }));
 
             Command.root_shell.AddCommand("LoadScene", cmd);

@@ -10,7 +10,7 @@ namespace _COBALT_
         public readonly OnValue<KeyCode> flag_alt = new();
         [SerializeField] string stdin_save;
         [SerializeField] int cpl_index;
-        [SerializeField] int tab_frame;
+        [SerializeField] int stdin_frame, tab_frame;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -32,7 +32,35 @@ namespace _COBALT_
 
         void OnAltKey()
         {
-            KeyCode key = flag_alt.PullValue;
+            CMD_SIGNAL signal = flag_alt.PullValue switch
+            {
+                KeyCode.LeftArrow => CMD_SIGNAL.ALT_LEFT,
+                KeyCode.RightArrow => CMD_SIGNAL.ALT_RIGHT,
+                KeyCode.UpArrow => CMD_SIGNAL.ALT_UP,
+                KeyCode.DownArrow => CMD_SIGNAL.ALT_DOWN,
+                _ => 0,
+            };
+
+            if (signal == 0)
+                return;
+
+            tab_frame = Time.frameCount;
+            try
+            {
+                CommandLine line = new(
+                    stdin_frame >= tab_frame ? input_stdin.input_field.text : stdin_save,
+                    signal,
+                    input_stdin.input_field.caretPosition
+                    );
+
+                executors_stack._list[^1].Executate(line);
+                input_stdin.input_field.text = line.text;
+                input_stdin.input_field.caretPosition = line.cursor_i;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e, this);
+            }
         }
 
         void OnChangeStdin(string text)
@@ -42,6 +70,7 @@ namespace _COBALT_
 
             cpl_index = 0;
             stdin_save = text;
+            stdin_frame = Time.frameCount;
         }
 
         char OnValidateStdin(string text, int charIndex, char addedChar)
@@ -55,8 +84,8 @@ namespace _COBALT_
                         CommandLine line = new(
                             stdin_save,
                             CMD_SIGNAL.TAB,
-                            cursor_i: Mathf.Min(stdin_save.Length, charIndex),
-                            cpl_index: cpl_index++
+                            Mathf.Min(stdin_save.Length, charIndex),
+                            cpl_index++
                             );
 
                         executors_stack._list[^1].Executate(line);
