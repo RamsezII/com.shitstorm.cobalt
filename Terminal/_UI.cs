@@ -1,5 +1,6 @@
 ﻿using _ARK_;
 using _SGUI_;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,6 +50,8 @@ namespace _COBALT_
 
             input_stdin.input_field.text = null;
             flag_stdin.Update(true);
+
+            input_stdin.input_field.onValueChanged.AddListener(OnChangeStdin);
 
             input_stdin.input_field.onValidateInput = OnValidateStdin;
 

@@ -7,34 +7,24 @@ namespace _COBALT_
     {
         //prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$";
         public readonly ListListener<Command.Executor> executors_stack = new();
-        public static readonly Command shell = new();
 
         //--------------------------------------------------------------------------------------------------------------
 
-        static void InitShell()
+        void AwakeExecutors()
         {
-            shell.commands.Clear();
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        void AwakeShell()
-        {
-            Command.Executor executor = new(executors_stack, shell);
+            Command.Executor executor = new(executors_stack, Command.root_shell);
             executors_stack.AddElement(executor);
 
-            shell.commands.Add("help", new Command(
-                false,
+            Command.root_shell.AddCommand("help", new Command(
                 default,
                 line =>
                 {
-                    foreach (var pair in shell.commands)
+                    foreach (var pair in Command.root_shell._commands)
                         Debug.Log($"{pair.Key} : \"{pair.Value.manual}\"");
-                },
-                null
+                }
             ));
 
-            executors_stack._list[^1].Executate(new CommandLine(string.Empty, CMD_SIGNAL._NONE_));
+            executors_stack._list[^1].Executate(CommandLine.EMPTY);
         }
     }
 }

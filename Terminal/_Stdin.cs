@@ -1,5 +1,6 @@
 ﻿using _SGUI_;
 using _UTIL_;
+using System;
 using UnityEngine;
 
 namespace _COBALT_
@@ -7,6 +8,10 @@ namespace _COBALT_
     partial class Terminal
     {
         public readonly OnValue<KeyCode> flag_alt = new();
+        [SerializeField] string stdin_save;
+        [SerializeField] int cpl_index;
+        [SerializeField] int tab_frame;
+        [SerializeField] int caret_position;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -31,31 +36,51 @@ namespace _COBALT_
             KeyCode key = flag_alt.PullValue;
         }
 
+        void OnChangeStdin(string text)
+        {
+            caret_position = input_stdin.input_field.caretPosition;
+
+            if (tab_frame == Time.frameCount)
+                return;
+
+            cpl_index = 0;
+            stdin_save = text;
+        }
+
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
-            flag_stdin.Update(true);
-            flag_clampbottom.Update(true);
-
             switch (addedChar)
             {
                 case '\t':
+                    tab_frame = Time.frameCount;
                     try
                     {
-                        executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.TAB));
+                        CommandLine line = new(
+                            stdin_save,
+                            CMD_SIGNAL.TAB,
+                            cursor_i: Mathf.Min(stdin_save.Length, charIndex),
+                            cpl_index: cpl_index++
+                            );
+
+                        executors_stack._list[^1].Executate(line);
+                        input_stdin.input_field.text = line.text;
+                        input_stdin.input_field.caretPosition = line.cursor_i;
                     }
-                    catch (System.Exception e)
+                    catch (Exception e)
                     {
                         Debug.LogException(e, this);
                     }
                     return '\0';
 
                 case '\n':
+                    cpl_index = 0;
+                    stdin_save = null;
                     Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
                     try
                     {
                         executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.EXEC));
                     }
-                    catch (System.Exception e)
+                    catch (Exception e)
                     {
                         Debug.LogException(e, this);
                     }

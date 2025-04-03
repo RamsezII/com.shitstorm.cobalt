@@ -21,6 +21,8 @@ namespace _COBALT_
         DONE,
         BLOCKING,
         WAIT_FOR_STDIN,
+        FULLSCREEN_w,
+        FULLSCREEN_r,
     }
 
     public struct CMD_STATUS
@@ -28,6 +30,7 @@ namespace _COBALT_
         public CMD_STATE state;
         public string prefixe;
         [Range(0, 1)] public float progress;
+        public bool refresh_stdin;
         public object data;
     }
 }

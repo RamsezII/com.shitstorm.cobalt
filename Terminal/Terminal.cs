@@ -29,7 +29,7 @@ namespace _COBALT_
         {
             Application.logMessageReceivedThreaded -= OnLogMessageReceived;
             Application.logMessageReceivedThreaded += OnLogMessageReceived;
-            InitShell();
+            Command.root_shell._commands.Clear();
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -65,7 +65,7 @@ namespace _COBALT_
                     onLog._value = AddLine_log;
                 }
 
-            AwakeShell();
+            AwakeExecutors();
         }
 
         private void OnEnable()
@@ -96,7 +96,8 @@ namespace _COBALT_
             NUCLEOR.delegates.getInputs -= OnGetInputs;
             NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
-            NUCLEOR.instance.scheduler.list._listeners2 -= OnNucleorBusiness;
+            if (NUCLEOR.instance != null)
+                NUCLEOR.instance.scheduler.list._listeners2 -= OnNucleorBusiness;
 
             USAGES.RemoveUser(this);
         }

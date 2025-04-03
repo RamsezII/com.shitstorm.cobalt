@@ -53,7 +53,7 @@ namespace _COBALT_
             {
                 commandline = line;
 
-                if (command.commands.Count == 0)
+                if (command._commands.Count == 0)
                 {
                     if (command.action != null)
                         command.action(line);
@@ -70,15 +70,18 @@ namespace _COBALT_
                         prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$",
                     };
 
-                    if (line.TryReadArgument(out string argument))
-                        if (this.command.commands.TryGetValue(argument, out Command command))
+                    string argument = line.ReadArgument();
+                    if (line.IsCplThis)
+                        line.ComputeCompletion_tab(argument, command._commands.Keys);
+                    else if (!line.IsCplOverboard)
+                        if (this.command._commands.TryGetValue(argument, out Command command))
                         {
                             Executor executor = new(stack, command);
                             if (line.signal == CMD_SIGNAL.EXEC)
                                 stack.AddElement(executor);
                             executor.Executate(line);
                         }
-                        else
+                        else if (line.signal == CMD_SIGNAL.EXEC)
                             Debug.LogWarning($"Command not found: \"{argument}\"");
                 }
 
