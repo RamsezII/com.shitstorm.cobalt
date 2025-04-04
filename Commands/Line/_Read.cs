@@ -9,7 +9,20 @@ namespace _COBALT_
         {
             public bool TryReadArgument(out string argument, in IEnumerable<string> completions_candidates = null)
             {
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    argument = string.Empty;
+                    return false;
+                }
+
                 Util_ark.SkipCharactersUntil(text, ref read_i, false, Util_ark.CHAR_SPACE);
+
+                if (read_i > 0 && text[read_i - 1] != Util_ark.CHAR_SPACE)
+                {
+                    argument = string.Empty;
+                    return false;
+                }
+
                 start_i = read_i;
                 Util_ark.SkipCharactersUntil(text, ref read_i, true, Util_ark.CHAR_SPACE, Util_ark.CHAR_PIPE, Util_ark.CHAR_CHAIN);
 

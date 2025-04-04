@@ -8,7 +8,7 @@ namespace _COBALT_
         {
             void SaveHistory(in string stdin)
             {
-                Debug.Log($"Save history: {{ {stdin} }}");
+                //Debug.Log($"Save history: {{ {stdin} }}");
             }
 
             public void OnHistoryNav(in KeyCode key)

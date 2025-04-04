@@ -35,7 +35,7 @@ namespace _COBALT_
                 },
                 action: exe =>
                 {
-                    if (exe.args != null)
+                    if (exe.args.Count > 0)
                         Debug.Log(((List<KeyValuePair<string, Command>>)exe.args[0])[^1].Value.manual);
                     else
                     {

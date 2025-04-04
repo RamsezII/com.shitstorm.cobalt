@@ -17,10 +17,11 @@ namespace _COBALT_
             public readonly string cmd_name;
             public readonly Command command;
             public readonly string cmd_path;
+            public readonly List<KeyValuePair<string, Command>> path;
 
             public Line temp_line;
             readonly Executor stdout_exe = echo_executor;
-            public readonly List<object> args = new();
+            public readonly List<object> args;
             public IEnumerator<CMD_STATUS> routine;
 
             public readonly ThreadSafe_struct<bool> disposed = new();
@@ -44,6 +45,7 @@ namespace _COBALT_
 
             public Executor(in List<KeyValuePair<string, Command>> path, in Line line, out bool error)
             {
+                this.path = path;
                 cmd_name = path[^1].Key;
                 command = path[^1].Value;
 
@@ -71,6 +73,7 @@ namespace _COBALT_
 
                 if (command.args != null)
                 {
+                    args = new();
                     command.args(this, line);
                     if (this.error != null)
                     {
