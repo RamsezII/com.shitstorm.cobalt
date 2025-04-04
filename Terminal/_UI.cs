@@ -47,7 +47,7 @@ namespace _COBALT_
             input_realtime.input_field.text = null;
             flag_progress.Update(true);
 
-            input_stdin.input_field.text = null;
+            input_stdin.ResetText();
             flag_stdin.Update(true);
 
             input_stdin.input_field.onValueChanged.AddListener(OnChangeStdin);

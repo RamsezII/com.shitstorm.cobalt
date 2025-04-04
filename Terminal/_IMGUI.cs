@@ -11,6 +11,12 @@ namespace _COBALT_
             if (e.type != EventType.KeyDown)
                 return;
 
+            if (e.keyCode == KeyCode.Escape)
+            {
+                flag_escape.Update(true);
+                e.Use();
+            }
+
             if (e.alt)
                 switch (e.keyCode)
                 {

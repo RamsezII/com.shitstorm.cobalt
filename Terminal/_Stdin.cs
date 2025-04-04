@@ -11,6 +11,9 @@ namespace _COBALT_
             flag_ctrl = new(),
             flag_nav_history = new();
 
+        public readonly OnValue<bool>
+            flag_escape = new();
+
         [SerializeField] string stdin_save;
         [SerializeField] int cpl_index;
         [SerializeField] int stdin_frame, tab_frame;
@@ -93,15 +96,16 @@ namespace _COBALT_
                     cpl_index = 0;
                     stdin_save = null;
                     Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
-                    try
-                    {
-                        executor.Executate(new Command.Line(input_stdin.input_field.text, CMD_SIGNALS.EXEC));
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogException(e, this);
-                    }
-                    input_stdin.input_field.text = null;
+                    if (!string.IsNullOrWhiteSpace(input_stdin.input_field.text))
+                        try
+                        {
+                            executor.Executate(new Command.Line(input_stdin.input_field.text, CMD_SIGNALS.EXEC));
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogException(e, this);
+                        }
+                    input_stdin.ResetText();
                     flag_stdin.Update(true);
                     return '\0';
             }

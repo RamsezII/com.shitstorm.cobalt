@@ -19,12 +19,42 @@ namespace _COBALT_
         {
             if (isActive._value)
             {
+                if (flag_escape.PullValue)
+                {
+                    isActive.Update(false);
+                    return;
+                }
+
                 if (inputs_hold.HasFlag(InputsFlags.Ctrl) && inputs_down.HasFlag(InputsFlags.L_key))
                     ClearStdout();
 
                 if (scroll_y != 0)
                     if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
                         scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
+
+                if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
+                    if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                    {
+                        string text = input_stdin.input_field.text;
+                        int caret = input_stdin.input_field.caretPosition;
+                        int erase_i = caret;
+
+                        Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
+                        Util_ark.SkipCharactersUntil(text, ref erase_i, false, true, Util_ark.CHAR_SPACE);
+
+                        if (erase_i < caret)
+                        {
+                            input_stdin.input_field.text = text[..erase_i] + text[caret..];
+                            input_stdin.input_field.caretPosition = erase_i;
+                            flag_stdin.Update(true);
+                        }
+                    }
+
+                if (flag_alt.Value != default)
+                    OnAltKey();
+
+                if (flag_nav_history.TryPullValue(out KeyCode nav_val))
+                    executor.OnHistoryNav(nav_val);
             }
 
             if (executor.routine != null)
@@ -49,30 +79,6 @@ namespace _COBALT_
             if (flag_stdout.PullValue)
                 RefreshStdout();
 
-            if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
-                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                {
-                    string text = input_stdin.input_field.text;
-                    int caret = input_stdin.input_field.caretPosition;
-                    int erase_i = caret;
-
-                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
-                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, true, Util_ark.CHAR_SPACE);
-
-                    if (erase_i < caret)
-                    {
-                        input_stdin.input_field.text = text[..erase_i] + text[caret..];
-                        input_stdin.input_field.caretPosition = erase_i;
-                        flag_stdin.Update(true);
-                    }
-                }
-
-            if (flag_alt.Value != default)
-                OnAltKey();
-
-            if (flag_nav_history.TryPullValue(out KeyCode nav_val))
-                executor.OnHistoryNav(nav_val);
-
             if (flag_stdin.PullValue)
                 RefreshStdin();
 
@@ -83,7 +89,7 @@ namespace _COBALT_
         void RefreshProgressBars()
         {
             if (executor.routine == null || executor.routine.Current.state != CMD_STATES.BLOCKING)
-                input_realtime.input_field.text = string.Empty;
+                input_realtime.ResetText();
             else
             {
                 float body_width = rT_body.rect.width;
@@ -128,7 +134,7 @@ namespace _COBALT_
             else
             {
                 no_stdin = true;
-                input_prefixe.input_field.text = string.Empty;
+                input_prefixe.ResetText();
             }
 
             Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(input_prefixe.input_field.text + "_", scrollview.content.rect.width, float.PositiveInfinity);

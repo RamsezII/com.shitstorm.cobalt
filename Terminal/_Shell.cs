@@ -69,6 +69,24 @@ namespace _COBALT_
             ),
             "grep");
 
+            Command.cmd_root_shell.AddCommand(new Command(
+                manual: new("guess what"),
+                action: exe => isActive.Update(false)
+                ),
+                "exit");
+
+            Command.cmd_root_shell.AddCommand(new Command(
+                manual: new("quits the game... :("),
+                action: exe => Application.Quit()
+                ),
+                "shutdown");
+
+            Command.cmd_root_shell.AddCommand(new Command(
+                manual: new("empty this terminal's logs"),
+                action: exe => Application.Quit()
+                ),
+                "clear");
+
             executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE, out _);
             executor.Executate(Command.Line.EMPTY_EXE);
         }

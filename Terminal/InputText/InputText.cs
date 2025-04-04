@@ -33,5 +33,7 @@ namespace _COBALT_
             if (apply)
                 rT.sizeDelta = new(rT.sizeDelta.x, text_height);
         }
+
+        public void ResetText() => input_field.text = string.Empty;
     }
 }
