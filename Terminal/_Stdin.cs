@@ -32,12 +32,12 @@ namespace _COBALT_
 
         void OnAltKey()
         {
-            CMD_SIGNAL signal = flag_alt.PullValue switch
+            CMD_SIGNALS signal = flag_alt.PullValue switch
             {
-                KeyCode.LeftArrow => CMD_SIGNAL.ALT_LEFT,
-                KeyCode.RightArrow => CMD_SIGNAL.ALT_RIGHT,
-                KeyCode.UpArrow => CMD_SIGNAL.ALT_UP,
-                KeyCode.DownArrow => CMD_SIGNAL.ALT_DOWN,
+                KeyCode.LeftArrow => CMD_SIGNALS.ALT_LEFT,
+                KeyCode.RightArrow => CMD_SIGNALS.ALT_RIGHT,
+                KeyCode.UpArrow => CMD_SIGNALS.ALT_UP,
+                KeyCode.DownArrow => CMD_SIGNALS.ALT_DOWN,
                 _ => 0,
             };
 
@@ -55,7 +55,7 @@ namespace _COBALT_
                     input_stdin.input_field.caretPosition
                     );
 
-                executors_stack._list[^1].Executate(line);
+                executor.Executate(line);
                 stdin_save = line.text;
                 input_stdin.input_field.text = line.text;
                 input_stdin.input_field.caretPosition = line.cursor_i;
@@ -74,6 +74,7 @@ namespace _COBALT_
             cpl_index = 0;
             stdin_save = text;
             stdin_frame = Time.frameCount;
+            flag_stdin.Update(true);
         }
 
         char OnValidateStdin(string text, int charIndex, char addedChar)
@@ -86,12 +87,12 @@ namespace _COBALT_
                     {
                         CommandLine line = new(
                             stdin_save,
-                            CMD_SIGNAL.TAB,
+                            CMD_SIGNALS.TAB,
                             Mathf.Min(stdin_save.Length, charIndex),
                             cpl_index++
                             );
 
-                        executors_stack._list[^1].Executate(line);
+                        executor.Executate(line);
                         input_stdin.input_field.text = line.text;
                         input_stdin.input_field.caretPosition = line.cursor_i;
                     }
@@ -107,60 +108,17 @@ namespace _COBALT_
                     Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
                     try
                     {
-                        executors_stack._list[^1].Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNAL.EXEC));
-                        if (executors_stack._list[^1].status.state == CMD_STATE.BLOCKING)
-                            flag_progress.Update(true);
+                        executor.Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNALS.EXEC));
                     }
                     catch (Exception e)
                     {
                         Debug.LogException(e, this);
                     }
-                    finally
-                    {
-                        input_stdin.input_field.text = null;
-                    }
+                    input_stdin.input_field.text = null;
                     flag_stdin.Update(true);
                     return '\0';
             }
             return addedChar;
-        }
-
-        public void RefreshStdin()
-        {
-            CMD_STATUS status = executors_stack._list[^1].status;
-
-            input_prefixe.input_field.text = status.prefixe;
-
-            Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(status.prefixe + "_", scrollview.content.rect.width, float.PositiveInfinity);
-            line_height = prefered_dims.y;
-
-            if (string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
-                prefered_dims.x = 0;
-
-            input_stdin.rT.sizeDelta = new(-prefered_dims.x, 0);
-
-            if (status.state == CMD_STATE.WAIT_FOR_STDIN)
-            {
-                float stdin_height = Mathf.Max(input_stdin.text_height, scrollview.viewport.rect.height);
-
-                input_prefixe.AutoSize(false);
-                input_stdin.AutoSize(false);
-
-                rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, stdin_height);
-
-                scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + stdin_height);
-            }
-            else
-            {
-                input_stdin.input_field.text = string.Empty;
-
-                input_prefixe.AutoSize(false);
-                input_stdin.AutoSize(false);
-
-                rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, scrollview.viewport.rect.height);
-
-                scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + scrollview.viewport.rect.height - line_height);
-            }
         }
 
         public void ClampBottom()

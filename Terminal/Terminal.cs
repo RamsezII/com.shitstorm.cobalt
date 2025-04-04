@@ -65,17 +65,11 @@ namespace _COBALT_
                     onLog._value = AddLine_log;
                 }
 
-            AwakeExecutors();
+            AwakeShell();
         }
 
         private void OnEnable()
         {
-            NUCLEOR.delegates.getInputs -= OnGetInputs;
-            NUCLEOR.delegates.getInputs += OnGetInputs;
-
-            NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
-            NUCLEOR.delegates.onPlayerInputs += OnUpdate;
-
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
 
@@ -90,10 +84,7 @@ namespace _COBALT_
 
         private void OnDisable()
         {
-            NUCLEOR.delegates.getInputs -= OnGetInputs;
-            NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
-
             USAGES.RemoveUser(this);
         }
 
@@ -104,16 +95,22 @@ namespace _COBALT_
             base.Start();
             StartUI();
             isActive.AddListener(active => gameObject.SetActive(active));
-            executors_stack.AddListener2(list => flag_stdin.Update(true));
 
             IMGUI_global.instance.users.RemoveElement(this);
             IMGUI_global.instance.users.AddElement(this);
+
+            NUCLEOR.delegates.getInputs += OnGetInputs;
+            NUCLEOR.delegates.onPlayerInputs += OnUpdate;
+
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void OnDestroy()
         {
+            NUCLEOR.delegates.getInputs -= OnGetInputs;
+            NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
+
             base.OnDestroy();
 
             if (this == instance)

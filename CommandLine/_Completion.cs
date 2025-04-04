@@ -50,8 +50,8 @@ namespace _COBALT_
             {
                 cpl_index = indexOf + signal switch
                 {
-                    CMD_SIGNAL.ALT_UP => -1,
-                    CMD_SIGNAL.ALT_DOWN => 1,
+                    CMD_SIGNALS.ALT_UP => -1,
+                    CMD_SIGNALS.ALT_DOWN => 1,
                     _ => 0,
                 };
 

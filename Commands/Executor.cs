@@ -1,92 +1,142 @@
-﻿using _ARK_;
-using _UTIL_;
+﻿using _UTIL_;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace _COBALT_
 {
     public class Executor : IDisposable
     {
-        public readonly ListListener<Executor> stack;
-        public readonly Command command;
+        //prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$",
 
+        static readonly Executor echo_executor = new(new() { new("echo", new(on_stdin: (exe, stdin) => Debug.Log(stdin))), }, CommandLine.EMPTY_EXE, out _);
+
+        public readonly string cmd_name;
+        public readonly Command command;
+        public readonly string cmd_path;
+
+        public CommandLine temp_line;
+        readonly Executor stdout_exe = echo_executor;
+        public readonly List<object> args = new();
+        public IEnumerator<CMD_STATUS> routine;
+
+        public readonly ThreadSafe_struct<bool> disposed = new();
+
+        public int executions = -1;
         static byte id_counter;
         public byte id = ++id_counter;
 
-        public CommandLine line;
-        public Command cmd_out = Command.cmd_echo;
-        public readonly IEnumerator<CMD_STATUS> routine;
-        public CMD_STATUS status;
-
-        public readonly ThreadSafe_struct<bool> disposed = new();
+        public object error;
+        public void Stdout(in string data) => stdout_exe.command.on_stdin(stdout_exe, data);
 
         //--------------------------------------------------------------------------------------------------------------
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void OnBeforeSceneLoad() => id_counter = 0;
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        public Executor(in ListListener<Executor> stack, in Command command)
+        static void OnBeforeSceneLoad()
         {
-            this.stack = stack;
-            this.command = command;
-
-            if (command.routine != null)
-                routine = command.routine(this);
+            id_counter = 0;
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public CMD_STATUS Iterate()
+        public Executor(in List<KeyValuePair<string, Command>> path, in CommandLine line, out bool error)
         {
-            if (routine != null && routine.MoveNext())
-                status = routine.Current;
-            else
-                Dispose();
-            return status;
-        }
+            cmd_name = path[^1].Key;
+            command = path[^1].Value;
 
-        public CMD_STATUS Executate(in CommandLine line)
-        {
-            this.line = line;
-
-            if (command._commands.Count == 0)
+            switch (path.Count)
             {
-                if (command.action != null)
-                    command.action(line);
-                else if (routine != null && routine.MoveNext())
-                    status = routine.Current;
-                else
-                    Dispose();
+                case 0:
+                    throw new ArgumentException($"Command path is empty.", nameof(path));
+
+                case 1 when path[0].Value == Command.cmd_root_shell:
+                    cmd_path = "~";
+                    break;
+
+                case 1:
+                    cmd_path = path[0].Key;
+                    break;
+
+                default:
+                    StringBuilder path_sb = new();
+                    for (int i = 0; i < path.Count; i++)
+                        path_sb.Append(path[i].Key + "/");
+                    path_sb.Remove(path_sb.Length - 1, 1);
+                    cmd_path = path_sb.ToString();
+                    break;
             }
-            else
+
+            if (command.args != null)
             {
-                status = new CMD_STATUS()
+                command.args(this, line);
+                if (this.error != null)
                 {
-                    state = CMD_STATE.WAIT_FOR_STDIN,
-                    prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$",
-                };
-
-                if (line.ReadArgument(out string name_cmd1, out _, command._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
-                    if (command._commands.TryGetValue(name_cmd1, out Command cmd1))
-                    {
-                        Executor executor = new(stack, cmd1);
-                        if (line.signal == CMD_SIGNAL.EXEC)
-                            stack.AddElement(executor);
-                        executor.Executate(line);
-
-                        if (line.TryReadPipe())
-                            if (line.ReadArgument(out string name_cmd2, out _, Command.cmd_root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
-                                Debug.Log($"\"{name_cmd1}\" piped into: \"{name_cmd2}\"");
-                    }
-                    else if (line.signal == CMD_SIGNAL.EXEC)
-                        Debug.LogWarning($"Command not found: \"{name_cmd1}\"");
+                    if (line.signal == CMD_SIGNALS.EXEC || line.start_i > line.cpl_start_i)
+                        Debug.LogWarning($"Command '{cmd_name}' failed to parse arguments.");
+                    Dispose();
+                    error = true;
+                    return;
+                }
             }
 
-            return status;
+            if (line.TryReadPipe())
+                if (line.TryReadCommand(Command.cmd_root_shell, out var path2))
+                {
+                    stdout_exe = new(path2, line, out bool err);
+                    if (err)
+                    {
+                        Dispose();
+                        error = true;
+                        return;
+                    }
+                }
+
+            error = false;
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        public IEnumerator<CMD_STATUS> Executate(in CommandLine line)
+        {
+            if (line.signal == CMD_SIGNALS.EXEC)
+                ++executions;
+
+            if (line.signal >= CMD_SIGNALS.TAB || executions == 0 || routine == null)
+                if (command._commands.Count > 0)
+                {
+                    if (line.TryReadCommand(command, out var path))
+                    {
+                        Executor exe = new(path, line, out bool err);
+                        if (!err)
+                            return routine = exe.Executate(line);
+                    }
+                    return null;
+                }
+
+            if (line.signal == CMD_SIGNALS.EXEC)
+            {
+                command.action?.Invoke(this);
+
+                if (executions == 0)
+                {
+                    if (command.routine != null)
+                    {
+                        routine = command.routine(this);
+                        routine.MoveNext();
+                        return routine;
+                    }
+                }
+                else if (routine != null)
+                {
+                    temp_line = line;
+                    if (!routine.MoveNext())
+                        routine = null;
+                    temp_line = null;
+                }
+            }
+
+            return null;
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -98,7 +148,7 @@ namespace _COBALT_
                 if (disposed._value)
                     return;
                 disposed._value = true;
-                stack.RemoveElement(this);
+
                 OnDispose();
             }
         }

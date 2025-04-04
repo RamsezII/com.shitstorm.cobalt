@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace _COBALT_
 {
-    public enum CMD_SIGNAL : byte
+    public enum CMD_SIGNALS : byte
     {
         _NONE_,
         CHECK,
@@ -16,7 +17,7 @@ namespace _COBALT_
         ALT_RIGHT,
     }
 
-    public enum CMD_STATE : byte
+    public enum CMD_STATES : byte
     {
         DONE,
         BLOCKING,
@@ -27,10 +28,8 @@ namespace _COBALT_
 
     public struct CMD_STATUS
     {
-        public CMD_STATE state;
+        public CMD_STATES state;
         public string prefixe;
         [Range(0, 1)] public float progress;
-        public bool refresh_stdin;
-        public object data;
     }
 }

@@ -1,5 +1,4 @@
-﻿using _UTIL_;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -9,46 +8,69 @@ namespace _COBALT_
     partial class Terminal
     {
         //prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$";
-        public readonly ListListener<Executor> executors_stack = new();
+        public Executor executor;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void AwakeExecutors()
+        void AwakeShell()
         {
-            Executor executor = new(executors_stack, Command.cmd_root_shell);
-            executors_stack.AddElement(executor);
-
-            Command.cmd_root_shell.AddCommand(Command.cmd_echo, "echo");
+            Command.cmd_root_shell.AddCommand(new Command(
+                manual: new("echo!"),
+                args: (exe, line) =>
+                {
+                    if (line.TryReadArgument(out string arg))
+                        exe.args.Add(arg);
+                },
+                action: exe => exe.Stdout((string)exe.args[0]),
+                on_stdin: (exe, stdin) => Debug.Log(stdin)
+                ),
+                "echo");
 
             Command.cmd_root_shell.AddCommand(new Command(
-                new("Of the whats to and the hows to... nowamsayn [burp]"),
-                line =>
+                manual: new("Of the whats to and the hows to... nowamsayn [burp]"),
+                args: (exe, line) =>
                 {
-                    if (line.ReadArgument(out string argument, out bool isNotEmpty, Command.cmd_root_shell._commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase)))
-                        if (line.signal == CMD_SIGNAL.EXEC)
-                            if (isNotEmpty)
-                                if (Command.cmd_root_shell._commands.TryGetValue(argument, out Command command))
-                                    Debug.Log(command.manual);
-                                else
-                                    Debug.LogWarning($"Command \"{argument}\" not found");
-                            else
-                            {
-                                var groupedByValue = Command.cmd_root_shell._commands.GroupBy(pair => pair.Value);
-                                foreach (var group in groupedByValue)
-                                {
-                                    StringBuilder sb = new();
-                                    foreach (var pair in group)
-                                        sb.Append($"{pair.Key}, ");
+                    if (line.TryReadCommand(exe.command, out var path))
+                        exe.args.Add(path);
+                },
+                action: exe =>
+                {
+                    if (exe.args != null)
+                        Debug.Log(((List<KeyValuePair<string, Command>>)exe.args[0])[^1].Value.manual);
+                    else
+                    {
+                        var groupedByValue = Command.cmd_root_shell._commands.GroupBy(pair => pair.Value);
+                        foreach (var group in groupedByValue)
+                        {
+                            StringBuilder sb = new();
+                            foreach (var pair in group)
+                                sb.Append($"{pair.Key}, ");
 
-                                    sb.Remove(sb.Length - 2, 2);
-                                    Debug.Log($"{sb}: {group.Key.manual}");
-                                }
-                            }
+                            sb.Remove(sb.Length - 2, 2);
+                            Debug.Log($"{sb}: {group.Key.manual}");
+                        }
+                    }
                 }
             ),
             "help", "manual");
 
-            executors_stack._list[^1].Executate(CommandLine.EMPTY);
+            Command.cmd_root_shell.AddCommand(new Command(
+                manual: new("Of the whats to and the hows to... nowamsayn [burp]"),
+                args: (exe, line) =>
+                {
+                    if (line.TryReadArgument(out string arg))
+                        exe.args.Add(arg);
+                },
+                on_stdin: (exe, stdin) =>
+                {
+                    if (System.Text.RegularExpressions.Regex.IsMatch(stdin, (string)exe.args[0]))
+                        exe.Stdout(stdin);
+                }
+            ),
+            "grep");
+
+            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, CommandLine.EMPTY_EXE, out _);
+            executor.Executate(CommandLine.EMPTY_EXE);
         }
     }
 }

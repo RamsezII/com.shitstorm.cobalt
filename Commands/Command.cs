@@ -1,6 +1,7 @@
 ﻿using _UTIL_;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace _COBALT_
@@ -8,28 +9,34 @@ namespace _COBALT_
     public sealed partial class Command
     {
         public readonly Dictionary<string, Command> _commands = new(StringComparer.OrdinalIgnoreCase);
+        public IEnumerable<string> ECommands_keys => _commands.Keys.OrderBy(key => key, StringComparer.OrdinalIgnoreCase);
+        public IEnumerable<KeyValuePair<string, Command>> ECommands_pairs => _commands.OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase);
 
-        public static readonly Command
-            cmd_root_shell = new(),
-            cmd_echo = new(
-                manual: new("echo!"),
-                action: line =>
-                {
-                    if (line.ReadArgument(out string argument, out bool isNotEmpty))
-                        if (isNotEmpty && line.signal == CMD_SIGNAL.EXEC)
-                            Debug.Log(argument);
-                });
+        public static readonly Command cmd_root_shell = new(stay_alive: true);
 
         public readonly Traductions manual;
-        public readonly Action<CommandLine> action;
+        public readonly bool stay_alive;
+        public readonly Action<Executor, CommandLine> args;
+        public readonly Action<Executor> action;
+        public readonly Action<Executor, string> on_stdin;
         public readonly Func<Executor, IEnumerator<CMD_STATUS>> routine;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public Command(in Traductions manual = default, in Action<CommandLine> action = default, in Func<Executor, IEnumerator<CMD_STATUS>> routine = default)
+        public Command(
+            in Traductions manual = default,
+            in bool stay_alive = default,
+            in Action<Executor, CommandLine> args = default,
+            in Action<Executor> action = default,
+            in Action<Executor, string> on_stdin = default,
+            in Func<Executor, IEnumerator<CMD_STATUS>> routine = default
+            )
         {
             this.manual = manual;
+            this.stay_alive = stay_alive;
+            this.args = args;
             this.action = action;
+            this.on_stdin = on_stdin;
             this.routine = routine;
         }
 

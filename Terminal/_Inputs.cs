@@ -51,7 +51,7 @@ namespace _COBALT_
         {
             InputsFlags inputs = 0;
 
-            if (Application.isFocused)
+            if (Application.isFocused || !isActive._value)
                 scroll_y = Input.mouseScrollDelta.y;
             else
                 scroll_y = 0;
