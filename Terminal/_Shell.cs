@@ -8,7 +8,7 @@ namespace _COBALT_
     partial class Terminal
     {
         //prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$";
-        public Executor executor;
+        public Command.Executor executor;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -69,8 +69,8 @@ namespace _COBALT_
             ),
             "grep");
 
-            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, CommandLine.EMPTY_EXE, out _);
-            executor.Executate(CommandLine.EMPTY_EXE);
+            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE, out _);
+            executor.Executate(Command.Line.EMPTY_EXE);
         }
     }
 }

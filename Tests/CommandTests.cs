@@ -31,7 +31,7 @@ namespace _COBALT_
                 routine: EPipeTest),
                 "pipe-test");
 
-            static IEnumerator<CMD_STATUS> EPipeTest(Executor executor)
+            static IEnumerator<CMD_STATUS> EPipeTest(Command.Executor executor)
             {
                 int loops = (int)executor.args[0];
                 for (int i = 0; i < loops; ++i)

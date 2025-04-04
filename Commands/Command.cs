@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace _COBALT_
 {
@@ -16,7 +15,7 @@ namespace _COBALT_
 
         public readonly Traductions manual;
         public readonly bool stay_alive;
-        public readonly Action<Executor, CommandLine> args;
+        public readonly Action<Executor, Line> args;
         public readonly Action<Executor> action;
         public readonly Action<Executor, string> on_stdin;
         public readonly Func<Executor, IEnumerator<CMD_STATUS>> routine;
@@ -26,7 +25,7 @@ namespace _COBALT_
         public Command(
             in Traductions manual = default,
             in bool stay_alive = default,
-            in Action<Executor, CommandLine> args = default,
+            in Action<Executor, Line> args = default,
             in Action<Executor> action = default,
             in Action<Executor, string> on_stdin = default,
             in Func<Executor, IEnumerator<CMD_STATUS>> routine = default

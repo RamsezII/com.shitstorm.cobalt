@@ -32,7 +32,7 @@ namespace _COBALT_
                 flag_progress.Update(true);
                 if (executor.routine.Current.state == CMD_STATES.BLOCKING)
                 {
-                    executor.Executate(CommandLine.EMPTY_EXE);
+                    executor.Executate(Command.Line.EMPTY_EXE);
                     if (executor.routine == null)
                         flag_stdin.Update(true);
                 }
@@ -51,6 +51,9 @@ namespace _COBALT_
 
             if (flag_alt.Value != default)
                 OnAltKey();
+
+            if (flag_nav_history.TryPullValue(out KeyCode nav_val))
+                executor.OnHistoryNav(nav_val);
 
             if (flag_stdin.PullValue)
                 RefreshStdin();

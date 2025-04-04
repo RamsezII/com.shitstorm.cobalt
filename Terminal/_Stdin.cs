@@ -7,7 +7,10 @@ namespace _COBALT_
 {
     partial class Terminal
     {
-        public readonly OnValue<KeyCode> flag_alt = new();
+        public readonly OnValue<KeyCode>
+            flag_alt = new(),
+            flag_nav_history = new();
+
         [SerializeField] string stdin_save;
         [SerializeField] int cpl_index;
         [SerializeField] int stdin_frame, tab_frame;
@@ -17,7 +20,10 @@ namespace _COBALT_
         void IMGUI_global.IUser.OnOnGUI()
         {
             Event e = Event.current;
-            if (e.type == EventType.KeyDown && e.alt)
+            if (e.type != EventType.KeyDown)
+                return;
+
+            if (e.alt)
                 switch (e.keyCode)
                 {
                     case KeyCode.LeftArrow:
@@ -26,6 +32,15 @@ namespace _COBALT_
                     case KeyCode.DownArrow:
                         e.Use();
                         flag_alt.Update(e.keyCode);
+                        break;
+                }
+            else if (!e.control && !e.command)
+                switch (e.keyCode)
+                {
+                    case KeyCode.UpArrow:
+                    case KeyCode.DownArrow:
+                        e.Use();
+                        flag_nav_history.Update(e.keyCode);
                         break;
                 }
         }
@@ -49,7 +64,7 @@ namespace _COBALT_
 
             try
             {
-                CommandLine line = new(
+                Command.Line line = new(
                     stdin_frame >= tab_frame ? input_stdin.input_field.text : stdin_save,
                     signal,
                     input_stdin.input_field.caretPosition
@@ -85,7 +100,7 @@ namespace _COBALT_
                     tab_frame = Time.frameCount;
                     try
                     {
-                        CommandLine line = new(
+                        Command.Line line = new(
                             stdin_save,
                             CMD_SIGNALS.TAB,
                             Mathf.Min(stdin_save.Length, charIndex),
@@ -108,7 +123,7 @@ namespace _COBALT_
                     Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text);
                     try
                     {
-                        executor.Executate(new CommandLine(input_stdin.input_field.text, CMD_SIGNALS.EXEC));
+                        executor.Executate(new Command.Line(input_stdin.input_field.text, CMD_SIGNALS.EXEC));
                     }
                     catch (Exception e)
                     {
