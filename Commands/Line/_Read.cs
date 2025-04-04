@@ -30,7 +30,7 @@ namespace _COBALT_
 
                 if (start_i < read_i)
                 {
-                    argument = text[start_i..read_i];
+                    arg_last = argument = text[start_i..read_i];
                     ++arg_i;
 
                     isNotEmpty = true;

@@ -116,6 +116,8 @@ namespace _COBALT_
                             if (!err)
                                 return routine = exe.Executate(line);
                         }
+                        else if (line.signal == CMD_SIGNALS.EXEC)
+                            Debug.LogWarning($"Could not find '{line.arg_last}' in '{cmd_name}' ({cmd_path})");
                         return null;
                     }
 
