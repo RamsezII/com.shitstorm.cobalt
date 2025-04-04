@@ -86,7 +86,7 @@ namespace _COBALT_
                 }
 
                 if (line.TryReadPipe())
-                    if (line.TryReadCommand(cmd_root_shell, out var path2))
+                    if (cmd_root_shell.TryReadCommand(line, out var path2))
                     {
                         stdout_exe = new(path2, line, out bool err);
                         if (err)
@@ -110,7 +110,7 @@ namespace _COBALT_
                 if (line.signal >= CMD_SIGNALS.TAB || executions == 0 || routine == null)
                     if (command._commands.Count > 0)
                     {
-                        if (line.TryReadCommand(command, out var path))
+                        if (command.TryReadCommand(line, out var path))
                         {
                             Executor exe = new(path, line, out bool err);
                             if (!err)

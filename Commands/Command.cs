@@ -49,5 +49,24 @@ namespace _COBALT_
                 _commands.Add(aliases[i], command);
             return command;
         }
+
+        public bool TryReadCommand(in Line line, out List<KeyValuePair<string, Command>> path)
+        {
+            path = new();
+            return TryReadCommand_ref(line, this, path);
+
+            static bool TryReadCommand_ref(in Line line, in Command parent, in List<KeyValuePair<string, Command>> path)
+            {
+                if (line.TryReadArgument(out string cmd_name, parent.ECommands_keys))
+                    if (parent._commands.TryGetValue(cmd_name, out Command intermediate))
+                    {
+                        path.Add(new(cmd_name, intermediate));
+                        TryReadCommand_ref(line, intermediate, path);
+                    }
+                    else
+                        line.read_i = line.start_i;
+                return path.Count > 0;
+            }
+        }
     }
 }

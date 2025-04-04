@@ -1,5 +1,4 @@
-﻿using _SGUI_;
-using _UTIL_;
+﻿using _UTIL_;
 using System;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace _COBALT_
     {
         public readonly OnValue<KeyCode>
             flag_alt = new(),
+            flag_ctrl = new(),
             flag_nav_history = new();
 
         [SerializeField] string stdin_save;
@@ -16,34 +16,6 @@ namespace _COBALT_
         [SerializeField] int stdin_frame, tab_frame;
 
         //--------------------------------------------------------------------------------------------------------------
-
-        void IMGUI_global.IUser.OnOnGUI()
-        {
-            Event e = Event.current;
-            if (e.type != EventType.KeyDown)
-                return;
-
-            if (e.alt)
-                switch (e.keyCode)
-                {
-                    case KeyCode.LeftArrow:
-                    case KeyCode.RightArrow:
-                    case KeyCode.UpArrow:
-                    case KeyCode.DownArrow:
-                        e.Use();
-                        flag_alt.Update(e.keyCode);
-                        break;
-                }
-            else if (!e.control && !e.command)
-                switch (e.keyCode)
-                {
-                    case KeyCode.UpArrow:
-                    case KeyCode.DownArrow:
-                        e.Use();
-                        flag_nav_history.Update(e.keyCode);
-                        break;
-                }
-        }
 
         void OnAltKey()
         {

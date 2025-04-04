@@ -68,8 +68,10 @@ namespace _COBALT_
             AwakeShell();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
 
@@ -82,8 +84,10 @@ namespace _COBALT_
             NUCLEOR.delegates.onEndOfFrame_once += () => EventSystem.current.SetSelectedGameObject(input_stdin.input_field.gameObject);
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             USAGES.RemoveUser(this);
         }

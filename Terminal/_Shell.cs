@@ -30,7 +30,7 @@ namespace _COBALT_
                 manual: new("Of the whats to and the hows to... nowamsayn [burp]"),
                 args: (exe, line) =>
                 {
-                    if (line.TryReadCommand(exe.command, out var path))
+                    if (Command.cmd_root_shell.TryReadCommand(line, out var path))
                         exe.args.Add(path);
                 },
                 action: exe =>

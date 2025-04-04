@@ -49,6 +49,24 @@ namespace _COBALT_
             if (flag_stdout.PullValue)
                 RefreshStdout();
 
+            if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
+                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                {
+                    string text = input_stdin.input_field.text;
+                    int caret = input_stdin.input_field.caretPosition;
+                    int erase_i = caret;
+
+                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
+                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, true, Util_ark.CHAR_SPACE);
+
+                    if (erase_i < caret)
+                    {
+                        input_stdin.input_field.text = text[..erase_i] + text[caret..];
+                        input_stdin.input_field.caretPosition = erase_i;
+                        flag_stdin.Update(true);
+                    }
+                }
+
             if (flag_alt.Value != default)
                 OnAltKey();
 
@@ -65,7 +83,7 @@ namespace _COBALT_
         void RefreshProgressBars()
         {
             if (executor.routine == null || executor.routine.Current.state != CMD_STATES.BLOCKING)
-                input_realtime.input_field.text = null;
+                input_realtime.input_field.text = string.Empty;
             else
             {
                 float body_width = rT_body.rect.width;

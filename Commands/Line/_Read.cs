@@ -15,7 +15,7 @@ namespace _COBALT_
                     return false;
                 }
 
-                Util_ark.SkipCharactersUntil(text, ref read_i, false, Util_ark.CHAR_SPACE);
+                Util_ark.SkipCharactersUntil(text, ref read_i, true, false, Util_ark.CHAR_SPACE);
 
                 if (read_i > 0 && text[read_i - 1] != Util_ark.CHAR_SPACE)
                 {
@@ -24,7 +24,7 @@ namespace _COBALT_
                 }
 
                 start_i = read_i;
-                Util_ark.SkipCharactersUntil(text, ref read_i, true, Util_ark.CHAR_SPACE, Util_ark.CHAR_PIPE, Util_ark.CHAR_CHAIN);
+                Util_ark.SkipCharactersUntil(text, ref read_i, true, true, Util_ark.CHAR_SPACE, Util_ark.CHAR_PIPE, Util_ark.CHAR_CHAIN);
 
                 bool isNotEmpty = false;
 
@@ -53,25 +53,6 @@ namespace _COBALT_
             }
 
             public bool TryReadPipe() => Util_ark.TryReadPipe(text, ref read_i);
-
-            public bool TryReadCommand(in Command parent, out List<KeyValuePair<string, Command>> path)
-            {
-                path = new();
-                return TryReadCommand_ref(parent, path);
-            }
-
-            bool TryReadCommand_ref(in Command parent, in List<KeyValuePair<string, Command>> path)
-            {
-                if (TryReadArgument(out string cmd_name, parent.ECommands_keys))
-                    if (parent._commands.TryGetValue(cmd_name, out Command intermediate))
-                    {
-                        path.Add(new(cmd_name, intermediate));
-                        TryReadCommand_ref(intermediate, path);
-                    }
-                    else
-                        read_i = start_i;
-                return path.Count > 0;
-            }
         }
     }
 }

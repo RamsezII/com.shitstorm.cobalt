@@ -1,12 +1,11 @@
 ﻿using _ARK_;
 using _SGUI_;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    partial class Terminal : IMGUI_global.IUser
+    partial class Terminal
     {
         public ScrollRect scrollview;
         public RectTransform rT_body, rT_scrollview, rT_stdin;
