@@ -8,21 +8,22 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void OnBeforeSceneLoad()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void OnAfterSceneLoad()
         {
-            extras = Command.cmd_root_shell.AddCommand(new Command(manual: new("extras")), "useful", "useless");
+            extras = Command.cmd_root_shell.AddCommand(new Command(manual: new("extras")), "useful", "useless", "extras");
 
-            InitDeez();
-        }
-
-        static void InitDeez()
-        {
             extras.AddCommand(new Command(
                 manual: new("HA!"),
                 action: exe => exe.Stdout("nuts!")
                 ),
                 "deez");
+
+            extras.AddCommand(new Command(
+                manual: new("aherm.. whahh?"),
+                action: exe => exe.Stdout("brah")
+                ),
+                "lezduit");
         }
     }
 }

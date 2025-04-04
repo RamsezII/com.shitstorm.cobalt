@@ -5,14 +5,10 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-    partial class Terminal
+    static internal class CmdUtils
     {
-        //prefixe = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{NUCLEOR.terminal_path.SetColor("#73B2D9")}$";
-        public Command.Executor executor;
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        void AwakeShell()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void OnAfterSceneLoad()
         {
             Command.cmd_root_shell.AddCommand(new Command(
                 manual: new("echo!"),
@@ -70,12 +66,6 @@ namespace _COBALT_
             "grep");
 
             Command.cmd_root_shell.AddCommand(new Command(
-                manual: new("guess what"),
-                action: exe => isActive.Update(false)
-                ),
-                "exit");
-
-            Command.cmd_root_shell.AddCommand(new Command(
                 manual: new("quits the game... :("),
                 action: exe => Application.Quit()
                 ),
@@ -86,9 +76,6 @@ namespace _COBALT_
                 action: exe => Application.Quit()
                 ),
                 "clear");
-
-            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE, out _);
-            executor.Executate(Command.Line.EMPTY_EXE);
         }
     }
 }

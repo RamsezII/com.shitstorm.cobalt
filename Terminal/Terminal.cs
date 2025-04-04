@@ -15,6 +15,8 @@ namespace _COBALT_
 
         public readonly OnValue<bool> isActive = new();
 
+        public Command.Executor executor;
+
         //--------------------------------------------------------------------------------------------------------------
 
         static Terminal()
@@ -29,7 +31,6 @@ namespace _COBALT_
         {
             Application.logMessageReceivedThreaded -= OnLogMessageReceived;
             Application.logMessageReceivedThreaded += OnLogMessageReceived;
-            Command.cmd_root_shell._commands.Clear();
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -65,7 +66,14 @@ namespace _COBALT_
                     onLog._value = AddLine_log;
                 }
 
-            AwakeShell();
+            Command.cmd_root_shell.AddCommand(new Command(
+                manual: new("guess what"),
+                action: exe => isActive.Update(false)
+                ),
+                "exit");
+
+            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE, out _);
+            executor.Executate(Command.Line.EMPTY_EXE);
         }
 
         protected override void OnEnable()

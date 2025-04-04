@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace _COBALT_
 {
@@ -19,6 +20,14 @@ namespace _COBALT_
         public readonly Action<Executor> action;
         public readonly Action<Executor, string> on_stdin;
         public readonly Func<Executor, IEnumerator<CMD_STATUS>> routine;
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void OnBeforeSceneLoad()
+        {
+            cmd_root_shell._commands.Clear();
+        }
 
         //--------------------------------------------------------------------------------------------------------------
 
