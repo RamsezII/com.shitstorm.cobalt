@@ -9,11 +9,9 @@ namespace _COBALT_
         {
             public bool TryReadArgument(out string argument, in IEnumerable<string> completions_candidates = null)
             {
-                Util_ark.SkipCharactersUntil(text, ref read_i, true);
+                Util_ark.SkipCharactersUntil(text, ref read_i, false, Util_ark.CHAR_SPACE);
                 start_i = read_i;
-                Util_ark.SkipCharactersUntil(text, ref read_i, false);
-                next_i = read_i;
-                Util_ark.SkipCharactersUntil(text, ref next_i, true);
+                Util_ark.SkipCharactersUntil(text, ref read_i, true, Util_ark.CHAR_SPACE, Util_ark.CHAR_PIPE, Util_ark.CHAR_CHAIN);
 
                 bool isNotEmpty = false;
 
@@ -42,15 +40,6 @@ namespace _COBALT_
             }
 
             public bool TryReadPipe() => Util_ark.TryReadPipe(text, ref read_i);
-
-            public string ReadHistory()
-            {
-                int start = read_i;
-                int end = read_i;
-                Util_ark.SkipCharactersUntil(text, ref start, true, "&", false);
-                Util_ark.SkipCharactersUntil(text, ref end, true, "&", true);
-                return text[start..end].Trim();
-            }
 
             public bool TryReadCommand(in Command parent, out List<KeyValuePair<string, Command>> path)
             {

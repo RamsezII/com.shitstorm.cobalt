@@ -118,7 +118,7 @@ namespace _COBALT_
 
                 if (line.signal == CMD_SIGNALS.EXEC)
                 {
-                    SaveHistory(line.ReadHistory());
+                    SaveHistory(line.text);
                     command.action?.Invoke(this);
 
                     if (executions == 0)
