@@ -73,7 +73,7 @@ namespace _COBALT_
                 ),
                 "exit");
 
-            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE, out _);
+            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE);
             executor.Executate(Command.Line.EMPTY_EXE);
         }
 
