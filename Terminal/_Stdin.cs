@@ -101,11 +101,19 @@ namespace _COBALT_
                     if (!string.IsNullOrWhiteSpace(input_stdin.input_field.text))
                         try
                         {
-                            Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.EXEC);
-                            bool noRoutine = executor.routine == null;
+                            Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.CHECK);
                             executor.Executate(line);
-                            if (noRoutine && executor.error == null)
-                                Command.Line.AddToHistory(line.text);
+
+                            if (executor.error == null)
+                            {
+                                line = new(input_stdin.input_field.text, CMD_SIGNALS.EXEC);
+                                bool noRoutine = executor.routine == null;
+
+                                executor.Executate(line);
+
+                                if (noRoutine && executor.error == null)
+                                    Command.Line.AddToHistory(line.text);
+                            }
                         }
                         catch (Exception e)
                         {
