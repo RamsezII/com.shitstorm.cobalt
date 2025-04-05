@@ -55,7 +55,12 @@ namespace _COBALT_
                     OnAltKey();
 
                 if (flag_nav_history.TryPullValue(out KeyCode nav_val))
-                    executor.OnHistoryNav(nav_val);
+                {
+                    Command.Line.OnHistoryNav(nav_val, out string entry);
+                    input_stdin.input_field.text = entry;
+                    input_stdin.input_field.caretPosition = entry.Length;
+                    flag_stdin.Update(true);
+                }
             }
 
             if (executor.routine != null)

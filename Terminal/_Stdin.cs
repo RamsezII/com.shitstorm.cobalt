@@ -70,6 +70,7 @@ namespace _COBALT_
 
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
+            Command.Line.history_index = 0;
             switch (addedChar)
             {
                 case '\t':
@@ -100,7 +101,11 @@ namespace _COBALT_
                     if (!string.IsNullOrWhiteSpace(input_stdin.input_field.text))
                         try
                         {
-                            executor.Executate(new Command.Line(input_stdin.input_field.text, CMD_SIGNALS.EXEC));
+                            Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.EXEC);
+                            bool noRoutine = executor.routine == null;
+                            executor.Executate(line);
+                            if (noRoutine && executor.error == null)
+                                Command.Line.AddToHistory(line.text);
                         }
                         catch (Exception e)
                         {
