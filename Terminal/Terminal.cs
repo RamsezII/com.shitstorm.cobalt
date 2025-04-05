@@ -67,11 +67,10 @@ namespace _COBALT_
                     onLog._value = AddLine_log;
                 }
 
-            Command.cmd_root_shell.AddCommand(new Command(
+            Command.cmd_root_shell.AddCommand("exit", new Command(
                 manual: new("guess what"),
                 action: exe => isActive.Update(false)
-                ),
-                "exit");
+                ));
 
             executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE);
             executor.Executate(Command.Line.EMPTY_EXE);

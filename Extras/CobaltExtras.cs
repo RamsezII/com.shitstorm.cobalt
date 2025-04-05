@@ -12,19 +12,19 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            extras = Command.cmd_root_shell.AddCommand(new Command(manual: new("extras")), "useful", "useless", "extras");
+            extras = Command.cmd_root_shell.AddCommand("useful", new Command(manual: new("extras")), "useless", "extras");
 
-            extras.AddCommand(new Command(
+            extras.AddCommand("deez", 
+                new Command(
                 manual: new("HA!"),
                 action: exe => exe.Stdout("nuts!")
-                ),
-                "deez");
+                ));
 
-            extras.AddCommand(new Command(
+            extras.AddCommand("lezduit", 
+                new Command(
                 manual: new("aherm.. whahh?"),
                 action: exe => exe.Stdout("brah")
-                ),
-                "lezduit");
+                ));
         }
     }
 }
