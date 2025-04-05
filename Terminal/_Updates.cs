@@ -34,21 +34,34 @@ namespace _COBALT_
                         scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
 
                 if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
-                    if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                    switch (ctrl_val)
                     {
-                        string text = input_stdin.input_field.text;
-                        int caret = input_stdin.input_field.caretPosition;
-                        int erase_i = caret;
+                        case KeyCode.Backspace:
+                            if (input_stdin.input_field.caretPosition > 0)
+                                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                                {
+                                    string text = input_stdin.input_field.text;
+                                    int caret = input_stdin.input_field.caretPosition;
+                                    int erase_i = caret;
 
-                        Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
-                        Util_ark.SkipCharactersUntil(text, ref erase_i, false, true, Util_ark.CHAR_SPACE);
+                                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
+                                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, true, Util_ark.CHAR_SPACE);
+                                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
 
-                        if (erase_i < caret)
-                        {
-                            input_stdin.input_field.text = text[..erase_i] + text[caret..];
-                            input_stdin.input_field.caretPosition = erase_i;
-                            flag_stdin.Update(true);
-                        }
+                                    if (erase_i > 0)
+                                    {
+                                        ++erase_i;
+                                        ++erase_i;
+                                    }
+
+                                    if (erase_i < caret)
+                                    {
+                                        input_stdin.input_field.text = text[..erase_i] + text[caret..];
+                                        input_stdin.input_field.caretPosition = erase_i;
+                                        flag_stdin.Update(true);
+                                    }
+                                }
+                            break;
                     }
 
                 if (flag_alt.Value != default)
