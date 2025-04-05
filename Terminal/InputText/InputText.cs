@@ -34,6 +34,10 @@ namespace _COBALT_
                 rT.sizeDelta = new(rT.sizeDelta.x, text_height);
         }
 
-        public void ResetText() => input_field.text = string.Empty;
+        public void ResetText()
+        {
+            if (!string.IsNullOrEmpty(input_field.text))
+                input_field.text = string.Empty;
+        }
     }
 }

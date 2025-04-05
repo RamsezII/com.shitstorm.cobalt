@@ -66,6 +66,15 @@ namespace _COBALT_
             stdin_save = text;
             stdin_frame = Time.frameCount;
             flag_stdin.Update(true);
+
+            if (executor.routine != null)
+                switch (executor.routine.Current.state)
+                {
+                    case CMD_STATES.BLOCKING:
+                    case CMD_STATES.FULLSCREEN_r:
+                        input_stdin.ResetText();
+                        break;
+                }
         }
 
         char OnValidateStdin(string text, int charIndex, char addedChar)
