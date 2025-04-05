@@ -70,7 +70,7 @@ namespace _COBALT_
 
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
-            Command.Line.history_index = 0;
+            Command.Line.ResetHistoryCount();
             switch (addedChar)
             {
                 case '\t':
