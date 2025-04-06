@@ -12,7 +12,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            extras = Command.cmd_root_shell.AddCommand(new("useful", manual: new("extras")), "useless", "extras");
+            extras = Command.cmd_root_shell.AddCommand(new("useful"), "useless");
 
             extras.AddCommand(new(
                 "deez",

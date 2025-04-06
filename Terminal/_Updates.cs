@@ -14,6 +14,8 @@ namespace _COBALT_
             flag_stdin = new(),
             flag_clampbottom = new();
 
+        [SerializeField] Command.Line.Linter linter = new();
+
         //--------------------------------------------------------------------------------------------------------------
 
         void OnUpdate()
@@ -44,9 +46,9 @@ namespace _COBALT_
                                     int caret = input_stdin.input_field.caretPosition;
                                     int erase_i = caret;
 
-                                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
-                                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, true, Util_ark.CHAR_SPACE);
-                                    Util_ark.SkipCharactersUntil(text, ref erase_i, false, false, Util_ark.CHAR_SPACE);
+                                    Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
+                                    Util_cobra.SkipCharactersUntil(text, ref erase_i, false, true, Util_cobra.CHAR_SPACE);
+                                    Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
 
                                     if (erase_i > 0)
                                     {
@@ -166,6 +168,8 @@ namespace _COBALT_
 
             input_prefixe.AutoSize(false);
             input_stdin.AutoSize(false);
+
+            linter_tmp.text = linter.GetLint(executor, input_stdin.input_field.text);
 
             if (no_stdin)
             {

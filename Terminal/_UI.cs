@@ -1,5 +1,6 @@
 ﻿using _ARK_;
 using _SGUI_;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +11,23 @@ namespace _COBALT_
         public ScrollRect scrollview;
         public RectTransform rT_body, rT_scrollview, rT_stdin;
         [SerializeField] internal InputText input_stdout, input_realtime, input_prefixe, input_stdin;
+        [SerializeField] TextMeshProUGUI linter_tmp;
 
         public RectTransform rT_selection;
         public RawImage img_selection;
 
         public float line_height;
+
+        //--------------------------------------------------------------------------------------------------------------
+
+#if UNITY_EDITOR
+        [ContextMenu(nameof(OnValidate))]
+        private void OnValidate()
+        {
+            if (Application.isPlaying)
+                flag_stdin.Update(true);
+        }
+#endif
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +43,8 @@ namespace _COBALT_
             rT_stdin = (RectTransform)scrollview.content.Find("stdin");
             input_prefixe = rT_stdin.Find("prefixe").GetComponent<InputText>();
             input_stdin = rT_stdin.Find("in").GetComponent<InputText>();
+
+            linter_tmp = input_stdin.transform.Find("mask/text/lint").GetComponent<TextMeshProUGUI>();
 
             input_stdout.AwakeUI();
             input_realtime.AwakeUI();
@@ -73,17 +88,16 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        [SerializeField, Range(0, 1)] float _alpha_test;
-
         protected override void OnUpdateAlpha()
         {
             base.OnUpdateAlpha();
-            _alpha_test = anim_alpha;
+
             Color text_color = new(1, 1, 1, anim_alpha);
+
             input_stdout.input_field.textComponent.color = text_color;
             input_realtime.input_field.textComponent.color = text_color;
             input_prefixe.input_field.textComponent.color = text_color;
-            input_stdin.input_field.textComponent.color = text_color;
+            linter_tmp.color = text_color;
         }
     }
 }
