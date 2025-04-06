@@ -106,10 +106,12 @@ namespace _COBALT_
                 case '\n':
                     cpl_index = 0;
                     stdin_save = null;
-                    Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text, this);
-                    if (!string.IsNullOrWhiteSpace(input_stdin.input_field.text))
+                    if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
+                        isActive.Update(false);
+                    else
                         try
                         {
+                            Debug.Log(input_prefixe.input_field.text + " " + input_stdin.input_field.text, this);
                             Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.CHECK);
                             executor.Executate(line);
 
