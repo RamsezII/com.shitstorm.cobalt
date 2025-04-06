@@ -1,7 +1,6 @@
 using _ARK_;
 using _COBRA_;
 using _SGUI_;
-using _UTIL_;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,8 +12,6 @@ namespace _COBALT_
     public partial class Terminal : SguiWindow
     {
         public static Terminal instance;
-
-        public readonly OnValue<bool> isActive = new();
 
         public Command.Executor executor;
 
@@ -106,7 +103,6 @@ namespace _COBALT_
         {
             base.Start();
             StartUI();
-            isActive.AddListener(active => gameObject.SetActive(active));
 
             IMGUI_global.instance.users.RemoveElement(this);
             IMGUI_global.instance.users.AddElement(this);

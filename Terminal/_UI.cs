@@ -70,5 +70,20 @@ namespace _COBALT_
 
             MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
         }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        [SerializeField, Range(0, 1)] float _alpha_test;
+
+        protected override void OnUpdateAlpha()
+        {
+            base.OnUpdateAlpha();
+            _alpha_test = anim_alpha;
+            Color text_color = new(1, 1, 1, anim_alpha);
+            input_stdout.input_field.textComponent.color = text_color;
+            input_realtime.input_field.textComponent.color = text_color;
+            input_prefixe.input_field.textComponent.color = text_color;
+            input_stdin.input_field.textComponent.color = text_color;
+        }
     }
 }
