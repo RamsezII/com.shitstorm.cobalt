@@ -39,7 +39,7 @@ namespace _COBALT_
         [Header("~@ Inputs @~")]
         public InputsFlags inputs_hold;
         [HideInInspector] public InputsFlags inputs_down, inputs_up;
-        [HideInInspector] public float scroll_y;
+        [HideInInspector] public float mouse_scroll;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -52,9 +52,9 @@ namespace _COBALT_
             InputsFlags inputs = 0;
 
             if (Application.isFocused || !isActive._value)
-                scroll_y = Input.mouseScrollDelta.y;
+                mouse_scroll = Input.mouseScrollDelta.y;
             else
-                scroll_y = 0;
+                mouse_scroll = 0;
 
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 inputs |= InputsFlags.Ctrl;

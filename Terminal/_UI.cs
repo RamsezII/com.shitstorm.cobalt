@@ -1,5 +1,5 @@
 ﻿using _ARK_;
-using _SGUI_;
+using _UTIL_;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +17,9 @@ namespace _COBALT_
         public RawImage img_selection;
 
         public float line_height;
+
+        float initial_fontsize;
+        public readonly OnValue<float> font_size = new(1);
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -59,7 +62,10 @@ namespace _COBALT_
 
         void StartUI()
         {
+            initial_fontsize = input_stdin.input_field.textComponent.fontSize;
+
             input_realtime.input_field.text = null;
+
             flag_progress.Update(true);
 
             input_stdin.ResetText();
@@ -73,6 +79,21 @@ namespace _COBALT_
             transform.Find("rT/header/buttons/hide/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
 
             MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
+
+            font_size.AddProcessor(value => Mathf.Clamp(value, .5f, 2));
+
+            font_size.AddListener(value =>
+            {
+                value *= initial_fontsize;
+                input_stdin.input_field.textComponent.fontSize = value;
+                input_stdout.input_field.textComponent.fontSize = value;
+                input_realtime.input_field.textComponent.fontSize = value;
+                input_prefixe.input_field.textComponent.fontSize = value;
+                linter_tmp.fontSize = value;
+                input_stdin.input_field.textComponent.fontSize = value;
+
+                flag_stdout.Update(true);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------------------

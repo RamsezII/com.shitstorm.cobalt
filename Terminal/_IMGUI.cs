@@ -9,7 +9,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        bool OnOnGui_keydown(Event e)
+        bool OnGui_keydown(Event e)
         {
             if (!isActive.Value)
             {

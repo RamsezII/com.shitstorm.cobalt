@@ -1,4 +1,5 @@
-﻿using _COBRA_;
+﻿using _ARK_;
+using _COBRA_;
 using _UTIL_;
 using UnityEngine;
 
@@ -23,9 +24,17 @@ namespace _COBALT_
                 if (inputs_hold.HasFlag(InputsFlags.Ctrl) && inputs_down.HasFlag(InputsFlags.L_key))
                     ClearStdout();
 
-                if (scroll_y != 0)
+                if (mouse_scroll != 0)
                     if (new Rect(0, 0, Screen.width, Screen.height).Contains(Input.mousePosition))
-                        scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
+                        if (GetInputs_hold(InputsFlags.Ctrl))
+                        {
+                            Vector2 npos = scrollview.normalizedPosition;
+                            font_size.Update(font_size.Value + mouse_scroll * 0.3f);
+                            NUCLEOR.delegates.onEndOfFrame_once += () => scrollview.normalizedPosition = npos;
+                            NUCLEOR.delegates.onStartOfFrame_once += () => scrollview.normalizedPosition = npos;
+                        }
+                        else
+                            scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + mouse_scroll * 0.1f);
 
                 if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
                     OnCtrl_keycode(ctrl_val);
