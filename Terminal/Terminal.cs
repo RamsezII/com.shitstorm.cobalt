@@ -66,7 +66,7 @@ namespace _COBALT_
             executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE);
             executor.Executate(Command.Line.EMPTY_EXE);
 
-            IMGUI_global.instance.users.AddElement(OnOnGui, this);
+            IMGUI_global.instance.users_ongui.AddElement(OnOnGui, this);
 
             hide_stdout.AddListener(toggle => flag_stdout.Update(true));
             hide_stdout.AddListener(toggle => Debug.Log($"{nameof(hide_stdout)}: {toggle}"));
@@ -119,7 +119,7 @@ namespace _COBALT_
             if (this == instance)
                 instance = null;
 
-            IMGUI_global.instance.users.RemoveElement(this);
+            IMGUI_global.instance.users_ongui.RemoveElement(this);
         }
     }
 }

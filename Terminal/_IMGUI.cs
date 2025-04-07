@@ -58,11 +58,29 @@ namespace _COBALT_
                         case KeyCode.DownArrow:
                             flag_alt.Update(e.keyCode);
                             return true;
+
+#if UNITY_EDITOR
+                        case KeyCode.S:
+                            Shortcut_CtrlS();
+                            return true;
+#endif
                     }
 
                 if (e.control || e.command)
-                    if (OnCtrl_keycode(e.keyCode))
-                        return true;
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.C:
+                            Shortcut_CtrlC();
+                            return true;
+
+                        case KeyCode.S:
+                            Shortcut_CtrlS();
+                            return true;
+
+                        case KeyCode.Backspace:
+                            Shortcut_CtrlBackspace();
+                            return true;
+                    }
 
                 if (executor.routine == null)
                     if (!e.alt && !e.control && !e.command)
@@ -79,65 +97,59 @@ namespace _COBALT_
             return false;
         }
 
-        bool OnCtrl_keycode(in KeyCode ctrl_val)
+        void Shortcut_CtrlC()
         {
-            switch (ctrl_val)
+            Debug.Log("^C", this);
+            if (executor.TryKill())
             {
-                case KeyCode.C:
-                    Debug.Log("^C", this);
-                    if (executor.TryKill())
-                    {
-                        input_stdin.ResetText();
-                        flag_stdin.Update(true);
-                        hide_stdout.Update(false);
-                    }
-                    return true;
-
-                case KeyCode.S:
-                    executor.Executate(new(string.Empty, CMD_SIGNALS.SAVE, this, linter));
-                    return true;
-
-                case KeyCode.Backspace:
-                    if (input_stdin.input_field.caretPosition > 0)
-                        if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                        {
-                            string text = input_stdin.input_field.text;
-                            int caret = input_stdin.input_field.caretPosition;
-                            int erase_i = caret;
-
-                            if (text.EndsWith(Util_cobra.CHAR_NEWLINE))
-                            {
-                                if (Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_NEWLINE) > 1)
-                                    if (erase_i > 0)
-                                        ++erase_i;
-                            }
-                            else
-                            {
-                                Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
-                                Util_cobra.SkipCharactersUntil(text, ref erase_i, false, true, Util_cobra.CHAR_SPACE);
-                            }
-
-                            if (erase_i < caret)
-                            {
-                                if (erase_i > 0)
-                                {
-                                    input_stdin.input_field.text = text[..erase_i] + text[caret..];
-                                    input_stdin.input_field.caretPosition = erase_i;
-                                }
-                                else
-                                {
-                                    input_stdin.ResetText();
-                                    input_stdin.input_field.caretPosition = 0;
-                                }
-
-                                flag_stdin.Update(true);
-                            }
-                        }
-                    return true;
-
-                default:
-                    return false;
+                input_stdin.ResetText();
+                flag_stdin.Update(true);
+                hide_stdout.Update(false);
             }
+        }
+
+        void Shortcut_CtrlS()
+        {
+            executor.Executate(new(string.Empty, CMD_SIGNALS.SAVE, this, linter));
+        }
+
+        void Shortcut_CtrlBackspace()
+        {
+            if (input_stdin.input_field.caretPosition > 0)
+                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                {
+                    string text = input_stdin.input_field.text;
+                    int caret = input_stdin.input_field.caretPosition;
+                    int erase_i = caret;
+
+                    if (text.EndsWith(Util_cobra.CHAR_NEWLINE))
+                    {
+                        if (Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_NEWLINE) > 1)
+                            if (erase_i > 0)
+                                ++erase_i;
+                    }
+                    else
+                    {
+                        Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
+                        Util_cobra.SkipCharactersUntil(text, ref erase_i, false, true, Util_cobra.CHAR_SPACE);
+                    }
+
+                    if (erase_i < caret)
+                    {
+                        if (erase_i > 0)
+                        {
+                            input_stdin.input_field.text = text[..erase_i] + text[caret..];
+                            input_stdin.input_field.caretPosition = erase_i;
+                        }
+                        else
+                        {
+                            input_stdin.ResetText();
+                            input_stdin.input_field.caretPosition = 0;
+                        }
+
+                        flag_stdin.Update(true);
+                    }
+                }
         }
     }
 }
