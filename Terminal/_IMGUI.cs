@@ -110,7 +110,8 @@ namespace _COBALT_
 
         void Shortcut_CtrlS()
         {
-            executor.Executate(new(string.Empty, CMD_SIGNALS.SAVE, this, linter));
+            executor.Executate(new(string.Empty, CMD_SIGNALS.EXEC | CMD_SIGNALS.SAVE, this));
+            flag_stdout.Update(true);
         }
 
         void Shortcut_CtrlBackspace()

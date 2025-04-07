@@ -14,6 +14,7 @@ namespace _COBALT_
             flag_clampbottom = new();
 
         [SerializeField] Command.Line.Linter linter = new();
+        Command.Line.Linter ITerminal.Linter => linter;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -53,7 +54,7 @@ namespace _COBALT_
                 flag_progress.Update(true);
                 if (executor.routine.Current.state == CMD_STATES.BLOCKING)
                 {
-                    executor.Executate(Command.Line.EMPTY_EXE);
+                    executor.Executate(new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
                     if (executor.routine == null)
                         flag_stdin.Update(true);
                 }

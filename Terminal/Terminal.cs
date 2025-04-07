@@ -14,6 +14,7 @@ namespace _COBALT_
         public static Terminal instance;
 
         public Command.Executor executor;
+        Command.Executor ITerminal.RootExecutor => executor;
         void ITerminal.ToggleWindow(bool toggle) => isActive.Update(toggle);
 
         //--------------------------------------------------------------------------------------------------------------
@@ -63,8 +64,8 @@ namespace _COBALT_
                 action: exe => isActive.Update(false)
                 ));
 
-            executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE);
-            executor.Executate(Command.Line.EMPTY_EXE);
+            executor = new Command.Executor(null, new() { new("shell_root", Command.cmd_root_shell), }, new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
+            executor.Executate(new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
 
             IMGUI_global.instance.users_ongui.AddElement(OnOnGui, this);
 

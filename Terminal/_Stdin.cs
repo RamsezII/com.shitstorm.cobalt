@@ -43,7 +43,6 @@ namespace _COBALT_
                     stdin_frame >= tab_frame ? input_stdin.input_field.text : stdin_save,
                     signal,
                     this,
-                    linter,
                     input_stdin.input_field.caretPosition
                     );
 
@@ -94,9 +93,8 @@ namespace _COBALT_
                     {
                         Command.Line line = new(
                             stdin_save,
-                            CMD_SIGNALS.TAB,
+                            CMD_SIGNALS.CPL_TAB,
                             this,
-                            linter,
                             Mathf.Min(stdin_save.Length, charIndex),
                             cpl_index++
                             );
@@ -125,12 +123,12 @@ namespace _COBALT_
                                 Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
                             }
 
-                            Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.CHECK, this, linter);
+                            Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.CHECK, this);
                             executor.Executate(line);
 
                             if (executor.error == null)
                             {
-                                line = new(input_stdin.input_field.text, CMD_SIGNALS.EXEC, this, linter);
+                                line = new(input_stdin.input_field.text, CMD_SIGNALS.EXEC, this);
                                 bool noRoutine = executor.routine == null;
 
                                 executor.Executate(line);
