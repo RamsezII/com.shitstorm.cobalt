@@ -72,7 +72,7 @@ namespace _COBALT_
                 switch (executor.routine.Current.state)
                 {
                     case CMD_STATES.BLOCKING:
-                    case CMD_STATES.FULLSCREEN_r:
+                    case CMD_STATES.FULLSCREEN_readonly:
                         input_stdin.ResetText();
                         break;
                 }
@@ -81,6 +81,10 @@ namespace _COBALT_
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
             flag_stdin.Update(true);
+
+            if (executor.routine != null && executor.routine.Current.state == CMD_STATES.FULLSCREEN_write)
+                return addedChar;
+
             Command.Line.ResetHistoryCount();
             switch (addedChar)
             {
@@ -115,8 +119,11 @@ namespace _COBALT_
                     else
                         try
                         {
-                            string lint_text = linter.GetLint(executor, input_stdin.input_field.text);
-                            Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
+                            if (executor.routine == null || executor.routine.Current.state < CMD_STATES.FULLSCREEN_readonly)
+                            {
+                                string lint_text = linter.GetLint(executor, input_stdin.input_field.text);
+                                Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
+                            }
 
                             Command.Line line = new(input_stdin.input_field.text, CMD_SIGNALS.CHECK, this, linter);
                             executor.Executate(line);
@@ -130,6 +137,8 @@ namespace _COBALT_
 
                                 if (noRoutine && executor.error == null)
                                     Command.Line.AddToHistory(line.text);
+
+                                hide_stdout.Update(executor.routine != null && executor.routine.Current.state >= CMD_STATES.FULLSCREEN_readonly);
                             }
                         }
                         catch (Exception e)
@@ -140,47 +149,6 @@ namespace _COBALT_
                     return '\0';
             }
             return addedChar;
-        }
-
-        bool OnCtrl_keycode(in KeyCode ctrl_val)
-        {
-            switch (ctrl_val)
-            {
-                case KeyCode.Backspace:
-                    if (input_stdin.input_field.caretPosition > 0)
-                        if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                        {
-                            string text = input_stdin.input_field.text;
-                            int caret = input_stdin.input_field.caretPosition;
-                            int erase_i = caret;
-
-                            Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
-                            Util_cobra.SkipCharactersUntil(text, ref erase_i, false, true, Util_cobra.CHAR_SPACE);
-                            Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
-
-                            if (erase_i > 0)
-                            {
-                                ++erase_i;
-                                ++erase_i;
-                            }
-
-                            if (erase_i < caret)
-                            {
-                                input_stdin.input_field.text = text[..erase_i] + text[caret..];
-                                input_stdin.input_field.caretPosition = erase_i;
-                                flag_stdin.Update(true);
-                            }
-                        }
-                    return true;
-
-                case KeyCode.C:
-                    Debug.Log("^C", this);
-                    executor.TryKill();
-                    return true;
-
-                default:
-                    return false;
-            }
         }
 
         public void RefreshStdin()

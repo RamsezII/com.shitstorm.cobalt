@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using _UTIL_;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace _COBALT_
         [SerializeField, TextArea(1, 10)] string stdout;
 
         const byte max_lines = 250;
+
+        readonly OnValue<bool> hide_stdout = new();
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -32,17 +35,22 @@ namespace _COBALT_
 
         public void RefreshStdout()
         {
-            StringBuilder sb = new();
-            lock (lines)
+            if (hide_stdout.Value)
+                input_stdout.ResetText();
+            else
             {
-                foreach (object line in lines)
-                    sb.AppendLine(line.ToString());
+                StringBuilder sb = new();
+                lock (lines)
+                {
+                    foreach (object line in lines)
+                        sb.AppendLine(line.ToString());
+                }
+                stdout = sb.TroncatedForLog();
+
+                input_stdout.input_field.text = stdout;
             }
-            stdout = sb.TroncatedForLog();
 
-            input_stdout.input_field.text = stdout;
             input_stdout.AutoSize(true);
-
             flag_stdin.Update(true);
             flag_clampbottom.Update(true);
         }
