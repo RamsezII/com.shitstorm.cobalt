@@ -20,12 +20,6 @@ namespace _COBALT_
         {
             if (isActive._value)
             {
-                if (flag_escape.PullValue)
-                {
-                    isActive.Update(false);
-                    return;
-                }
-
                 if (inputs_hold.HasFlag(InputsFlags.Ctrl) && inputs_down.HasFlag(InputsFlags.L_key))
                     ClearStdout();
 

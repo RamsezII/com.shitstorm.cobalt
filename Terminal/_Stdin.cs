@@ -13,9 +13,6 @@ namespace _COBALT_
             flag_ctrl = new(),
             flag_nav_history = new();
 
-        public readonly OnValue<bool>
-            flag_escape = new();
-
         [SerializeField] string stdin_save;
         [SerializeField] int cpl_index;
         [SerializeField] int stdin_frame, tab_frame;

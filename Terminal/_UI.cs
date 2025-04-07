@@ -69,17 +69,6 @@ namespace _COBALT_
 
             input_stdin.input_field.onValidateInput = OnValidateStdin;
 
-            input_stdin.input_field.onSelect.AddListener(text =>
-            {
-                IMGUI_global.instance.users_keydown.RemoveElement(OnOnGui_shortcuts);
-                IMGUI_global.instance.users_keydown.AddElement(OnOnGui_shortcuts, this);
-            });
-
-            input_stdin.input_field.onDeselect.AddListener(text =>
-            {
-                IMGUI_global.instance.users_keydown.RemoveElement(OnOnGui_shortcuts);
-            });
-
             transform.Find("rT/header/buttons/close/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
             transform.Find("rT/header/buttons/hide/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
 
