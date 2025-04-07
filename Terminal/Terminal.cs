@@ -14,6 +14,7 @@ namespace _COBALT_
         public static Terminal instance;
 
         public Command.Executor executor;
+        void ITerminal.ToggleWindow(bool toggle) => isActive.Update(toggle);
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -47,14 +48,6 @@ namespace _COBALT_
 
             AwakeUI();
 
-            NUCLEOR.delegates.getInputs += () =>
-            {
-                lock (isActive)
-                    if (!isActive._value)
-                        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.T))
-                            isActive.Update(true);
-            };
-
             lock (onLog)
                 lock (pending_logs)
                 {
@@ -72,6 +65,8 @@ namespace _COBALT_
 
             executor = new(new() { new("shell_root", Command.cmd_root_shell), }, Command.Line.EMPTY_EXE);
             executor.Executate(Command.Line.EMPTY_EXE);
+
+            IMGUI_global.instance.users_keydown.AddElement(OnOnGui_toggle, this);
         }
 
         protected override void OnEnable()
@@ -84,8 +79,6 @@ namespace _COBALT_
             USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
             flag_stdout.Update(true);
-
-            ClearStdout();
 
             NUCLEOR.delegates.onEndOfFrame_once += () => EventSystem.current.SetSelectedGameObject(input_stdin.input_field.gameObject);
         }
@@ -104,9 +97,6 @@ namespace _COBALT_
         {
             base.Start();
             StartUI();
-
-            IMGUI_global.instance.users.RemoveElement(this);
-            IMGUI_global.instance.users.AddElement(this);
 
             NUCLEOR.delegates.getInputs += OnGetInputs;
             NUCLEOR.delegates.onPlayerInputs += OnUpdate;

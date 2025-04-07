@@ -1,20 +1,49 @@
-﻿using _SGUI_;
+﻿using _ARK_;
 using UnityEngine;
 
 namespace _COBALT_
 {
-    partial class Terminal : IMGUI_global.IUser
+    partial class Terminal
     {
-        void IMGUI_global.IUser.OnOnGUI()
-        {
-            Event e = Event.current;
-            if (e.type != EventType.KeyDown)
-                return;
+        bool opened_once;
 
+        //--------------------------------------------------------------------------------------------------------------
+
+        bool OnOnGui_toggle(Event e)
+        {
+            lock (isActive)
+                if (!isActive._value)
+                {
+                    bool toggle = false;
+
+                    if (!toggle)
+                        if (e.keyCode == KeyCode.P && USAGES.AreEmpty(UsageGroups.Typing))
+                            toggle = true;
+
+                    if (!toggle)
+                        if ((e.control || e.command || e.alt) && e.keyCode == KeyCode.T)
+                            toggle = true;
+
+                    if (toggle)
+                    {
+                        isActive.Update(true);
+                        if (!opened_once)
+                        {
+                            NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(1, ClearStdout));
+                            opened_once = true;
+                        }
+                        return true;
+                    }
+                }
+            return false;
+        }
+
+        bool OnOnGui_shortcuts(Event e)
+        {
             if (e.keyCode == KeyCode.Escape)
             {
                 flag_escape.Update(true);
-                e.Use();
+                return true;
             }
 
             if (e.alt)
@@ -24,18 +53,16 @@ namespace _COBALT_
                     case KeyCode.RightArrow:
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
-                        e.Use();
                         flag_alt.Update(e.keyCode);
-                        break;
+                        return true;
                 }
 
             if (e.control || e.command)
                 switch (e.keyCode)
                 {
                     case KeyCode.Backspace:
-                        e.Use();
                         flag_ctrl.Update(e.keyCode);
-                        break;
+                        return true;
                 }
 
             if (!e.alt && !e.control && !e.command)
@@ -43,10 +70,12 @@ namespace _COBALT_
                 {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
-                        e.Use();
                         flag_nav_history.Update(e.keyCode);
-                        break;
+                        e.Use();
+                        return true;
                 }
+
+            return false;
         }
     }
 }
