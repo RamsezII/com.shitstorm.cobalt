@@ -36,9 +36,6 @@ namespace _COBALT_
                         else
                             scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + mouse_scroll * 0.1f);
 
-                if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
-                    OnCtrl_keycode(ctrl_val);
-
                 if (flag_alt.Value != default)
                     OnAltKey();
 
@@ -96,6 +93,8 @@ namespace _COBALT_
                 int count = (int)(Mathf.Clamp01(progress) * bar_count);
 
                 input_realtime.input_field.text = $"{new string('▓', count)}{new string('░', bar_count - count)} {Mathf.RoundToInt(100 * progress),3}%";
+
+                flag_progress.Update(true);
             }
             input_realtime.AutoSize(true);
             rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);

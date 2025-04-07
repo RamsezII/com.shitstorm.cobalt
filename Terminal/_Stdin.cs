@@ -10,7 +10,6 @@ namespace _COBALT_
     {
         public readonly OnValue<KeyCode>
             flag_alt = new(),
-            flag_ctrl = new(),
             flag_nav_history = new();
 
         [SerializeField] string stdin_save;
@@ -111,7 +110,7 @@ namespace _COBALT_
                 case '\n':
                     cpl_index = 0;
                     stdin_save = null;
-                    if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
+                    if (executor.routine == null && string.IsNullOrWhiteSpace(input_stdin.input_field.text))
                         isActive.Update(false);
                     else
                         try
@@ -143,7 +142,7 @@ namespace _COBALT_
             return addedChar;
         }
 
-        void OnCtrl_keycode(in KeyCode ctrl_val)
+        bool OnCtrl_keycode(in KeyCode ctrl_val)
         {
             switch (ctrl_val)
             {
@@ -172,7 +171,15 @@ namespace _COBALT_
                                 flag_stdin.Update(true);
                             }
                         }
-                    break;
+                    return true;
+
+                case KeyCode.C:
+                    Debug.Log("^C", this);
+                    executor.TryKill();
+                    return true;
+
+                default:
+                    return false;
             }
         }
 

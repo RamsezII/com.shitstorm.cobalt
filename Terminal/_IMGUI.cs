@@ -57,12 +57,8 @@ namespace _COBALT_
                     }
 
                 if (e.control || e.command)
-                    switch (e.keyCode)
-                    {
-                        case KeyCode.Backspace:
-                            flag_ctrl.Update(e.keyCode);
-                            return true;
-                    }
+                    if (OnCtrl_keycode(e.keyCode))
+                        return true;
 
                 if (!e.alt && !e.control && !e.command)
                     switch (e.keyCode)
