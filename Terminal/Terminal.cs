@@ -101,6 +101,7 @@ namespace _COBALT_
             NUCLEOR.delegates.getInputs += OnGetInputs;
             NUCLEOR.delegates.onPlayerInputs += OnUpdate;
 
+            fullscreen.AddListener(value => flag_stdout.Update(true));
         }
 
         //--------------------------------------------------------------------------------------------------------------

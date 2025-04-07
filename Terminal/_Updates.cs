@@ -1,7 +1,5 @@
-﻿using _ARK_;
-using _COBRA_;
+﻿using _COBRA_;
 using _UTIL_;
-using System.Text;
 using UnityEngine;
 
 namespace _COBALT_
@@ -36,35 +34,7 @@ namespace _COBALT_
                         scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + scroll_y * 0.1f);
 
                 if (flag_ctrl.TryPullValue(out KeyCode ctrl_val))
-                    switch (ctrl_val)
-                    {
-                        case KeyCode.Backspace:
-                            if (input_stdin.input_field.caretPosition > 0)
-                                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                                {
-                                    string text = input_stdin.input_field.text;
-                                    int caret = input_stdin.input_field.caretPosition;
-                                    int erase_i = caret;
-
-                                    Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
-                                    Util_cobra.SkipCharactersUntil(text, ref erase_i, false, true, Util_cobra.CHAR_SPACE);
-                                    Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
-
-                                    if (erase_i > 0)
-                                    {
-                                        ++erase_i;
-                                        ++erase_i;
-                                    }
-
-                                    if (erase_i < caret)
-                                    {
-                                        input_stdin.input_field.text = text[..erase_i] + text[caret..];
-                                        input_stdin.input_field.caretPosition = erase_i;
-                                        flag_stdin.Update(true);
-                                    }
-                                }
-                            break;
-                    }
+                    OnCtrl_keycode(ctrl_val);
 
                 if (flag_alt.Value != default)
                     OnAltKey();
@@ -104,7 +74,7 @@ namespace _COBALT_
                 RefreshStdin();
 
             if (flag_clampbottom.PullValue)
-                NUCLEOR.delegates.onEndOfFrame_once += ClampBottom;
+                ClampBottom();
         }
 
         void RefreshProgressBars()
@@ -128,61 +98,16 @@ namespace _COBALT_
             rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);
         }
 
-        public void RefreshStdout()
+        void ClampBottom()
         {
-            StringBuilder sb = new();
-            lock (lines)
-            {
-                foreach (object line in lines)
-                    sb.AppendLine(line.ToString());
-            }
-            stdout = sb.TroncatedForLog();
+            float new_height = Mathf.InverseLerp(
+                -scrollview.content.rect.height,
+                -scrollview.viewport.rect.height,
+                -input_stdout.text_height - Mathf.Max(line_height, input_stdin.text_height) - 2 * line_height
+                );
 
-            input_stdout.input_field.text = stdout;
-            input_stdout.AutoSize(true);
-
-            RefreshStdin();
-            flag_clampbottom.Update(true);
-        }
-
-        public void RefreshStdin()
-        {
-            bool no_stdin = false;
-            if (executor.routine == null)
-                input_prefixe.input_field.text = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{executor.cmd_path.SetColor("#73B2D9")}$";
-            else if (executor.routine.Current.state == CMD_STATES.WAIT_FOR_STDIN)
-                input_prefixe.input_field.text = executor.routine.Current.prefixe;
-            else
-            {
-                no_stdin = true;
-                input_prefixe.ResetText();
-            }
-
-            Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(input_prefixe.input_field.text + "_", scrollview.content.rect.width, float.PositiveInfinity);
-            line_height = prefered_dims.y;
-
-            if (string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
-                prefered_dims.x = 0;
-
-            input_stdin.rT.sizeDelta = new(-prefered_dims.x, 0);
-
-            input_prefixe.AutoSize(false);
-            input_stdin.AutoSize(false);
-
-            linter_tmp.text = linter.GetLint(executor, input_stdin.input_field.text);
-
-            if (no_stdin)
-            {
-                rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, scrollview.viewport.rect.height);
-                scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + scrollview.viewport.rect.height - line_height);
-            }
-            else
-            {
-                float stdin_height = Mathf.Max(input_stdin.text_height, scrollview.viewport.rect.height);
-
-                rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, stdin_height);
-                scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + stdin_height);
-            }
+            if (new_height < scrollview.verticalNormalizedPosition)
+                scrollview.verticalNormalizedPosition = new_height;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace _COBALT_
@@ -27,6 +28,23 @@ namespace _COBALT_
         public void ClearStdout()
         {
             scrollview.verticalNormalizedPosition = 0;
+        }
+
+        public void RefreshStdout()
+        {
+            StringBuilder sb = new();
+            lock (lines)
+            {
+                foreach (object line in lines)
+                    sb.AppendLine(line.ToString());
+            }
+            stdout = sb.TroncatedForLog();
+
+            input_stdout.input_field.text = stdout;
+            input_stdout.AutoSize(true);
+
+            flag_stdin.Update(true);
+            flag_clampbottom.Update(true);
         }
     }
 }
