@@ -9,7 +9,7 @@ namespace _COBALT_
 #if UNITY_EDITOR
     [UnityEditor.InitializeOnLoad]
 #endif
-    public partial class Terminal : SguiWindow
+    public partial class Terminal : SguiWindow, ITerminal
     {
         public static Terminal instance;
 
