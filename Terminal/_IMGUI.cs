@@ -99,8 +99,9 @@ namespace _COBALT_
 
         void Shortcut_CtrlC()
         {
-            if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
-                Debug.Log(input_prefixe.input_field.text, this);
+            if (executor.routine != null)
+                if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
+                    Debug.Log(input_prefixe.input_field.text, this);
             Debug.Log("^C", this);
 
             if (executor.TryKill())
