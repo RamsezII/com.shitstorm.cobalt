@@ -51,13 +51,11 @@ namespace _COBALT_
 
             if (executor.routine != null)
             {
-                flag_progress.Update(true);
                 if (executor.routine.Current.state == CMD_STATES.BLOCKING)
-                {
                     executor.Executate(new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
-                    if (executor.routine == null)
-                        flag_stdin.Update(true);
-                }
+
+                flag_progress.Update(true);
+                flag_stdin.Update(true);
             }
         }
 

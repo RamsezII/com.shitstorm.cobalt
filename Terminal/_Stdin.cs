@@ -81,8 +81,14 @@ namespace _COBALT_
         {
             flag_stdin.Update(true);
 
-            if (executor.routine != null && executor.routine.Current.state == CMD_STATES.FULLSCREEN_write)
-                return addedChar;
+            if (executor.routine != null)
+                switch (executor.routine.Current.state)
+                {
+                    case CMD_STATES.BLOCKING:
+                        return '\0';
+                    case CMD_STATES.FULLSCREEN_write:
+                        return addedChar;
+                }
 
             Command.Line.ResetHistoryCount();
             switch (addedChar)
@@ -151,15 +157,25 @@ namespace _COBALT_
 
         public void RefreshStdin()
         {
-            bool no_stdin = false;
             if (executor.routine == null)
-                input_prefixe.input_field.text = $"{MachineSettings.machine_name.Value.SetColor("#73CC26")}:{executor.cmd_path.SetColor("#73B2D9")}$";
-            else if (executor.routine.Current.state == CMD_STATES.WAIT_FOR_STDIN)
+                input_prefixe.input_field.text = executor.GetPrefixe();
+            else
                 input_prefixe.input_field.text = executor.routine.Current.prefixe;
+
+            if (executor.routine == null)
+                input_stdin.input_field.interactable = true;
             else
             {
-                no_stdin = true;
-                input_prefixe.ResetText();
+                input_stdin.input_field.interactable = executor.routine.Current.state switch
+                {
+                    CMD_STATES.BLOCKING => false,
+                    CMD_STATES.FULLSCREEN_readonly => false,
+                    CMD_STATES.FULLSCREEN_write => true,
+                    CMD_STATES.WAIT_FOR_STDIN => true,
+                    _ => true,
+                };
+                if (input_stdin.input_field.IsInteractable())
+                    input_stdin.input_field.Select();
             }
 
             Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(input_prefixe.input_field.text + "_", scrollview.content.rect.width, float.PositiveInfinity);
@@ -175,7 +191,7 @@ namespace _COBALT_
 
             linter_tmp.text = linter.GetLint(executor, input_stdin.input_field.text);
 
-            if (no_stdin)
+            if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
             {
                 rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, scrollview.viewport.rect.height);
                 scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + scrollview.viewport.rect.height - line_height);
