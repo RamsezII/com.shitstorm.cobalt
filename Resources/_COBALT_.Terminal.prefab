@@ -1227,6 +1227,7 @@ MonoBehaviour:
   raycaster: {fileID: 0}
   tmp_title: {fileID: 0}
   body_background: {fileID: 0}
+  rT: {fileID: 0}
   button_hide: {fileID: 0}
   button_fullscreen: {fileID: 0}
   button_close: {fileID: 0}
@@ -1237,7 +1238,7 @@ MonoBehaviour:
   inputs_hold: 0
   inputs_down: 0
   inputs_up: 0
-  scroll_y: 0
+  mouse_scroll: 0
   stdin_save: 
   cpl_index: 0
   stdin_frame: 0
@@ -1268,6 +1269,10 @@ MonoBehaviour:
     variable: {r: 1, g: 0.96911764, b: 0.65, a: 1}
     value: {r: 0.7916667, g: 1, b: 0.5, a: 1}
     type: {r: 0.9737507, g: 0.740566, b: 1, a: 1}
+    directory: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    file: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    bundle: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    asset: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     error: {r: 0.95, g: 0.92704165, b: 0.9025, a: 1}
 --- !u!224 &7496193123802770289 stripped
 RectTransform:
