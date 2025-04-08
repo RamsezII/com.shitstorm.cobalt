@@ -43,6 +43,8 @@ namespace _COBALT_
 
         protected override void Awake()
         {
+            instance = this;
+
             base.Awake();
 
             tmp_title.SetTrad(typeof(Terminal).Name);
