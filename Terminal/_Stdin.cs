@@ -162,23 +162,20 @@ namespace _COBALT_
             else
                 input_prefixe.input_field.text = executor.routine.Current.prefixe;
 
+            bool was_interactable = input_stdin.input_field.interactable;
+
             if (executor.routine == null)
                 input_stdin.input_field.interactable = true;
             else
-            {
-                bool old_value = input_stdin.input_field.interactable;
-
                 input_stdin.input_field.interactable = executor.routine.Current.state switch
                 {
                     CMD_STATES.BLOCKING => false,
                     CMD_STATES.FULLSCREEN_readonly => false,
-                    CMD_STATES.FULLSCREEN_write => true,
-                    CMD_STATES.WAIT_FOR_STDIN => true,
                     _ => true,
                 };
-                if (!old_value && input_stdin.input_field.interactable)
-                    input_stdin.input_field.Select();
-            }
+
+            if (!was_interactable && input_stdin.input_field.interactable)
+                input_stdin.input_field.Select();
 
             Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(input_prefixe.input_field.text + "_", scrollview.content.rect.width, float.PositiveInfinity);
             line_height = prefered_dims.y;

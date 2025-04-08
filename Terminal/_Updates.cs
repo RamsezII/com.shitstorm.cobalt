@@ -55,7 +55,9 @@ namespace _COBALT_
                     executor.Executate(new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
 
                 flag_progress.Update(true);
-                flag_stdin.Update(true);
+
+                if (executor.routine == null)
+                    flag_stdout.Update(true);
             }
         }
 
