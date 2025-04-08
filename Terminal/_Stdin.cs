@@ -166,6 +166,8 @@ namespace _COBALT_
                 input_stdin.input_field.interactable = true;
             else
             {
+                bool old_value = input_stdin.input_field.interactable;
+
                 input_stdin.input_field.interactable = executor.routine.Current.state switch
                 {
                     CMD_STATES.BLOCKING => false,
@@ -174,7 +176,7 @@ namespace _COBALT_
                     CMD_STATES.WAIT_FOR_STDIN => true,
                     _ => true,
                 };
-                if (input_stdin.input_field.IsInteractable())
+                if (!old_value && input_stdin.input_field.interactable)
                     input_stdin.input_field.Select();
             }
 
