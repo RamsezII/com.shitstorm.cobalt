@@ -37,10 +37,9 @@ namespace _COBALT_
 
             static IEnumerator<CMD_STATUS> EShowDialog(Command.Executor exe)
             {
-                SguiDialog dialog = null;
                 try
                 {
-                    dialog = SguiDialog.ShowDialog(out var routine);
+                    SguiDialog dialog = SguiDialog.ShowDialog(out var routine);
 
                     while (routine.MoveNext())
                         yield return new CMD_STATUS(CMD_STATES.BLOCKING);
@@ -49,8 +48,6 @@ namespace _COBALT_
                 }
                 finally
                 {
-                    if (dialog != null)
-                        Object.Destroy(dialog.gameObject);
                 }
             }
         }
