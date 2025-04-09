@@ -1,5 +1,6 @@
 ﻿using _COBRA_;
 using _SGUI_;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,14 @@ namespace _COBALT_
 {
     internal static class CmdUI
     {
+        enum DialogsOptions : byte
+        {
+            Title,
+            Text,
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
@@ -20,17 +29,37 @@ namespace _COBALT_
                     else if (EventSystem.current.currentSelectedGameObject == null)
                         exe.error = "no selected object";
                     else
-                        exe.Stdout($"\"{EventSystem.current.currentSelectedGameObject.name}\" ({EventSystem.current.currentSelectedGameObject.transform.GetPath(true)})");
+                        exe.Stdout(EventSystem.current.currentSelectedGameObject.transform.GetPath(true));
                 }
                 ));
 
-            Command cmd_sgui = Command.cmd_root_shell.AddCommand(new("sgui"));
+            Init_ShowDialog();
+        }
 
-            cmd_sgui.AddCommand(new(
+        static void Init_ShowDialog()
+        {
+            Command.cmd_root_shell.AddCommand(new(
                 "show-dialog",
                 args: static exe =>
                 {
+                    Dictionary<string, Action<string>> onOptions = null;
+                    onOptions = new(StringComparer.InvariantCultureIgnoreCase)
+                    {
+                        {
+                            "--text",
+                            opt =>
+                            {
+                                exe.args.Add(opt);
+                                if (exe.line.TryReadArgument(out string arg))
+                                    exe.args.Add(arg);
+                                else
+                                    exe.error = $"argument manquant pour l'option '{opt}'";
+                            }
+                        },
+                    };
 
+                    if (exe.line.TryReadOptions(exe, onOptions))
+                        ;
                 },
                 routine: EShowDialog
                 ));

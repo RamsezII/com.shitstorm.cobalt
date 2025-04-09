@@ -125,26 +125,14 @@ namespace _COBALT_
                 {
                     string text = input_stdin.input_field.text;
                     int caret = input_stdin.input_field.caretPosition;
-                    int erase_i = caret;
+                    int read_i = caret;
 
-                    if (text.EndsWith(Util_cobra.CHAR_NEWLINE))
+                    if (text.GroupedErase(ref read_i) > 0)
                     {
-                        if (Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_NEWLINE) > 1)
-                            if (erase_i > 0)
-                                ++erase_i;
-                    }
-                    else
-                    {
-                        Util_cobra.SkipCharactersUntil(text, ref erase_i, false, false, Util_cobra.CHAR_SPACE);
-                        Util_cobra.SkipCharactersUntil(text, ref erase_i, false, true, Util_cobra.CHAR_SPACE);
-                    }
-
-                    if (erase_i < caret)
-                    {
-                        if (erase_i > 0)
+                        if (read_i > 0)
                         {
-                            input_stdin.input_field.text = text[..erase_i] + text[caret..];
-                            input_stdin.input_field.caretPosition = erase_i;
+                            input_stdin.input_field.text = text[..read_i] + text[caret..];
+                            input_stdin.input_field.caretPosition = read_i;
                         }
                         else
                         {
