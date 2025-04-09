@@ -22,15 +22,17 @@ namespace _COBALT_
         {
             CMD_SIGNALS signal = flag_alt.PullValue switch
             {
-                KeyCode.LeftArrow => CMD_SIGNALS.ALT_LEFT,
-                KeyCode.RightArrow => CMD_SIGNALS.ALT_RIGHT,
-                KeyCode.UpArrow => CMD_SIGNALS.ALT_UP,
-                KeyCode.DownArrow => CMD_SIGNALS.ALT_DOWN,
+                KeyCode.LeftArrow => CMD_SIGNALS.LEFT,
+                KeyCode.RightArrow => CMD_SIGNALS.RIGHT,
+                KeyCode.UpArrow => CMD_SIGNALS.UP,
+                KeyCode.DownArrow => CMD_SIGNALS.DOWN,
                 _ => 0,
             };
 
             if (signal == 0)
                 return;
+
+            signal |= CMD_SIGNALS.CPL_ALT;
 
             flag_stdin.Update(true);
 
