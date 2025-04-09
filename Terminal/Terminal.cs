@@ -47,8 +47,6 @@ namespace _COBALT_
 
             base.Awake();
 
-            tmp_title.SetTrad(typeof(Terminal).Name);
-
             AwakeUI();
 
             lock (onLog)

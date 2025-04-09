@@ -36,6 +36,8 @@ namespace _COBALT_
 
         void AwakeUI()
         {
+            tmp_title.SetTrad(typeof(Terminal).Name);
+
             rT_body = (RectTransform)transform.Find("rT/body");
             rT_scrollview = (RectTransform)rT_body.Find("scroll_view");
             scrollview = rT_scrollview.GetComponent<ScrollRect>();
@@ -75,9 +77,6 @@ namespace _COBALT_
 
             input_stdin.input_field.onValidateInput = OnValidateStdin;
 
-            transform.Find("rT/header/buttons/close/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
-            transform.Find("rT/header/buttons/hide/button").GetComponent<Button>().onClick.AddListener(() => isActive.Update(false));
-
             MachineSettings.machine_name.AddListener(value => flag_stdin.Update(true));
 
             font_size.AddProcessor(value => Mathf.Clamp(value, .5f, 2));
@@ -94,6 +93,9 @@ namespace _COBALT_
 
                 flag_stdout.Update(true);
             });
+
+            button_close.onClick.AddListener(() => isActive.Update(false));
+            button_hide.onClick.AddListener(() => isActive.Update(false));
         }
 
         //--------------------------------------------------------------------------------------------------------------
