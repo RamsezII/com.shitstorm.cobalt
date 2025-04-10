@@ -13,8 +13,9 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            Command.cmd_root_shell.AddCommand(new("event-system")).AddCommand(new(
+            Shell.static_domain.AddDomain(new("event-system")).AddAction(
                 "show-selected",
+                args: null,
                 action: static exe =>
                 {
                     if (EventSystem.current == null)
@@ -23,8 +24,7 @@ namespace _COBALT_
                         exe.error = "no selected object";
                     else
                         exe.Stdout(EventSystem.current.currentSelectedGameObject.transform.GetPath(true));
-                }
-                ));
+                });
 
             Init_ShowDialog();
         }
@@ -37,7 +37,7 @@ namespace _COBALT_
                 opt_ok_button = "--ok-button",
                 opt_cancel_button = "--cancel-button";
 
-            Command.cmd_root_shell.AddCommand(new(
+            Shell.static_domain.AddRoutine(
                 "show-dialog",
                 args: static exe =>
                 {
@@ -94,10 +94,10 @@ namespace _COBALT_
                     };
 
                     if (!exe.line.TryReadOptions(exe, onOptions))
-                        exe.error = $"'{exe.cmd_name}' problem reading option ({nameof(exe.line.arg_last)}: '{exe.line.arg_last}')";
+                        exe.error = $"'{exe.command.name}' problem reading option ({nameof(exe.line.arg_last)}: '{exe.line.arg_last}')";
                 },
                 routine: EShowDialog
-                ));
+                );
 
             static IEnumerator<CMD_STATUS> EShowDialog(Command.Executor exe)
             {

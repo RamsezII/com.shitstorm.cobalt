@@ -1,6 +1,7 @@
 using _ARK_;
 using _COBRA_;
 using _SGUI_;
+using _UTIL_;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,9 +14,17 @@ namespace _COBALT_
     {
         public static Terminal instance;
 
-        public Command.Executor executor;
-        Command.Executor ITerminal.RootExecutor => executor;
+        public Shell shell;
+        Shell ITerminal.GetShell => shell;
         void ITerminal.ToggleWindow(bool toggle) => isActive.Update(toggle);
+
+        public readonly OnValue<KeyCode>
+            flag_alt = new(),
+            flag_nav_history = new();
+
+        [SerializeField] string stdin_save;
+        [SerializeField] int cpl_index;
+        [SerializeField] int stdin_frame, tab_frame;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -58,15 +67,6 @@ namespace _COBALT_
                     onLog._value = AddLine_log;
                 }
 
-            Command.cmd_root_shell.AddCommand(new(
-                "exit",
-                manual: new("guess what"),
-                action: exe => isActive.Update(false)
-                ));
-
-            executor = new Command.Executor(null, new() { new("shell_root", Command.cmd_root_shell), }, new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
-            executor.Executate(new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
-
             IMGUI_global.instance.users_ongui.AddElement(OnOnGui, this);
 
             hide_stdout.AddListener(toggle => flag_stdout.Update(true));
@@ -106,6 +106,8 @@ namespace _COBALT_
             NUCLEOR.delegates.onPlayerInputs += OnUpdate;
 
             fullscreen.AddListener(value => flag_stdout.Update(true));
+
+            shell = Util.InstantiateOrCreate<Shell>(transform);
         }
 
         //--------------------------------------------------------------------------------------------------------------

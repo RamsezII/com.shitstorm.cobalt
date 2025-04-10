@@ -5,26 +5,24 @@ namespace _COBALT_
 {
     static class CobaltExtras
     {
-        static Command extras;
-
-        //--------------------------------------------------------------------------------------------------------------
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            extras = Command.cmd_root_shell.AddCommand(new("useful"), "useless");
+            Command extras = Shell.static_domain.AddDomain(new("useful"), aliases: "useless");
 
-            extras.AddCommand(new(
+            extras.AddAction(
                 "deez",
                 manual: new("HA!"),
+                args: null,
                 action: exe => exe.Stdout("nuts!")
-                ));
+                );
 
-            extras.AddCommand(new(
+            extras.AddAction(
                 "lezduit",
                 manual: new("aherm.. whahh?"),
+                args: null,
                 action: exe => exe.Stdout("brah")
-                ));
+                );
         }
     }
 }

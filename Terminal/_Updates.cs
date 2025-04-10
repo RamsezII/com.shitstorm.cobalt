@@ -14,7 +14,7 @@ namespace _COBALT_
             flag_clampbottom = new();
 
         [SerializeField] Command.Line.Linter linter = new();
-        Command.Line.Linter ITerminal.Linter => linter;
+        Command.Line.Linter ITerminal.GetLinter => linter;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -49,15 +49,15 @@ namespace _COBALT_
                 }
             }
 
-            if (executor.routine != null)
+            switch (shell.CurrentStatus.state)
             {
-                if (executor.routine.Current.state == CMD_STATES.BLOCKING)
-                    executor.Executate(new Command.Line(string.Empty, CMD_SIGNALS.EXEC, this));
-
-                flag_progress.Update(true);
-
-                if (executor.routine == null)
-                    flag_stdout.Update(true);
+                case CMD_STATES.BLOCKING:
+                case CMD_STATES.FULLSCREEN_readonly:
+                    shell.PropagateLine(new(string.Empty, SIGNAL_FLAGS.TICK, this));
+                    flag_progress.Update(true);
+                    if (shell.IsIdle)
+                        flag_stdout.Update(true);
+                    break;
             }
         }
 
@@ -80,15 +80,14 @@ namespace _COBALT_
 
         void RefreshProgressBars()
         {
-            if (executor.routine == null || executor.routine.Current.state != CMD_STATES.BLOCKING)
-                input_realtime.ResetText();
-            else
+            CMD_STATUS status = shell.CurrentStatus;
+            if (status.state == CMD_STATES.BLOCKING)
             {
                 float body_width = rT_body.rect.width;
                 float char_width = input_realtime.input_field.textComponent.GetPreferredValues("_", body_width, float.PositiveInfinity).x;
                 int max_chars = (int)(body_width / char_width);
 
-                float progress = executor.routine.Current.progress;
+                float progress = status.progress;
 
                 int bar_count = max_chars - 5;
                 int count = (int)(Mathf.Clamp01(progress) * bar_count);
@@ -97,6 +96,8 @@ namespace _COBALT_
 
                 flag_progress.Update(true);
             }
+            else
+                input_realtime.ResetText();
             input_realtime.AutoSize(true);
             rT_scrollview.sizeDelta = new Vector2(0, -input_realtime.text_height);
         }

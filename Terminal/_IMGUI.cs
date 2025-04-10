@@ -82,16 +82,17 @@ namespace _COBALT_
                             return true;
                     }
 
-                if (executor.routine == null)
-                    if (!e.alt && !e.control && !e.command)
-                        switch (e.keyCode)
+                switch (e.keyCode)
+                {
+                    case KeyCode.UpArrow:
+                    case KeyCode.DownArrow:
+                        if (!e.alt && !e.control && !e.command)
                         {
-                            case KeyCode.UpArrow:
-                            case KeyCode.DownArrow:
-                                flag_nav_history.Update(e.keyCode);
-                                e.Use();
-                                return true;
+                            flag_nav_history.Update(e.keyCode);
+                            return true;
                         }
+                        break;
+                }
             }
 
             return false;
@@ -99,12 +100,14 @@ namespace _COBALT_
 
         void Shortcut_CtrlC()
         {
-            if (executor.routine != null)
-                if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
-                    Debug.Log(input_prefixe.input_field.text, this);
+            if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
+                Debug.Log(input_prefixe.input_field.text, this);
             Debug.Log("^C", this);
 
-            if (executor.TryKill())
+            Command.Line line = Command.Line.KILL;
+            shell.PropagateLine(line);
+
+            if (line.data.status == CMDLINE_STATUS.OK)
             {
                 input_stdin.ResetText();
                 flag_stdin.Update(true);
@@ -114,8 +117,8 @@ namespace _COBALT_
 
         void Shortcut_CtrlS()
         {
-            executor.Executate(new(string.Empty, CMD_SIGNALS.EXEC | CMD_SIGNALS.SAVE, this));
-            flag_stdout.Update(true);
+            Command.Line line = Command.Line.SAVE;
+            shell.PropagateLine(line);
         }
 
         void Shortcut_CtrlBackspace()
