@@ -36,7 +36,7 @@ namespace _COBALT_
 
         void AwakeUI()
         {
-            tmp_title.SetTrad(typeof(Terminal).Name);
+            trad_title.SetTrad(typeof(Terminal).Name);
 
             rT_body = (RectTransform)transform.Find("rT/body");
             rT_scrollview = (RectTransform)rT_body.Find("scroll_view");

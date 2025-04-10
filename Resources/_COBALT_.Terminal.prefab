@@ -1225,7 +1225,7 @@ MonoBehaviour:
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
-  tmp_title: {fileID: 0}
+  trad_title: {fileID: 0}
   body_background: {fileID: 0}
   rT: {fileID: 0}
   button_hide: {fileID: 0}
@@ -1263,6 +1263,7 @@ MonoBehaviour:
     command: {r: 0.5, g: 0.7522936, b: 1, a: 1}
     argument: {r: 0.78375, g: 0.95, b: 0.6175, a: 1}
     option: {r: 1, g: 0.65, b: 0.88333327, a: 1}
+    option_value: {r: 0.73299176, g: 0.5801887, b: 1, a: 1}
     pipe: {r: 1, g: 0.72941184, b: 0.34901965, a: 1}
     chain: {r: 128, g: 128, b: 0, a: 1}
     background: {r: 1, g: 0.4223638, b: 0.2688679, a: 1}
