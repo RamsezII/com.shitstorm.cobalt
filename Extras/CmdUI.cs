@@ -58,8 +58,8 @@ namespace _COBALT_
                         },
                     };
 
-                    if (exe.line.TryReadOptions(exe, onOptions))
-                        ;
+                    if (!exe.line.TryReadOptions(exe, onOptions))
+                        exe.error = $"'{exe.cmd_name}' problem reading option ({nameof(exe.line.arg_last)}: '{exe.line.arg_last}')";
                 },
                 routine: EShowDialog
                 ));
