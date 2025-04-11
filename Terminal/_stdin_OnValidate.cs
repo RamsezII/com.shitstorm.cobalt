@@ -14,6 +14,7 @@ namespace _COBALT_
             switch (shell.current_status.state)
             {
                 case CMD_STATES.BLOCKING:
+                case CMD_STATES.FULLSCREEN_readonly:
                     return '\0';
 
                 case CMD_STATES.FULLSCREEN_write:

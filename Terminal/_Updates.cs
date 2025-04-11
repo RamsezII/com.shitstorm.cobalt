@@ -58,7 +58,17 @@ namespace _COBALT_
             }
 
             if (shell.state_changed)
+            {
                 flag_stdout.Update(true);
+
+                switch (shell.current_status.state)
+                {
+                    case CMD_STATES.BLOCKING:
+                    case CMD_STATES.FULLSCREEN_readonly:
+                        input_stdin.ResetText();
+                        break;
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------------------------------------

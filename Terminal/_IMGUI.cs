@@ -69,10 +69,6 @@ namespace _COBALT_
                 if (e.control || e.command)
                     switch (e.keyCode)
                     {
-                        case KeyCode.C:
-                            Shortcut_CtrlC();
-                            return true;
-
                         case KeyCode.S:
                             Shortcut_CtrlS();
                             return true;
@@ -98,26 +94,6 @@ namespace _COBALT_
             return false;
         }
 
-        void Shortcut_CtrlC()
-        {
-            if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
-                Debug.Log(input_prefixe.input_field.text, this);
-            Debug.Log("^C", this);
-
-            Command.Line line = new(string.Empty, SIGNALS.KILL, this);
-            shell.PropagateLine(line);
-
-            if (line.data.status == CMDLINE_STATUS.CONFIRM)
-            {
-                input_stdin.ResetText();
-                flag_stdin.Update(true);
-                hide_stdout.Update(false);
-                Debug.Log($"{shell} {line.signal} signal confirmed. {line.data}".ToSubLog());
-            }
-            else
-                Debug.LogWarning($"{shell} {line.signal} signal not confirmed. {line.data}");
-        }
-
         void Shortcut_CtrlS()
         {
             Command.Line line = new(string.Empty, SIGNALS.SAVE, this);
@@ -126,29 +102,61 @@ namespace _COBALT_
 
         void Shortcut_CtrlBackspace()
         {
-            if (input_stdin.input_field.caretPosition > 0)
-                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                {
-                    string text = input_stdin.input_field.text;
-                    int caret = input_stdin.input_field.caretPosition;
-                    int read_i = caret;
-
-                    if (text.GroupedErase(ref read_i) > 0)
+            switch (shell.current_status.state)
+            {
+                case CMD_STATES.BLOCKING:
+                case CMD_STATES.FULLSCREEN_readonly:
                     {
-                        if (read_i > 0)
-                        {
-                            input_stdin.input_field.text = text[..read_i] + text[caret..];
-                            input_stdin.input_field.caretPosition = read_i;
-                        }
-                        else
+                        if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
+                            Debug.Log(input_prefixe.input_field.text, this);
+                        Debug.Log("^C", this);
+
+                        Command.Line line = new(string.Empty, SIGNALS.KILL, this);
+                        shell.PropagateLine(line);
+
+                        if (line.data.status == CMDLINE_STATUS.CONFIRM)
                         {
                             input_stdin.ResetText();
-                            input_stdin.input_field.caretPosition = 0;
+                            flag_stdin.Update(true);
+                            hide_stdout.Update(false);
+                            Debug.Log($"{shell} {line.signal} signal confirmed. {line.data}".ToSubLog());
                         }
-
-                        flag_stdin.Update(true);
+                        else
+                            Debug.LogWarning($"{shell} {line.signal} signal not confirmed. {line.data}");
                     }
-                }
+                    break;
+
+                case CMD_STATES.WAIT_FOR_STDIN:
+                case CMD_STATES.FULLSCREEN_write:
+                    if (input_stdin.input_field.caretPosition > 0)
+                        if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                        {
+                            string text = input_stdin.input_field.text;
+                            int caret = input_stdin.input_field.caretPosition;
+                            int read_i = caret;
+
+                            if (text.GroupedErase(ref read_i) > 0)
+                            {
+                                if (read_i > 0)
+                                {
+                                    input_stdin.input_field.text = text[..read_i] + text[caret..];
+                                    input_stdin.input_field.caretPosition = read_i;
+                                }
+                                else
+                                {
+                                    input_stdin.ResetText();
+                                    input_stdin.input_field.caretPosition = 0;
+                                }
+
+                                flag_stdin.Update(true);
+                            }
+                        }
+                    break;
+
+                default:
+                    Debug.LogWarning($"CTRL+Backspace not supported in {shell.current_status.state} state.");
+                    return;
+            }
         }
     }
 }

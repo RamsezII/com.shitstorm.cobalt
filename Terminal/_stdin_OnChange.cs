@@ -15,14 +15,12 @@ namespace _COBALT_
             stdin_frame = Time.frameCount;
             flag_stdin.Update(true);
 
-            if (!string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrEmpty(text))
                 switch (shell.current_status.state)
                 {
                     case CMD_STATES.BLOCKING:
-                        input_stdin.ResetText();
-                        break;
-
                     case CMD_STATES.FULLSCREEN_readonly:
+                        input_stdin.ResetText();
                         break;
 
                     case CMD_STATES.FULLSCREEN_write:

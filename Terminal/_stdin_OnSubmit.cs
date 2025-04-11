@@ -11,6 +11,7 @@ namespace _COBALT_
             stdin_save = null;
 
             if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+            {
                 if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
                 {
                     isActive.Update(false);
@@ -18,8 +19,6 @@ namespace _COBALT_
                     return;
                 }
 
-            if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
-            {
                 string lint_text = linter.GetLint(this, input_stdin.input_field.text, out _);
                 Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
             }
