@@ -41,7 +41,7 @@ namespace _COBALT_
                 "show-dialog",
                 opts: static exe =>
                 {
-                    if (exe.line.TryReadOptions_with_automatic_values(exe, out var output, opt_text, opt_title, opt_ok_button, opt_cancel_button))
+                    if (exe.line.TryRead_options(exe, out var output, opt_text, opt_title, opt_ok_button, opt_cancel_button))
                         foreach (var pair in output)
                             exe.opts.Add(pair.Key, pair.Value);
                     else
