@@ -53,7 +53,6 @@ namespace _COBALT_
             {
                 case CMD_STATES.BLOCKING:
                 case CMD_STATES.FULLSCREEN_readonly:
-                    shell.PropagateLine(new(string.Empty, SIGNAL_FLAGS.TICK, this));
                     flag_progress.Update(true);
                     if (shell.IsIdle)
                         flag_stdout.Update(true);

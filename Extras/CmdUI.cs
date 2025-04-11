@@ -41,9 +41,6 @@ namespace _COBALT_
                 "show-dialog",
                 args: static exe =>
                 {
-                    Dictionary<string, string> options = new(StringComparer.OrdinalIgnoreCase);
-                    exe.args.Add(options);
-
                     Dictionary<string, Action<string>> onOptions = null;
                     onOptions = new(StringComparer.InvariantCultureIgnoreCase)
                     {
@@ -51,9 +48,8 @@ namespace _COBALT_
                             opt_title,
                             opt =>
                             {
-                                exe.args.Add(opt);
                                 if (exe.line.TryReadArgument(out string arg))
-                                    options[opt] = arg;
+                                    exe.opts[opt] = arg;
                                 else
                                     exe.error = $"argument manquant pour l'option '{opt}'";
                             }
@@ -62,9 +58,8 @@ namespace _COBALT_
                             opt_text,
                             opt =>
                             {
-                                exe.args.Add(opt);
                                 if (exe.line.TryReadArgument(out string arg))
-                                    options[opt] = arg;
+                                    exe.opts[opt] = arg;
                                 else
                                     exe.error = $"argument manquant pour l'option '{opt}'";
                             }
@@ -73,9 +68,8 @@ namespace _COBALT_
                             opt_ok_button,
                             opt =>
                             {
-                                exe.args.Add(opt);
                                 if (exe.line.TryReadArgument(out string arg))
-                                    options[opt] = arg;
+                                    exe.opts[opt] = arg;
                                 else
                                     exe.error = $"argument manquant pour l'option '{opt}'";
                             }
@@ -84,9 +78,8 @@ namespace _COBALT_
                             opt_cancel_button,
                             opt =>
                             {
-                                exe.args.Add(opt);
                                 if (exe.line.TryReadArgument(out string arg))
-                                    options[opt] = arg;
+                                    exe.opts[opt] = arg;
                                 else
                                     exe.error = $"argument manquant pour l'option '{opt}'";
                             }
@@ -101,20 +94,19 @@ namespace _COBALT_
 
             static IEnumerator<CMD_STATUS> EShowDialog(Command.Executor exe)
             {
-                Dictionary<string, string> options = (Dictionary<string, string>)exe.args[0];
                 SguiDialog dialog = SguiDialog.ShowDialog(out var routine);
 
-                if (options.TryGetValue(opt_title, out string title))
-                    dialog.trad_title.SetTrad(title);
+                if (exe.opts.TryGetValue(opt_title, out object title))
+                    dialog.trad_title.SetTrad((string)title);
 
-                if (options.TryGetValue(opt_text, out string text))
-                    dialog.trad_text.SetTrad(text);
+                if (exe.opts.TryGetValue(opt_text, out object text))
+                    dialog.trad_text.SetTrad((string)text);
 
-                if (options.TryGetValue(opt_ok_button, out string ok_button))
-                    dialog.button_yes.GetComponentInChildren<Traductable>().SetTrad(ok_button);
+                if (exe.opts.TryGetValue(opt_ok_button, out object ok_button))
+                    dialog.button_yes.GetComponentInChildren<Traductable>().SetTrad((string)ok_button);
 
-                if (options.TryGetValue(opt_cancel_button, out string cancel_button))
-                    dialog.button_no.GetComponentInChildren<Traductable>().SetTrad(cancel_button);
+                if (exe.opts.TryGetValue(opt_cancel_button, out object cancel_button))
+                    dialog.button_no.GetComponentInChildren<Traductable>().SetTrad((string)cancel_button);
 
                 while (routine.MoveNext())
                     yield return new CMD_STATUS(CMD_STATES.BLOCKING);

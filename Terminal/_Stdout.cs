@@ -9,7 +9,7 @@ namespace _COBALT_
     {
         readonly Queue<object> lines = new();
 
-        [SerializeField, TextArea(1, 10)] string stdout;
+        [SerializeField] string stdout;
 
         const byte max_lines = 250;
 
