@@ -1,5 +1,4 @@
-﻿using _COBRA_;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _COBALT_
 {
@@ -25,7 +24,7 @@ namespace _COBALT_
             if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
             {
                 rT_stdin.sizeDelta = new(rT_stdin.sizeDelta.x, scrollview.viewport.rect.height);
-                scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + scrollview.viewport.rect.height - line_height);
+                scrollview.content.sizeDelta = new(0, 1 + input_stdout.text_height + input_realtime.text_height + scrollview.viewport.rect.height);
             }
             else
             {
