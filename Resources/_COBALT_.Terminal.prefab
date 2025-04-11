@@ -1235,14 +1235,15 @@ MonoBehaviour:
   ui_hue_start: 0
   ui_hue_current: 0
   ui_alpha: 0
-  inputs_hold: 0
-  inputs_down: 0
-  inputs_up: 0
-  mouse_scroll: 0
+  shell: {fileID: 0}
   stdin_save: 
   cpl_index: 0
   stdin_frame: 0
   tab_frame: 0
+  inputs_hold: 0
+  inputs_down: 0
+  inputs_up: 0
+  mouse_scroll: 0
   stdout: 
   scrollview: {fileID: 0}
   rT_body: {fileID: 0}
@@ -1274,7 +1275,7 @@ MonoBehaviour:
     file: {r: 0.8, g: 1, b: 1, a: 1}
     bundle: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     asset: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    error: {r: 0.95, g: 0.92704165, b: 0.9025, a: 1}
+    error: {r: 0.8, g: 0.25, b: 0.2, a: 1}
 --- !u!224 &7496193123802770289 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1070991455050409694, guid: 4919d5e9b2082144ba72c94703740d4b,
