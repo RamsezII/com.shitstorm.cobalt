@@ -41,52 +41,10 @@ namespace _COBALT_
                 "show-dialog",
                 opts: static exe =>
                 {
-                    Dictionary<string, Action<string>> onOptions = null;
-                    onOptions = new(StringComparer.InvariantCultureIgnoreCase)
-                    {
-                        {
-                            opt_title,
-                            opt =>
-                            {
-                                if (exe.line.TryReadArgument(out string arg))
-                                    exe.opts[opt] = arg;
-                                else
-                                    exe.error = $"argument manquant pour l'option '{opt}'";
-                            }
-                        },
-                        {
-                            opt_text,
-                            opt =>
-                            {
-                                if (exe.line.TryReadArgument(out string arg))
-                                    exe.opts[opt] = arg;
-                                else
-                                    exe.error = $"argument manquant pour l'option '{opt}'";
-                            }
-                        },
-                        {
-                            opt_ok_button,
-                            opt =>
-                            {
-                                if (exe.line.TryReadArgument(out string arg))
-                                    exe.opts[opt] = arg;
-                                else
-                                    exe.error = $"argument manquant pour l'option '{opt}'";
-                            }
-                        },
-                        {
-                            opt_cancel_button,
-                            opt =>
-                            {
-                                if (exe.line.TryReadArgument(out string arg))
-                                    exe.opts[opt] = arg;
-                                else
-                                    exe.error = $"argument manquant pour l'option '{opt}'";
-                            }
-                        }
-                    };
-
-                    if (!exe.line.TryReadOptions(exe, onOptions))
+                    if (exe.line.TryReadOptions_with_automatic_values(exe, out var output, opt_text, opt_title, opt_ok_button, opt_cancel_button))
+                        foreach (var pair in output)
+                            exe.opts.Add(pair.Key, pair.Value);
+                    else
                         exe.error = $"'{exe.command.name}' problem reading option ({nameof(exe.line.arg_last)}: '{exe.line.arg_last}')";
                 },
                 routine: EShowDialog
