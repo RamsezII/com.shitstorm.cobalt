@@ -15,7 +15,6 @@ namespace _COBALT_
         {
             Shell.static_domain.AddDomain(new("event-system")).AddAction(
                 "show-selected",
-                args: null,
                 action: static exe =>
                 {
                     if (EventSystem.current == null)
@@ -24,7 +23,8 @@ namespace _COBALT_
                         exe.error = "no selected object";
                     else
                         exe.Stdout(EventSystem.current.currentSelectedGameObject.transform.GetPath(true));
-                });
+                },
+                args: null);
 
             Init_ShowDialog();
         }
@@ -39,7 +39,7 @@ namespace _COBALT_
 
             Shell.static_domain.AddRoutine(
                 "show-dialog",
-                args: static exe =>
+                opts: static exe =>
                 {
                     Dictionary<string, Action<string>> onOptions = null;
                     onOptions = new(StringComparer.InvariantCultureIgnoreCase)
