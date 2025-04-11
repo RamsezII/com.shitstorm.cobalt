@@ -58,6 +58,9 @@ namespace _COBALT_
                         flag_stdout.Update(true);
                     break;
             }
+
+            if (shell.state_changed)
+                flag_stdout.Update(true);
         }
 
         //--------------------------------------------------------------------------------------------------------------
