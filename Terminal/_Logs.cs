@@ -63,10 +63,12 @@ namespace _COBALT_
         {
             switch (log.type)
             {
-                case LogType.Error:
                 case LogType.Exception:
                 case LogType.Assert:
                     AddLine($"<color=red>{log.message}</color>");
+                    break;
+                case LogType.Error:
+                    AddLine($"<color=orange>{log.message}</color>");
                     break;
                 case LogType.Warning:
                     AddLine($"<color=yellow>{log.message}</color>");
