@@ -18,7 +18,7 @@ namespace _COBALT_
 
                 case CMD_STATES.FULLSCREEN_write:
                     {
-                        Command.Line line = new(text + addedChar, SIGNAL_FLAGS.STDIN_CHANGE, this);
+                        Command.Line line = new(text + addedChar, SIGNALS.STDIN_CHANGE, this);
                         shell.PropagateLine(line);
                     }
                     return addedChar;

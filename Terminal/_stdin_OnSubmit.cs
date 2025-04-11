@@ -16,12 +16,12 @@ namespace _COBALT_
                 Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
             }
 
-            Command.Line line = new(input_stdin.input_field.text, SIGNAL_FLAGS.CHECK, this);
+            Command.Line line = new(input_stdin.input_field.text, SIGNALS.CHECK, this);
             string error = shell.PropagateLine(line);
 
             if (error == null)
             {
-                line = new(input_stdin.input_field.text, SIGNAL_FLAGS.EXEC, this);
+                line = new(input_stdin.input_field.text, SIGNALS.EXEC, this);
                 bool was_idle = shell.IsIdle;
 
                 error = shell.PropagateLine(line);

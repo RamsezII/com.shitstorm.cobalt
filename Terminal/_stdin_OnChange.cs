@@ -28,7 +28,7 @@ namespace _COBALT_
                     case CMD_STATES.FULLSCREEN_write:
                     case CMD_STATES.WAIT_FOR_STDIN:
                     default:
-                        Command.Line line = new(text, SIGNAL_FLAGS.STDIN_CHANGE, this);
+                        Command.Line line = new(text, SIGNALS.STDIN_CHANGE, this);
                         shell.PropagateLine(line);
                         break;
                 }

@@ -104,20 +104,23 @@ namespace _COBALT_
                 Debug.Log(input_prefixe.input_field.text, this);
             Debug.Log("^C", this);
 
-            Command.Line line = Command.Line.KILL;
+            Command.Line line = new(string.Empty, SIGNALS.KILL, this);
             shell.PropagateLine(line);
 
-            if (line.data.status == CMDLINE_STATUS.OK)
+            if (line.data.status == CMDLINE_STATUS.CONFIRM)
             {
                 input_stdin.ResetText();
                 flag_stdin.Update(true);
                 hide_stdout.Update(false);
+                Debug.Log($"{shell} {line.signal} signal confirmed. {line.data}".ToSubLog());
             }
+            else
+                Debug.LogWarning($"{shell} {line.signal} signal not confirmed. {line.data}");
         }
 
         void Shortcut_CtrlS()
         {
-            Command.Line line = Command.Line.SAVE;
+            Command.Line line = new(string.Empty, SIGNALS.SAVE, this);
             shell.PropagateLine(line);
         }
 

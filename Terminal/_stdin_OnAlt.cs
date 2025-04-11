@@ -8,19 +8,19 @@ namespace _COBALT_
     {
         void OnAltKey()
         {
-            SIGNAL_FLAGS signal = flag_alt.PullValue switch
+            SIGNALS signal = flag_alt.PullValue switch
             {
-                KeyCode.LeftArrow => SIGNAL_FLAGS.LEFT,
-                KeyCode.RightArrow => SIGNAL_FLAGS.RIGHT,
-                KeyCode.UpArrow => SIGNAL_FLAGS.UP,
-                KeyCode.DownArrow => SIGNAL_FLAGS.DOWN,
+                KeyCode.LeftArrow => SIGNALS.LEFT,
+                KeyCode.RightArrow => SIGNALS.RIGHT,
+                KeyCode.UpArrow => SIGNALS.UP,
+                KeyCode.DownArrow => SIGNALS.DOWN,
                 _ => 0,
             };
 
             if (signal == 0)
                 return;
 
-            signal |= SIGNAL_FLAGS.CPL_ALT;
+            signal |= SIGNALS.CPL_ALT;
 
             flag_stdin.Update(true);
 
