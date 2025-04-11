@@ -49,7 +49,7 @@ namespace _COBALT_
                 }
             }
 
-            switch (shell.CurrentStatus.state)
+            switch (shell.current_status.state)
             {
                 case CMD_STATES.BLOCKING:
                 case CMD_STATES.FULLSCREEN_readonly:
@@ -80,14 +80,13 @@ namespace _COBALT_
 
         void RefreshProgressBars()
         {
-            CMD_STATUS status = shell.CurrentStatus;
-            if (status.state == CMD_STATES.BLOCKING)
+            if (shell.current_status.state == CMD_STATES.BLOCKING)
             {
                 float body_width = rT_body.rect.width;
                 float char_width = input_realtime.input_field.textComponent.GetPreferredValues("_", body_width, float.PositiveInfinity).x;
                 int max_chars = (int)(body_width / char_width);
 
-                float progress = status.progress;
+                float progress = shell.current_status.progress;
 
                 int bar_count = max_chars - 5;
                 int count = (int)(Mathf.Clamp01(progress) * bar_count);

@@ -10,7 +10,15 @@ namespace _COBALT_
             cpl_index = 0;
             stdin_save = null;
 
-            if (shell.CurrentStatus.state == CMD_STATES.WAIT_FOR_STDIN)
+            if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+                if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
+                {
+                    isActive.Update(false);
+                    input_stdin.ResetText();
+                    return;
+                }
+
+            if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
             {
                 string lint_text = linter.GetLint(this, input_stdin.input_field.text, out _);
                 Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
@@ -29,7 +37,7 @@ namespace _COBALT_
                 if (was_idle && error == null)
                     Command.Line.AddToHistory(line.text);
 
-                hide_stdout.Update(shell.CurrentStatus.state switch
+                hide_stdout.Update(shell.current_status.state switch
                 {
                     CMD_STATES.FULLSCREEN_write or CMD_STATES.FULLSCREEN_readonly => true,
                     _ => false,

@@ -16,7 +16,7 @@ namespace _COBALT_
             flag_stdin.Update(true);
 
             if (!string.IsNullOrWhiteSpace(text))
-                switch (shell.CurrentStatus.state)
+                switch (shell.current_status.state)
                 {
                     case CMD_STATES.BLOCKING:
                         input_stdin.ResetText();
