@@ -83,8 +83,6 @@ namespace _COBALT_
             USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
             flag_stdout.Update(true);
-
-            NUCLEOR.delegates.onEndOfFrame_once += () => EventSystem.current.SetSelectedGameObject(input_stdin.input_field.gameObject);
         }
 
         protected override void OnDisable()
@@ -108,6 +106,22 @@ namespace _COBALT_
             fullscreen.AddListener(value => flag_stdout.Update(true));
 
             shell = Util.InstantiateOrCreate<Shell>(transform);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        public override void OnStateMachine(in AnimatorStateInfo stateInfo, in int layerIndex, in bool onEnter)
+        {
+            base.OnStateMachine(stateInfo, layerIndex, onEnter);
+            if (onEnter)
+                switch (state_base)
+                {
+                    case BaseStates.toActive:
+                    case BaseStates.Active:
+                        input_stdin.input_field.ActivateInputField();
+                        input_stdin.input_field.Select();
+                        break;
+                }
         }
 
         //--------------------------------------------------------------------------------------------------------------

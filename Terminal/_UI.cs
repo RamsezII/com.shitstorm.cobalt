@@ -2,6 +2,7 @@
 using _UTIL_;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _COBALT_
@@ -66,11 +67,10 @@ namespace _COBALT_
         {
             initial_fontsize = input_stdin.input_field.textComponent.fontSize;
 
-            input_realtime.input_field.text = null;
+            input_realtime.ResetText();
+            input_stdin.ResetText();
 
             flag_progress.Update(true);
-
-            input_stdin.ResetText();
             flag_stdin.Update(true);
 
             input_stdin.input_field.onValueChanged.AddListener(OnChangeStdin);
@@ -110,6 +110,13 @@ namespace _COBALT_
             input_realtime.input_field.textComponent.color = text_color;
             input_prefixe.input_field.textComponent.color = text_color;
             linter_tmp.color = text_color;
+        }
+
+        internal void OnTextClick(in InputText input_text, in PointerEventData eventData, in bool is_down)
+        {
+            return;
+            input_stdin.input_field.ActivateInputField();
+            input_stdin.input_field.Select();
         }
     }
 }

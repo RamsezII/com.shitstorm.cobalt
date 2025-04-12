@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace _COBALT_
 {
-    internal class InputText : MonoBehaviour
+    internal class InputText : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     {
         [HideInInspector] public Terminal terminal;
         [HideInInspector] public RectTransform rT, rT_parent;
@@ -38,6 +39,16 @@ namespace _COBALT_
         {
             if (!string.IsNullOrEmpty(input_field.text))
                 input_field.text = string.Empty;
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            terminal.OnTextClick(this, eventData, true);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            terminal.OnTextClick(this, eventData, false);
         }
     }
 }
