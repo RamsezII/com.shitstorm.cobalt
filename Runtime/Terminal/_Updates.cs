@@ -20,7 +20,7 @@ namespace _COBALT_
 
         void OnUpdate()
         {
-            if (isActive._value)
+            if (sgui_toggle._value)
             {
                 if (inputs_hold.HasFlag(InputsFlags.Ctrl) && inputs_down.HasFlag(InputsFlags.L_key))
                     ClearStdout();
