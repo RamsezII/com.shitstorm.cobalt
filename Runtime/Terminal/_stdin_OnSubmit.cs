@@ -14,7 +14,7 @@ namespace _COBALT_
             {
                 if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
                 {
-                    sgui_toggle.Update(false);
+                    sgui_toggle_window.Update(false);
                     input_stdin.ResetText();
                     return;
                 }

@@ -15,7 +15,7 @@ namespace _COBALT_
 
         public Shell shell;
         Shell ITerminal.GetShell => shell;
-        void ITerminal.ToggleWindow(bool toggle) => base.sgui_toggle.Update(toggle);
+        void ITerminal.ToggleWindow(bool toggle) => sgui_toggle_window.Update(toggle);
 
         public readonly OnValue<KeyCode>
             flag_alt = new(),
