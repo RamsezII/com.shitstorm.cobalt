@@ -3,7 +3,6 @@ using _COBRA_;
 using _SGUI_;
 using _UTIL_;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace _COBALT_
 {
@@ -118,8 +117,7 @@ namespace _COBALT_
                 {
                     case BaseStates.toActive:
                     case BaseStates.Active:
-                        input_stdin.input_field.ActivateInputField();
-                        input_stdin.input_field.Select();
+                        ForceSelectStdin();
                         break;
                 }
         }

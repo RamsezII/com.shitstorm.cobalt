@@ -115,6 +115,11 @@ namespace _COBALT_
         internal void OnTextClick(in InputText input_text, in PointerEventData eventData, in bool is_down)
         {
             return;
+            ForceSelectStdin();
+        }
+
+        public void ForceSelectStdin()
+        {
             input_stdin.input_field.ActivateInputField();
             input_stdin.input_field.Select();
         }
