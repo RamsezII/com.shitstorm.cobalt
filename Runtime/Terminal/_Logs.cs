@@ -51,8 +51,11 @@ namespace _COBALT_
 
         static void OnLogMessageReceived(string message, string stackTrace, LogType type)
         {
-            message = message.TrimEnd('\n', '\r');
+            if (type == LogType.Exception)
+                message = message.TrimEnd('\n', '\r');
+
             LogInfos log = new(message, stackTrace, type);
+
             lock (onLog)
                 onLog._value(log);
         }
