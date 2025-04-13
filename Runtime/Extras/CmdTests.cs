@@ -8,7 +8,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            Command extras = Shell.static_domain.AddDomain(new("useful"), aliases: "useless");
+            Command extras = Command.static_domain.AddDomain(new("useful"), aliases: "useless");
 
             extras.AddAction(
                 "deez",

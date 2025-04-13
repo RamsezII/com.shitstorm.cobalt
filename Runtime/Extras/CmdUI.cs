@@ -1,7 +1,6 @@
 ﻿using _COBRA_;
 using _SGUI_;
 using _UTIL_;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,7 +12,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            Shell.static_domain.AddDomain(new("event-system")).AddAction(
+            Command.static_domain.AddDomain(new("event-system")).AddAction(
                 "show-selected",
                 action: static exe =>
                 {
@@ -37,7 +36,7 @@ namespace _COBALT_
                 opt_ok_button = "--ok-button",
                 opt_cancel_button = "--cancel-button";
 
-            Shell.static_domain.AddRoutine(
+            Command.static_domain.AddRoutine(
                 "show-dialog",
                 opts: static exe =>
                 {
