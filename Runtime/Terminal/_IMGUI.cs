@@ -104,6 +104,7 @@ namespace _COBALT_
         {
             switch (shell.current_status.state)
             {
+                case CMD_STATES.WAIT_FOR_STDIN when shell.IsBusy && string.IsNullOrEmpty(input_stdin.input_field.text):
                 case CMD_STATES.BLOCKING:
                 case CMD_STATES.FULLSCREEN_readonly:
                     {
