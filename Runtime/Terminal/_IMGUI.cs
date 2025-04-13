@@ -136,8 +136,32 @@ namespace _COBALT_
                             int caret = input_stdin.input_field.caretPosition;
                             int read_i = caret;
 
-                            if (text.GroupedErase(ref read_i) > 0)
+                            if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
                             {
+                                Command.Line line = new(input_stdin.input_field.text, SIGNALS._none_, this, input_stdin.input_field.caretPosition, cpl_index);
+                                shell.PropagateLine(line);
+
+                                if (line.is_cursor_on_path)
+                                {
+                                    int index = line.path_last.LastIndexOf('/');
+                                    if (index == -1)
+                                        index = line.path_i;
+                                    else
+                                    {
+                                        index += line.path_i;
+                                        if (!line.path_last.EndsWith('/'))
+                                            ++index;
+                                    }
+
+                                    stdin_save = input_stdin.input_field.text = text[..index];
+                                    input_stdin.input_field.caretPosition = index;
+
+                                    flag_stdin.Update(true);
+                                    break;
+                                }
+                            }
+
+                            if (text.GroupedErase(ref read_i) > 0)
                                 if (read_i > 0)
                                 {
                                     input_stdin.input_field.text = text[..read_i] + text[caret..];
@@ -149,8 +173,8 @@ namespace _COBALT_
                                     input_stdin.input_field.caretPosition = 0;
                                 }
 
-                                flag_stdin.Update(true);
-                            }
+                            stdin_save = input_stdin.input_field.text;
+                            flag_stdin.Update(true);
                         }
                     break;
 
