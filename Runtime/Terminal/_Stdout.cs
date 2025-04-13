@@ -45,7 +45,7 @@ namespace _COBALT_
                     foreach (object line in lines)
                         sb.AppendLine(line.ToString());
                 }
-                stdout = sb.TroncatedForLog();
+                stdout = sb.ToString();
 
                 input_stdout.input_field.text = stdout;
             }
