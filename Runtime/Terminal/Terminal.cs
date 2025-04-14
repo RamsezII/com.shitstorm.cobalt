@@ -122,6 +122,12 @@ namespace _COBALT_
                 }
         }
 
+        void ITerminal.ForceStdin(in string text)
+        {
+            input_stdin.input_field.text = text;
+            flag_stdin.Update(true);
+        }
+
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void OnDestroy()
