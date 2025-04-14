@@ -74,8 +74,9 @@ namespace _COBALT_
                             return true;
 
                         case KeyCode.Backspace:
-                            Shortcut_CtrlBackspace();
-                            return true;
+                            if (Shortcut_CtrlBackspace())
+                                return true;
+                            break;
                     }
 
                 if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
@@ -111,7 +112,7 @@ namespace _COBALT_
             shell.PropagateLine(line);
         }
 
-        void Shortcut_CtrlBackspace()
+        bool Shortcut_CtrlBackspace()
         {
             switch (shell.current_status.state)
             {
@@ -136,7 +137,7 @@ namespace _COBALT_
                         else
                             Debug.LogWarning($"{shell} {line.signal} signal not confirmed. {line.data}");
                     }
-                    break;
+                    return true;
 
                 case CMD_STATES.WAIT_FOR_STDIN:
                 case CMD_STATES.FULLSCREEN_write:
@@ -181,12 +182,13 @@ namespace _COBALT_
                             stdin_save = input_stdin.input_field.text;
                             flag_stdin.Update(true);
                         }
-                    break;
+                    return true;
 
                 default:
                     Debug.LogWarning($"CTRL+Backspace not supported in {shell.current_status.state} state.");
-                    return;
+                    break;
             }
+            return false;
         }
     }
 }
