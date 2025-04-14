@@ -8,7 +8,7 @@ namespace _COBALT_
         void OnSubmit()
         {
             cpl_index = 0;
-            stdin_save = null;
+            stdin_save = string.Empty;
             string input_text = input_stdin.input_field.text;
             input_stdin.ResetText();
 
