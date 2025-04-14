@@ -162,16 +162,10 @@ namespace _COBALT_
                             }
 
                             if (text.GroupedErase(ref read_i) > 0)
-                                if (read_i > 0)
-                                {
-                                    input_stdin.input_field.text = text[..read_i] + text[caret..];
-                                    input_stdin.input_field.caretPosition = read_i;
-                                }
-                                else
-                                {
-                                    input_stdin.ResetText();
-                                    input_stdin.input_field.caretPosition = 0;
-                                }
+                            {
+                                input_stdin.input_field.text = text[..read_i] + text[caret..];
+                                input_stdin.input_field.caretPosition = read_i;
+                            }
 
                             stdin_save = input_stdin.input_field.text;
                             flag_stdin.Update(true);
