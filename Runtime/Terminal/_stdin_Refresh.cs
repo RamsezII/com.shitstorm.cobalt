@@ -1,6 +1,4 @@
-﻿using _COBRA_;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _COBALT_
 {
@@ -9,23 +7,6 @@ namespace _COBALT_
         void RefreshStdin()
         {
             input_prefixe.input_field.text = shell.current_status.prefixe;
-
-            switch (shell.current_status.state)
-            {
-                case CMD_STATES.BLOCKING:
-                    if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                    {
-                        input_stdin.ResetText();
-                        stdin_save = string.Empty;
-                    }
-                    break;
-
-                case CMD_STATES.FULLSCREEN_readonly:
-                case CMD_STATES.FULLSCREEN_write:
-                    if (!input_stdin.input_field.text.Equals(stdin_save, StringComparison.Ordinal))
-                        input_stdin.input_field.text = stdin_save;
-                    break;
-            }
 
             Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(input_prefixe.input_field.text + "_", scrollview.content.rect.width, float.PositiveInfinity);
             line_height = prefered_dims.y;

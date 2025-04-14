@@ -29,7 +29,7 @@ namespace _COBALT_
             if (string.IsNullOrWhiteSpace(input_field.text))
                 text_height = 0;
             else
-                text_height = input_field.textComponent.GetPreferredValues(input_field.text, rT_parent.rect.width, float.PositiveInfinity).y;
+                text_height = input_field.textComponent.GetPreferredValues(input_field.text[..^1] + "_", rT_parent.rect.width, float.PositiveInfinity).y;
 
             if (apply)
                 rT.sizeDelta = new(rT.sizeDelta.x, text_height);

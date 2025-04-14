@@ -122,10 +122,13 @@ namespace _COBALT_
                 }
         }
 
-        void ITerminal.ForceStdin(in string text)
+        void ITerminal.SetStdin(string text)
         {
-            stdin_save = text;
-            flag_stdin.Update(true);
+            NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(1, () =>
+            {
+                stdin_save = input_stdin.input_field.text = text;
+                flag_stdin.Update(true);
+            }));
         }
 
         //--------------------------------------------------------------------------------------------------------------

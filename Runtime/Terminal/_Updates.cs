@@ -68,6 +68,12 @@ namespace _COBALT_
                         input_stdin.ResetText();
                         break;
                 }
+
+                hide_stdout.Update(shell.current_status.state switch
+                {
+                    CMD_STATES.FULLSCREEN_write or CMD_STATES.FULLSCREEN_readonly => true,
+                    _ => false,
+                });
             }
         }
 

@@ -79,6 +79,15 @@ namespace _COBALT_
                             break;
                     }
 
+                if (e.alt)
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.Backspace:
+                            if (Shortcut_AltBackspace())
+                                return true;
+                            break;
+                    }
+
                 if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
                     switch (e.keyCode)
                     {
@@ -112,83 +121,77 @@ namespace _COBALT_
             shell.PropagateLine(line);
         }
 
+        bool Shortcut_AltBackspace()
+        {
+            if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
+                Debug.Log(input_prefixe.input_field.text, this);
+            Debug.Log("^C", this);
+
+            if (!shell.IsBusy)
+                Debug.LogWarning($"{shell}: no operation to kill");
+            else
+            {
+                Command.Line line = new(string.Empty, SIGNALS.KILL, this);
+                shell.PropagateLine(line);
+
+                if (line.data.status == CMDLINE_STATUS.CONFIRM)
+                {
+                    input_stdin.ResetText();
+                    flag_stdin.Update(true);
+                    hide_stdout.Update(false);
+                    Debug.Log($"{shell} {line.signal} signal confirmed. {line.data}".ToSubLog());
+                }
+                else
+                    Debug.LogWarning($"{shell} {line.signal} signal not confirmed. {line.data}");
+            }
+
+            return true;
+        }
+
         bool Shortcut_CtrlBackspace()
         {
-            switch (shell.current_status.state)
-            {
-                case CMD_STATES.WAIT_FOR_STDIN when shell.IsBusy && string.IsNullOrEmpty(input_stdin.input_field.text):
-                case CMD_STATES.BLOCKING:
-                case CMD_STATES.FULLSCREEN_readonly:
-                    {
-                        if (!string.IsNullOrWhiteSpace(input_prefixe.input_field.text))
-                            Debug.Log(input_prefixe.input_field.text, this);
-                        Debug.Log("^C", this);
+            if (input_stdin.input_field.caretPosition > 0)
+                if (!string.IsNullOrEmpty(input_stdin.input_field.text))
+                {
+                    string text = input_stdin.input_field.text;
+                    int caret = input_stdin.input_field.caretPosition;
+                    int read_i = caret;
 
-                        Command.Line line = new(string.Empty, SIGNALS.KILL, this);
+                    if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+                    {
+                        Command.Line line = new(input_stdin.input_field.text, SIGNALS._none_, this, input_stdin.input_field.caretPosition, cpl_index);
                         shell.PropagateLine(line);
 
-                        if (line.data.status == CMDLINE_STATUS.CONFIRM)
+                        if (line.is_cursor_on_path)
                         {
-                            input_stdin.ResetText();
+                            int index = line.path_last.LastIndexOf('/');
+                            if (index == -1)
+                                index = line.path_i;
+                            else
+                            {
+                                index += line.path_i;
+                                if (!line.path_last.EndsWith('/'))
+                                    ++index;
+                            }
+
+                            stdin_save = input_stdin.input_field.text = text[..index];
+                            input_stdin.input_field.caretPosition = index;
+
                             flag_stdin.Update(true);
-                            hide_stdout.Update(false);
-                            Debug.Log($"{shell} {line.signal} signal confirmed. {line.data}".ToSubLog());
+                            return true;
                         }
-                        else
-                            Debug.LogWarning($"{shell} {line.signal} signal not confirmed. {line.data}");
                     }
-                    return true;
 
-                case CMD_STATES.WAIT_FOR_STDIN:
-                case CMD_STATES.FULLSCREEN_write:
-                    if (input_stdin.input_field.caretPosition > 0)
-                        if (!string.IsNullOrEmpty(input_stdin.input_field.text))
-                        {
-                            string text = input_stdin.input_field.text;
-                            int caret = input_stdin.input_field.caretPosition;
-                            int read_i = caret;
+                    if (text.GroupedErase(ref read_i) > 0)
+                    {
+                        input_stdin.input_field.text = text[..read_i] + text[caret..];
+                        input_stdin.input_field.caretPosition = read_i;
+                    }
 
-                            if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
-                            {
-                                Command.Line line = new(input_stdin.input_field.text, SIGNALS._none_, this, input_stdin.input_field.caretPosition, cpl_index);
-                                shell.PropagateLine(line);
-
-                                if (line.is_cursor_on_path)
-                                {
-                                    int index = line.path_last.LastIndexOf('/');
-                                    if (index == -1)
-                                        index = line.path_i;
-                                    else
-                                    {
-                                        index += line.path_i;
-                                        if (!line.path_last.EndsWith('/'))
-                                            ++index;
-                                    }
-
-                                    stdin_save = input_stdin.input_field.text = text[..index];
-                                    input_stdin.input_field.caretPosition = index;
-
-                                    flag_stdin.Update(true);
-                                    break;
-                                }
-                            }
-
-                            if (text.GroupedErase(ref read_i) > 0)
-                            {
-                                input_stdin.input_field.text = text[..read_i] + text[caret..];
-                                input_stdin.input_field.caretPosition = read_i;
-                            }
-
-                            stdin_save = input_stdin.input_field.text;
-                            flag_stdin.Update(true);
-                        }
-                    return true;
-
-                default:
-                    Debug.LogWarning($"CTRL+Backspace not supported in {shell.current_status.state} state.");
-                    break;
-            }
-            return false;
+                    stdin_save = input_stdin.input_field.text;
+                    flag_stdin.Update(true);
+                }
+            return true;
         }
     }
 }
