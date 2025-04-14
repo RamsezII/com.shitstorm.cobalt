@@ -11,21 +11,16 @@ namespace _COBALT_
                 return;
 
             cpl_index = 0;
-            stdin_save = text;
             stdin_frame = Time.frameCount;
             flag_stdin.Update(true);
 
             if (!string.IsNullOrEmpty(text))
                 switch (shell.current_status.state)
                 {
-                    case CMD_STATES.BLOCKING:
-                    case CMD_STATES.FULLSCREEN_readonly:
-                        input_stdin.ResetText();
-                        break;
-
                     case CMD_STATES.FULLSCREEN_write:
                     case CMD_STATES.WAIT_FOR_STDIN:
                     default:
+                        stdin_save = text;
                         Command.Line line = new(text, SIGNALS.STDIN_CHANGE, this);
                         shell.PropagateLine(line);
                         break;

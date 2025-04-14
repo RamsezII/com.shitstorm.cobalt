@@ -124,7 +124,7 @@ namespace _COBALT_
 
         void ITerminal.ForceStdin(in string text)
         {
-            input_stdin.input_field.text = text;
+            stdin_save = text;
             flag_stdin.Update(true);
         }
 
