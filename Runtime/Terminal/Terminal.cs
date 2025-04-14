@@ -67,9 +67,6 @@ namespace _COBALT_
                 }
 
             IMGUI_global.instance.users_ongui.AddElement(OnOnGui, this);
-
-            hide_stdout.AddListener(toggle => flag_stdout.Update(true));
-            hide_stdout.AddListener(toggle => Debug.Log($"{nameof(hide_stdout)}: {toggle}"));
         }
 
         protected override void OnEnable()

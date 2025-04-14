@@ -11,19 +11,8 @@ namespace _COBALT_
             Command.Line.ResetHistoryCount();
             flag_stdin.Update(true);
 
-            switch (shell.current_status.state)
-            {
-                case CMD_STATES.BLOCKING:
-                case CMD_STATES.FULLSCREEN_readonly:
-                    return '\0';
-
-                case CMD_STATES.FULLSCREEN_write:
-                    {
-                        Command.Line line = new(text + addedChar, SIGNALS.STDIN_CHANGE, this);
-                        shell.PropagateLine(line);
-                    }
-                    return addedChar;
-            }
+            if (shell.current_status.state == CMD_STATES.BLOCKING)
+                return '\0';
 
             try
             {

@@ -142,7 +142,6 @@ namespace _COBALT_
                 {
                     input_stdin.ResetText();
                     flag_stdin.Update(true);
-                    hide_stdout.Update(false);
                     Debug.Log($"{shell} {line.signal} signal confirmed. {line.data}".ToSubLog());
                 }
                 else

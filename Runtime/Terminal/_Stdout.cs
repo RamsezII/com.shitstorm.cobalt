@@ -13,8 +13,6 @@ namespace _COBALT_
 
         const byte max_lines = 250;
 
-        readonly OnValue<bool> hide_stdout = new();
-
         //--------------------------------------------------------------------------------------------------------------
 
         public void AddLine(in object line)
@@ -35,20 +33,15 @@ namespace _COBALT_
 
         public void RefreshStdout()
         {
-            if (hide_stdout.Value)
-                input_stdout.ResetText();
-            else
+            StringBuilder sb = new();
+            lock (lines)
             {
-                StringBuilder sb = new();
-                lock (lines)
-                {
-                    foreach (object line in lines)
-                        sb.AppendLine(line.ToString());
-                }
-                stdout = sb.ToString();
-
-                input_stdout.input_field.text = stdout;
+                foreach (object line in lines)
+                    sb.AppendLine(line.ToString());
             }
+            stdout = sb.ToString();
+
+            input_stdout.input_field.text = stdout;
 
             input_stdout.AutoSize(true);
             flag_stdin.Update(true);

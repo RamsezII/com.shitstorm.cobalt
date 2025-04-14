@@ -49,31 +49,14 @@ namespace _COBALT_
                 }
             }
 
-            switch (shell.current_status.state)
-            {
-                case CMD_STATES.BLOCKING:
-                case CMD_STATES.FULLSCREEN_readonly:
-                    flag_progress.Update(true);
-                    break;
-            }
+            if (shell.current_status.state == CMD_STATES.BLOCKING)
+                flag_progress.Update(true);
 
             if (shell.state_changed)
             {
                 flag_stdout.Update(true);
-
-                switch (shell.current_status.state)
-                {
-                    case CMD_STATES.BLOCKING:
-                    case CMD_STATES.FULLSCREEN_readonly:
-                        input_stdin.ResetText();
-                        break;
-                }
-
-                hide_stdout.Update(shell.current_status.state switch
-                {
-                    CMD_STATES.FULLSCREEN_write or CMD_STATES.FULLSCREEN_readonly => true,
-                    _ => false,
-                });
+                if (shell.current_status.state == CMD_STATES.BLOCKING)
+                    input_stdin.ResetText();
             }
         }
 
