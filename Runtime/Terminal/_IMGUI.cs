@@ -78,17 +78,28 @@ namespace _COBALT_
                             return true;
                     }
 
-                switch (e.keyCode)
-                {
-                    case KeyCode.UpArrow:
-                    case KeyCode.DownArrow:
-                        if (!e.alt && !e.control && !e.command)
-                        {
-                            flag_nav_history.Update(e.keyCode);
-                            return true;
-                        }
-                        break;
-                }
+                if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.UpArrow:
+                        case KeyCode.DownArrow:
+                            if (!e.alt && !e.control && !e.command)
+                            {
+                                Command.Line line = new(string.Empty, e.keyCode switch
+                                {
+                                    KeyCode.UpArrow => SIGNALS.HIST_UP,
+                                    KeyCode.DownArrow => SIGNALS.HIST_DOWN,
+                                    _ => SIGNALS.HIST,
+                                },
+                                this);
+
+                                shell.PropagateLine(line);
+
+                                flag_nav_history.Update(e.keyCode);
+                                return true;
+                            }
+                            break;
+                    }
             }
 
             return false;
