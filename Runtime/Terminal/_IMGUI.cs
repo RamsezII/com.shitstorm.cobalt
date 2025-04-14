@@ -29,7 +29,7 @@ namespace _COBALT_
 
                 if (toggle)
                 {
-                    base.sgui_toggle_window.Update(true);
+                    sgui_toggle_window.Update(true);
                     if (!opened_once)
                     {
                         NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(1, ClearStdout));
@@ -82,6 +82,10 @@ namespace _COBALT_
                 if (e.alt)
                     switch (e.keyCode)
                     {
+                        case KeyCode.S:
+                            Shortcut_CtrlS();
+                            return true;
+
                         case KeyCode.Backspace:
                             if (Shortcut_AltBackspace())
                                 return true;
