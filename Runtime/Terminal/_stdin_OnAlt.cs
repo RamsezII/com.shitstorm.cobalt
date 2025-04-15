@@ -32,7 +32,7 @@ namespace _COBALT_
                 Command.Line line = new(
                     stdin_frame >= tab_frame ? input_stdin.input_field.text : stdin_save,
                     signal,
-                    this,
+                    shell,
                     input_stdin.input_field.caretPosition
                     );
 

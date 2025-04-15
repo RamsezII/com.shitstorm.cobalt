@@ -19,7 +19,7 @@ namespace _COBALT_
             input_prefixe.AutoSize(false);
             input_stdin.AutoSize(false);
 
-            linter_tmp.text = linter.GetLint(this, input_stdin.input_field.text, out _);
+            linter_tmp.text = linter.GetLint(shell, input_stdin.input_field.text, out _);
 
             const int stdin_offset = -2;
 

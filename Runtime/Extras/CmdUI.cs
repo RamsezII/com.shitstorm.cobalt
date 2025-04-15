@@ -52,7 +52,7 @@ namespace _COBALT_
             static IEnumerator<CMD_STATUS> EShowDialog(Command.Executor exe)
             {
                 SguiDialog dialog = SguiDialog.ShowDialog(out var routine);
-                dialog.onDestroy += exe.line.terminal.ForceSelectStdin;
+                dialog.onDestroy += exe.line.shell.terminal.ForceSelectStdin;
 
                 if (exe.opts.TryGetValue(opt_title, out object title))
                     dialog.trad_title.SetTrad((string)title);

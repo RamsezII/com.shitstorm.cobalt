@@ -1,5 +1,4 @@
-﻿using _UTIL_;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
@@ -15,13 +14,13 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public void AddLine(in object line)
+        public void AddLine(in object line, in string lint)
         {
             lock (lines)
             {
                 while (lines.Count >= max_lines)
                     lines.Dequeue();
-                lines.Enqueue(line);
+                lines.Enqueue(lint);
                 flag_stdout.Update(true);
             }
         }

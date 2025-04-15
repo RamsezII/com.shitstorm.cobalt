@@ -68,16 +68,16 @@ namespace _COBALT_
             {
                 case LogType.Exception:
                 case LogType.Assert:
-                    AddLine($"<color=red>{log.message}</color>");
+                    AddLine(log.message, $"<color=red>{log.message}</color>");
                     break;
                 case LogType.Error:
-                    AddLine($"<color=orange>{log.message}</color>");
+                    AddLine(log.message, $"<color=orange>{log.message}</color>");
                     break;
                 case LogType.Warning:
-                    AddLine($"<color=yellow>{log.message}</color>");
+                    AddLine(log.message, $"<color=yellow>{log.message}</color>");
                     break;
                 default:
-                    AddLine(log.message);
+                    AddLine(log.message, log.message);
                     break;
             }
         }

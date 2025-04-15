@@ -105,7 +105,7 @@ namespace _COBALT_
                                     KeyCode.DownArrow => SIGNALS.HIST_DOWN,
                                     _ => SIGNALS.HIST,
                                 },
-                                this);
+                                shell);
 
                                 shell.PropagateLine(line);
 
@@ -121,7 +121,7 @@ namespace _COBALT_
 
         void Shortcut_CtrlS()
         {
-            Command.Line line = new(string.Empty, SIGNALS.SAVE, this);
+            Command.Line line = new(string.Empty, SIGNALS.SAVE, shell);
             shell.PropagateLine(line);
         }
 
@@ -135,7 +135,7 @@ namespace _COBALT_
                 Debug.LogWarning($"{shell}: no operation to kill");
             else
             {
-                Command.Line line = new(string.Empty, SIGNALS.KILL, this);
+                Command.Line line = new(string.Empty, SIGNALS.KILL, shell);
                 shell.PropagateLine(line);
 
                 if (line.data.status == CMDLINE_STATUS.CONFIRM)
@@ -162,7 +162,7 @@ namespace _COBALT_
 
                     if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
                     {
-                        Command.Line line = new(input_stdin.input_field.text, SIGNALS._none_, this, input_stdin.input_field.caretPosition, cpl_index);
+                        Command.Line line = new(input_stdin.input_field.text, SIGNALS._none_, shell, input_stdin.input_field.caretPosition, cpl_index);
                         shell.PropagateLine(line);
 
                         if (line.is_cursor_on_path)

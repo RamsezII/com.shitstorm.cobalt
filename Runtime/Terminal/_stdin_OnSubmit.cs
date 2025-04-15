@@ -20,16 +20,16 @@ namespace _COBALT_
                     return;
                 }
 
-                string lint_text = linter.GetLint(this, input_text, out _);
+                string lint_text = linter.GetLint(shell, input_text, out _);
                 Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
             }
 
-            Command.Line line = new(input_text, SIGNALS.CHECK, this);
+            Command.Line line = new(input_text, SIGNALS.CHECK, shell);
             string error = shell.PropagateLine(line);
 
             if (error == null)
             {
-                line = new(input_text, SIGNALS.EXEC, this);
+                line = new(input_text, SIGNALS.EXEC, shell);
                 bool was_idle = shell.IsIdle;
 
                 error = shell.PropagateLine(line);

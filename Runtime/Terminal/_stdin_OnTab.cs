@@ -11,7 +11,7 @@ namespace _COBALT_
             Command.Line line = new(
                 stdin_save,
                 SIGNALS.CPL_TAB,
-                this,
+                shell,
                 Mathf.Min(stdin_save.Length, charIndex),
                 cpl_index++
                 );
