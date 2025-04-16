@@ -21,7 +21,7 @@ namespace _COBALT_
 
             linter_tmp.text = linter.GetLint(shell, input_stdin.input_field.text, out _);
 
-            const int stdin_offset = -2;
+            const int stdin_offset = -3;
 
             if (string.IsNullOrWhiteSpace(input_stdin.input_field.text))
             {

@@ -51,6 +51,9 @@ namespace _COBALT_
 
         static void OnLogMessageReceived(string message, string stackTrace, LogType type)
         {
+            if (type == LogType.Warning && message.StartsWith("The character with Unicode value "))
+                return;
+
             if (type == LogType.Exception)
                 message = message.TrimEnd('\n', '\r');
 
