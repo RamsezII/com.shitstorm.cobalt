@@ -1482,9 +1482,10 @@ MonoBehaviour:
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
+  rT: {fileID: 0}
+  rT_parent: {fileID: 0}
   trad_title: {fileID: 0}
   body_background: {fileID: 0}
-  rT: {fileID: 0}
   button_hide: {fileID: 0}
   button_fullscreen: {fileID: 0}
   button_close: {fileID: 0}
@@ -1518,6 +1519,7 @@ MonoBehaviour:
     last_i: 0
     fail_b: 0
     _default_: {r: 1, g: 1, b: 1, a: 1}
+    _readall_: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     command: {r: 0.5, g: 0.7522936, b: 1, a: 1}
     argument: {r: 0.78375, g: 0.95, b: 0.6175, a: 1}
     option: {r: 1, g: 0.65, b: 0.88333327, a: 1}
@@ -1525,7 +1527,10 @@ MonoBehaviour:
     pipe: {r: 1, g: 0.72941184, b: 0.34901965, a: 1}
     chain: {r: 128, g: 128, b: 0, a: 1}
     background: {r: 1, g: 0.4223638, b: 0.2688679, a: 1}
-    variable: {r: 1, g: 0.96911764, b: 0.65, a: 1}
+    var_global: {r: 0.6175, g: 0.95, b: 0.66523826, a: 1}
+    var_shell: {r: 0.9, g: 0.8, b: 1, a: 1}
+    var_local: {r: 0.95, g: 0.93416667, b: 0.76, a: 1}
+    var_unknown: {r: 0.8, g: 0.9333333, b: 1, a: 1}
     value: {r: 0.7916667, g: 1, b: 0.5, a: 1}
     type: {r: 0.9737507, g: 0.740566, b: 1, a: 1}
     directory: {r: 1, g: 0.9666667, b: 0.8, a: 1}
