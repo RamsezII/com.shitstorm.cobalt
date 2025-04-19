@@ -1,12 +1,10 @@
 ﻿using _COBRA_;
-using UnityEngine;
 
 namespace _COBALT_
 {
-    static class CobaltExtras
+    partial class CmdUI
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        static void OnAfterSceneLoad()
+        static void Init_Tests()
         {
             Command extras = Command.static_domain.AddDomain(new("useful"), aliases: "useless");
 

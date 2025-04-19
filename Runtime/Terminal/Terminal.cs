@@ -102,6 +102,8 @@ namespace _COBALT_
             fullscreen.AddListener(value => flag_stdout.Update(true));
 
             shell = Util.InstantiateOrCreate<Shell>(transform);
+
+            NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForSeconds(.5f, false, () => sgui_toggle_window.Update(false)));
         }
 
         //--------------------------------------------------------------------------------------------------------------

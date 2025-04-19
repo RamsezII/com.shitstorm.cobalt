@@ -1480,6 +1480,7 @@ MonoBehaviour:
   animated_toggle: 1
   animate_hue: 1
   can_fullscreen: 1
+  open_on_awake: 0
   dragmode: 0
   state_base: 0
   canvas: {fileID: 0}
