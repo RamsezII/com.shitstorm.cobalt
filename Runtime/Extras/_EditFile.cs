@@ -21,7 +21,7 @@ namespace _COBALT_
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor exe)
             {
                 SguiEditor clone = SguiWindow.InstantiateWindow<SguiEditor>();
-                clone.Init((string)exe.args[0], true);
+                clone.Init((string)exe.args[0], true, null);
 
                 try
                 {
