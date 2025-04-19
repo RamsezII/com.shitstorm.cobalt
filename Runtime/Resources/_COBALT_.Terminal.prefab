@@ -1123,12 +1123,12 @@ PrefabInstance:
     - target: {fileID: 2742296056699221216, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 750
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 2742296056699221216, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 400
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 2983995653213864514, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
@@ -1479,6 +1479,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   animated_toggle: 1
   animate_hue: 1
+  can_fullscreen: 1
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}

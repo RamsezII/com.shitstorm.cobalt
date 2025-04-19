@@ -59,6 +59,10 @@ namespace _COBALT_
 
             rT_selection = (RectTransform)transform.Find("rT/body/selection");
             img_selection = rT_selection.GetComponent<RawImage>();
+
+            Vector2 size = rT.rect.size;
+            Vector2 psize = rT_parent.rect.size;
+            rT.anchoredPosition = .5f * (psize - size);
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -122,6 +126,12 @@ namespace _COBALT_
         {
             input_stdin.input_field.ActivateInputField();
             input_stdin.input_field.Select();
+        }
+
+        protected override void OnCheckBounds()
+        {
+            base.OnCheckBounds();
+            flag_stdout.Update(true);
         }
     }
 }
