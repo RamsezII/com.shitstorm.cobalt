@@ -1,6 +1,7 @@
 ﻿using _COBRA_;
 using _SGUI_;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace _COBALT_
 {
@@ -26,13 +27,14 @@ namespace _COBALT_
                 try
                 {
                     while (clone != null)
+                    {
                         if (exe.line.signal.HasFlag(SIGNALS.KILL))
                         {
                             clone.sgui_toggle_window.Update(false);
                             break;
                         }
-                        else
-                            yield return new CMD_STATUS(CMD_STATES.BLOCKING);
+                        yield return new CMD_STATUS(CMD_STATES.BLOCKING);
+                    }
                 }
                 finally
                 {
