@@ -97,9 +97,6 @@ namespace _COBALT_
 
                 flag_stdout.Update(true);
             });
-
-            button_close.onClick.AddListener(() => sgui_toggle_window.Update(false));
-            button_hide.onClick.AddListener(() => sgui_toggle_window.Update(false));
         }
 
         //--------------------------------------------------------------------------------------------------------------
