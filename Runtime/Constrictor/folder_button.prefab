@@ -170,6 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 294467408945729796}
   - component: {fileID: 492145490155497526}
+  - component: {fileID: 8759328244551491900}
   m_Layer: 5
   m_Name: folder_button
   m_TagString: Untagged
@@ -247,6 +248,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &8759328244551491900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6315560265449761697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb4c89fac6fd1241bc13980fc85cf52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7816233854835606118
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +397,7 @@ GameObject:
   - component: {fileID: 7889657944738179854}
   - component: {fileID: 8351670011200326253}
   m_Layer: 5
-  m_Name: folder_name
+  m_Name: name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,8 +478,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 12
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

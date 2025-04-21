@@ -1,7 +1,6 @@
 ﻿using _COBRA_;
 using _SGUI_;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace _COBALT_
 {
@@ -10,27 +9,29 @@ namespace _COBALT_
         static void Init_EditFile()
         {
             Command.static_domain.AddRoutine(
-                "edit-file",
+                "open-constrictor",
                 min_args: 1,
                 args: static exe =>
                 {
-                    if (exe.line.TryReadArgument(out string path, out bool seems_valid, strict: true, path_mode: PATH_FLAGS.FILE))
-                        exe.args.Add(exe.shell.PathCheck(path, PathModes.ForceFull));
+                    if (exe.line.TryReadArgument(out string open_folder, out bool seems_valid, strict: false, path_mode: PATH_FLAGS.DIRECTORY))
+                        exe.args.Add(exe.shell.PathCheck(open_folder, PathModes.ForceFull));
                 },
                 routine: ERoutine);
 
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor exe)
             {
-                SguiEditor clone = SguiWindow.InstantiateWindow<SguiEditor>();
-                clone.Init((string)exe.args[0], true, null);
+                string folder_path = (string)exe.args[0];
+                folder_path = exe.shell.PathCheck(folder_path, PathModes.ForceFull);
+
+                string error = Constrictor.TryOpenConstrictor(folder_path, false, out Constrictor constrictor);
 
                 try
                 {
-                    while (clone != null)
+                    while (constrictor != null)
                     {
                         if (exe.line.signal.HasFlag(SIGNALS.KILL))
                         {
-                            clone.sgui_toggle_window.Update(false);
+                            constrictor.Oblivionize();
                             break;
                         }
                         yield return new CMD_STATUS(CMD_STATES.BLOCKING);
@@ -38,8 +39,8 @@ namespace _COBALT_
                 }
                 finally
                 {
-                    if (clone != null)
-                        clone.sgui_toggle_window.Update(false);
+                    if (constrictor != null)
+                        constrictor.Oblivionize();
                 }
             }
         }
