@@ -19,14 +19,6 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Start()
-        {
-            base.Start();
-            main_input_field.onValueChanged.AddListener(OnValueChange);
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
         public static string TryOpenConstrictor(in string folder_path, in bool create_if_none, out Constrictor instance)
         {
             if (!Directory.Exists(folder_path))
@@ -44,8 +36,9 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected virtual void OnValueChange(string text)
+        protected override void OnValueChange(string text)
         {
+            base.OnValueChange(text);
             lint_tmp.text = text;
         }
     }
