@@ -1481,6 +1481,7 @@ MonoBehaviour:
   animate_hue: 1
   can_fullscreen: 1
   open_on_awake: 0
+  oblivionized: 0
   dragmode: 0
   state_base: 0
   canvas: {fileID: 0}
@@ -1529,11 +1530,13 @@ MonoBehaviour:
     option_value: {r: 0.73299176, g: 0.5801887, b: 1, a: 1}
     pipe: {r: 1, g: 0.72941184, b: 0.34901965, a: 1}
     chain: {r: 128, g: 128, b: 0, a: 1}
+    external: {r: 0.5, g: 1, b: 0.75, a: 1}
     background: {r: 1, g: 0.4223638, b: 0.2688679, a: 1}
     var_global: {r: 0.6175, g: 0.95, b: 0.66523826, a: 1}
     var_shell: {r: 0.9, g: 0.8, b: 1, a: 1}
     var_local: {r: 0.95, g: 0.93416667, b: 0.76, a: 1}
     var_unknown: {r: 0.8, g: 0.9333333, b: 1, a: 1}
+    literal: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     value: {r: 0.7916667, g: 1, b: 0.5, a: 1}
     type: {r: 0.9737507, g: 0.740566, b: 1, a: 1}
     directory: {r: 1, g: 0.9666667, b: 0.8, a: 1}
