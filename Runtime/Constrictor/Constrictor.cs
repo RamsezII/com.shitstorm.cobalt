@@ -1,11 +1,32 @@
 using _SGUI_;
-using System;
 using System.IO;
+using TMPro;
+using UnityEngine;
 
 namespace _COBALT_
 {
     public partial class Constrictor : SguiEditor
     {
+        [SerializeField] protected TextMeshProUGUI lint_tmp;
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Awake()
+        {
+            base.Awake();
+            lint_tmp = main_input_field.transform.Find("text_area/text/lint").GetComponent<TextMeshProUGUI>();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Start()
+        {
+            base.Start();
+            main_input_field.onValueChanged.AddListener(OnValueChange);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
         public static string TryOpenConstrictor(in string folder_path, in bool create_if_none, out Constrictor instance)
         {
             if (!Directory.Exists(folder_path))
@@ -19,6 +40,13 @@ namespace _COBALT_
             instance = Util.InstantiateOrCreate<Constrictor>(SGUI_global.instance.rT);
             instance.Init(folder_path);
             return null;
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected virtual void OnValueChange(string text)
+        {
+            lint_tmp.text = text;
         }
     }
 }
