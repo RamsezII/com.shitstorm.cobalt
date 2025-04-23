@@ -1530,7 +1530,9 @@ MonoBehaviour:
     option_value: {r: 0.73299176, g: 0.5801887, b: 1, a: 1}
     pipe: {r: 1, g: 0.72941184, b: 0.34901965, a: 1}
     chain: {r: 128, g: 128, b: 0, a: 1}
-    external: {r: 0.5, g: 1, b: 0.75, a: 1}
+    redirect_overwrite: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    redirect_append: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    external: {r: 0.65, g: 0.65, b: 0.65, a: 1}
     background: {r: 1, g: 0.4223638, b: 0.2688679, a: 1}
     var_global: {r: 0.6175, g: 0.95, b: 0.66523826, a: 1}
     var_shell: {r: 0.9, g: 0.8, b: 1, a: 1}
