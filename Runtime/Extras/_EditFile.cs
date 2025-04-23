@@ -16,10 +16,8 @@ namespace _COBALT_
 
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor exe)
             {
-                string folder_path = (string)exe.args[0];
-                folder_path = exe.shell.PathCheck(folder_path, PathModes.ForceFull);
-
-                string error = Constrictor.TryOpenConstrictor(folder_path, false, out Constrictor constrictor);
+                string work_dir = exe.GetWorkdir();
+                string error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
 
                 try
                 {

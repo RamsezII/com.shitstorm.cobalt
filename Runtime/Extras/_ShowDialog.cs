@@ -30,14 +30,14 @@ namespace _COBALT_
 
             static IEnumerator<CMD_STATUS> EShowDialog(Command.Executor exe)
             {
-                SguiDialog dialog = SguiDialog.ShowDialog(out var routine);
+                SguiDialog dialog = SguiDialog.ShowDialog<SguiDialog>(out var routine);
                 dialog.onDestroy += exe.line.shell.terminal.ForceSelectStdin;
 
                 if (exe.opts.TryGetValue(opt_title, out object title))
                     dialog.trad_title.SetTrad((string)title);
 
                 if (exe.opts.TryGetValue(opt_text, out object text))
-                    dialog.trad_text.SetTrad((string)text);
+                    dialog.SetText(new((string)text));
 
                 if (exe.opts.TryGetValue(opt_ok_button, out object ok_button))
                     dialog.button_yes.GetComponentInChildren<Traductable>().SetTrad((string)ok_button);
