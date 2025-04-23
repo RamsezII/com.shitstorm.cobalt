@@ -1,4 +1,5 @@
-﻿using _COBRA_;
+﻿using _ARK_;
+using _COBRA_;
 using _SGUI_;
 using System.Collections.Generic;
 
@@ -9,13 +10,8 @@ namespace _COBALT_
         static void Init_EditFile()
         {
             Command.static_domain.AddRoutine(
-                "open-constrictor",
-                min_args: 1,
-                args: static exe =>
-                {
-                    if (exe.line.TryReadArgument(out string open_folder, out bool seems_valid, strict: false, path_mode: PATH_FLAGS.DIRECTORY))
-                        exe.args.Add(exe.shell.PathCheck(open_folder, PathModes.ForceFull));
-                },
+                "codium",
+                opts: static exe => exe.line.TryReadOption_workdir(exe),
                 routine: ERoutine);
 
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor exe)
