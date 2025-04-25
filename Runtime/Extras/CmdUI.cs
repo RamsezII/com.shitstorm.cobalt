@@ -11,7 +11,8 @@ namespace _COBALT_
         {
             Init_Tests();
             Init_ShowDialog();
-            Init_EditFile();
+            Init_OpenCodium();
+            Init_ShowOpen();
 
             Command.static_domain.AddDomain(new("event-system")).AddAction(
                 "show-selected",
