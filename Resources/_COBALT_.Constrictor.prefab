@@ -681,7 +681,6 @@ MonoBehaviour:
   can_fullscreen: 0
   open_on_awake: 1
   oblivionized: 0
-  dragmode: 0
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
@@ -696,6 +695,8 @@ MonoBehaviour:
   ui_hue_start: 0
   ui_hue_current: 0
   ui_alpha: 0
+  drag_mode: 0
+  cursor_mode: 0
   main_input_field: {fileID: 0}
   footer_tmp: {fileID: 0}
   content_parent_rT: {fileID: 0}
