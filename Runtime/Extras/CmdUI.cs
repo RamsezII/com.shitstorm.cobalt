@@ -13,6 +13,7 @@ namespace _COBALT_
             Init_ShowDialog();
             Init_OpenCodium();
             Init_ShowOpen();
+            Init_SguiCustom();
 
             Command.static_domain.AddDomain(new("event-system")).AddAction(
                 "show-selected",
