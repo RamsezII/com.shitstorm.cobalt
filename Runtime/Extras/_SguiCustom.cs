@@ -13,7 +13,9 @@ namespace _COBALT_
         {
             public Traductions label;
             public Type type;
-            public List<TMP_Dropdown.OptionData> items;
+            public float slider_min, slider_max;
+            public bool slider_is_int;
+            public List<TMP_Dropdown.OptionData> dropdown_items;
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -21,46 +23,70 @@ namespace _COBALT_
         static void Init_SguiCustom()
         {
             const string
-                opt_slider = "--slider",
-                opt_input = "--input-field",
-                opt_dropdown = "--dropdown",
+                type_slider = "slider",
+                type_input = "input-field",
+                type_dropdown = "dropdown",
                 opt_item = "--item",
-                opt_i = "-i";
+                opt_i = "-i",
+                opt_title = "--title",
+                opt_t = "-t",
+                flag_int = "--whole-numbers",
+                opt_min = "--min",
+                opt_max = "--max";
 
             Command.static_domain.AddRoutine(
-                "open-custom",
+                "sgui-custom",
+                min_args: 1,
+                max_args: 10,
                 opts: static exe =>
                 {
-                    int opt_counter = 0;
-                    while (exe.line.TryRead_one_of_the_flags(exe, out string flag, opt_slider, opt_input, opt_dropdown))
+                    if (exe.line.TryRead_one_of_the_flags(exe, out _, opt_t, opt_title))
+                        if (exe.line.TryReadArgument(out string arg, out _))
+                            exe.opts.Add(opt_t, arg);
+                },
+                args: static exe =>
+                {
+                    while (exe.line.TryReadArgument(out string button_type, out _, strict: true, lint: false, completions: new string[] { type_slider, type_input, type_dropdown, }))
                     {
+                        exe.line.LintToThisPosition(exe.line.linter.type);
+
                         CustomButtonInfos infos = new();
 
-                        if (exe.line.TryReadArgument(out string arg, out _))
-                            infos.label = new(arg);
+                        if (exe.line.TryReadArgument(out string label, out _))
+                            infos.label = new(label);
 
-                        switch (flag.ToLower())
+                        switch (button_type.ToLower())
                         {
-                            case opt_slider:
+                            case type_slider:
                                 infos.type = typeof(SguiCustomButton_Slider);
+                                {
+                                    if (exe.line.TryRead_one_flag(exe, flag_int))
+                                        infos.slider_is_int = true;
+
+                                    if (exe.line.TryRead_one_flag(exe, opt_min))
+                                        exe.line.TryReadFloat(out infos.slider_min);
+
+                                    if (exe.line.TryRead_one_flag(exe, opt_max))
+                                        exe.line.TryReadFloat(out infos.slider_max);
+                                }
                                 break;
 
-                            case opt_input:
+                            case type_input:
                                 infos.type = typeof(SguiCustomButton_InputField);
                                 break;
 
-                            case opt_dropdown:
+                            case type_dropdown:
                                 infos.type = typeof(SguiCustomButton_Dropdown);
                                 {
-                                    infos.items = new();
+                                    infos.dropdown_items = new();
                                     while (exe.line.TryRead_one_of_the_flags(exe, out _, opt_i, opt_item))
                                         if (exe.line.TryReadArgument(out string item, out _))
-                                            infos.items.Add(new(item));
+                                            infos.dropdown_items.Add(new(item));
                                 }
                                 break;
                         }
 
-                        exe.opts.Add(opt_counter++.ToString(), infos);
+                        exe.args.Add(infos);
                     }
                 },
                 routine: ERoutine
@@ -69,6 +95,9 @@ namespace _COBALT_
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor exe)
             {
                 SguiCustom clone = SguiWindow.InstantiateWindow<SguiCustom>();
+
+                if (exe.opts.TryGetValue_str(opt_t, out string title))
+                    clone.trad_title.SetTrad(title);
 
                 clone.onButton_confirm += () =>
                 {
@@ -83,7 +112,7 @@ namespace _COBALT_
                                 results.Add(inputfield.input_field.text);
                                 break;
                             case SguiCustomButton_Dropdown dropdown:
-                                results.Add(dropdown.dropdown.value);
+                                results.Add(dropdown.dropdown.CurrentText());
                                 break;
                             default:
                                 results.Add(null);
@@ -95,9 +124,9 @@ namespace _COBALT_
                     exe.line = null;
                 };
 
-                foreach (var value in exe.opts.Values)
+                foreach (var arg in exe.args)
                 {
-                    CustomButtonInfos infos = (CustomButtonInfos)value;
+                    CustomButtonInfos infos = (CustomButtonInfos)arg;
                     SguiCustomButton button = clone.AddButton(infos.type);
 
                     button.label.SetTrads(infos.label);
@@ -105,13 +134,13 @@ namespace _COBALT_
                     switch (button)
                     {
                         case SguiCustomButton_Slider slider:
-                            break;
-
-                        case SguiCustomButton_InputField input:
+                            slider.slider.wholeNumbers = infos.slider_is_int;
+                            slider.slider.minValue = infos.slider_min;
+                            slider.slider.maxValue = infos.slider_max;
                             break;
 
                         case SguiCustomButton_Dropdown dropdown:
-                            dropdown.dropdown.AddOptions(infos.items);
+                            dropdown.dropdown.AddOptions(infos.dropdown_items);
                             break;
                     }
                 }
