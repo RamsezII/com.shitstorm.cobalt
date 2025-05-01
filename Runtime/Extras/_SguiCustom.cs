@@ -70,7 +70,30 @@ namespace _COBALT_
             {
                 SguiCustom clone = SguiWindow.InstantiateWindow<SguiCustom>();
 
-                clone.onButton_confirm += () => exe.Stdout(clone.GetResults());
+                clone.onButton_confirm += () =>
+                {
+                    List<object> results = new();
+                    for (int i = 0; i < clone.clones.Count; i++)
+                        switch (clone.clones[i])
+                        {
+                            case SguiCustomButton_Slider slider:
+                                results.Add(slider.slider.value);
+                                break;
+                            case SguiCustomButton_InputField inputfield:
+                                results.Add(inputfield.input_field.text);
+                                break;
+                            case SguiCustomButton_Dropdown dropdown:
+                                results.Add(dropdown.dropdown.value);
+                                break;
+                            default:
+                                results.Add(null);
+                                break;
+                        }
+                    Command.Line line = new(string.Empty, SIGNALS.EXEC, exe.shell);
+                    exe.line = line;
+                    exe.Stdout(results);
+                    exe.line = null;
+                };
 
                 foreach (var value in exe.opts.Values)
                 {
