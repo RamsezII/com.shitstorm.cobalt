@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using _COBRA_;
 using _SGUI_;
+using _UTIL_;
 
 namespace _COBALT_
 {
@@ -11,34 +13,46 @@ namespace _COBALT_
             const string
                 opt_slider = "--slider",
                 opt_input = "--input-field",
-                opt_dropdown = "--dropdown";
+                opt_dropdown = "--dropdown",
+                opt_item = "--item",
+                opt_i = "-i";
 
             Command.static_domain.AddRoutine(
                 "open-custom",
                 opts: static exe =>
                 {
-                    int opt_i = 0;
+                    int opt_counter = 0;
                     while (exe.line.TryRead_one_of_the_flags(exe, out string flag, opt_slider, opt_input, opt_dropdown))
                     {
                         SguiCustomButton.Infos infos = new();
 
+                        if (exe.line.TryReadArgument(out string arg, out _))
+                            infos.label = new(arg);
+
+                        Type type = null;
+
                         switch (flag.ToLower())
                         {
                             case opt_slider:
-                                infos.code = SguiCustomButton.Codes.Slider;
+                                type = typeof(SguiCustomButton_Slider);
                                 break;
 
                             case opt_input:
-                                infos.code = SguiCustomButton.Codes.InputField;
+                                type = typeof(SguiCustomButton_InputField);
                                 break;
 
                             case opt_dropdown:
-                                infos.code = SguiCustomButton.Codes.Dropdown;
+                                type = typeof(SguiCustomButton_Dropdown);
+                                {
+                                    infos.items = new();
+                                    while (exe.line.TryRead_one_of_the_flags(exe, out _, opt_i, opt_item))
+                                        if (exe.line.TryReadArgument(out string item, out _))
+                                            infos.items.Add(new(item));
+                                }
                                 break;
                         }
 
-                        if (infos.code != SguiCustomButton.Codes._last_)
-                            exe.opts.Add(opt_i++.ToString(), infos);
+                        exe.opts.Add(opt_counter++.ToString(), (type, infos));
                     }
                 },
                 routine: ERoutine
@@ -48,8 +62,18 @@ namespace _COBALT_
             {
                 SguiCustom clone = SguiWindow.InstantiateWindow<SguiCustom>();
 
-                foreach (var pair in exe.opts)
-                    clone.AddButton((SguiCustomButton.Infos)pair.Value);
+                foreach (var value in exe.opts.Values)
+                {
+                    var (type, infos) = ((Type type, SguiCustomButton.Infos infos))value;
+                    SguiCustomButton button = clone.AddButton(type);
+
+                    switch (button)
+                    {
+                        case SguiCustomButton_Dropdown dropdown:
+                            dropdown.dropdown.AddOptions(infos.items);
+                            break;
+                    }
+                }
 
                 while (clone != null)
                 {
