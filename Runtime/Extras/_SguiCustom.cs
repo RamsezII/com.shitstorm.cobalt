@@ -29,20 +29,18 @@ namespace _COBALT_
                         if (exe.line.TryReadArgument(out string arg, out _))
                             infos.label = new(arg);
 
-                        Type type = null;
-
                         switch (flag.ToLower())
                         {
                             case opt_slider:
-                                type = typeof(SguiCustomButton_Slider);
+                                infos.type = typeof(SguiCustomButton_Slider);
                                 break;
 
                             case opt_input:
-                                type = typeof(SguiCustomButton_InputField);
+                                infos.type = typeof(SguiCustomButton_InputField);
                                 break;
 
                             case opt_dropdown:
-                                type = typeof(SguiCustomButton_Dropdown);
+                                infos.type = typeof(SguiCustomButton_Dropdown);
                                 {
                                     infos.items = new();
                                     while (exe.line.TryRead_one_of_the_flags(exe, out _, opt_i, opt_item))
@@ -52,7 +50,7 @@ namespace _COBALT_
                                 break;
                         }
 
-                        exe.opts.Add(opt_counter++.ToString(), (type, infos));
+                        exe.opts.Add(opt_counter++.ToString(), infos);
                     }
                 },
                 routine: ERoutine
@@ -64,26 +62,27 @@ namespace _COBALT_
 
                 foreach (var value in exe.opts.Values)
                 {
-                    var (type, infos) = ((Type type, SguiCustomButton.Infos infos))value;
-                    SguiCustomButton button = clone.AddButton(type);
-
-                    switch (button)
-                    {
-                        case SguiCustomButton_Dropdown dropdown:
-                            dropdown.dropdown.AddOptions(infos.items);
-                            break;
-                    }
+                    SguiCustomButton.Infos infos = (SguiCustomButton.Infos)value;
+                    SguiCustomButton button = clone.AddButton(infos);
                 }
 
-                while (clone != null)
+                try
                 {
-                    if (exe.line.signal.HasFlag(SIGNALS.KILL))
+                    while (clone != null)
                     {
-                        clone.Oblivionize();
-                        clone = null;
-                        yield break;
+                        if (exe.line.signal.HasFlag(SIGNALS.KILL))
+                        {
+                            clone.Oblivionize();
+                            clone = null;
+                            yield break;
+                        }
+                        yield return new CMD_STATUS(CMD_STATES.BLOCKING);
                     }
-                    yield return new CMD_STATUS(CMD_STATES.BLOCKING);
+                }
+                finally
+                {
+                    if (clone != null)
+                        clone.Oblivionize();
                 }
             }
         }
