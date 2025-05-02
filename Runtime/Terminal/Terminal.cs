@@ -44,7 +44,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            Util.InstantiateOrCreateIfAbsent<Terminal>(SguiGlobal.instance.rT);
+            Util.InstantiateOrCreateIfAbsent<Terminal>(SguiGlobal.instance.rT_2D);
         }
 
         //--------------------------------------------------------------------------------------------------------------

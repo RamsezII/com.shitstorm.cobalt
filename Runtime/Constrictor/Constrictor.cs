@@ -29,7 +29,7 @@ namespace _COBALT_
                     instance = null;
                     return $"can not find directory '{folder_path}'\n";
                 }
-            instance = Util.InstantiateOrCreate<Constrictor>(SguiGlobal.instance.rT);
+            instance = Util.InstantiateOrCreate<Constrictor>(SguiGlobal.instance.rT_2D);
             instance.Init_folder(folder_path);
             return null;
         }
