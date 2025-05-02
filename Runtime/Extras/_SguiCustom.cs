@@ -15,6 +15,7 @@ namespace _COBALT_
             public Type type;
             public float slider_min, slider_max;
             public bool slider_is_int;
+            public bool input_is_passward;
             public List<TMP_Dropdown.OptionData> dropdown_items;
         }
 
@@ -73,6 +74,8 @@ namespace _COBALT_
 
                             case type_input:
                                 infos.type = typeof(SguiCustomButton_InputField);
+                                if (exe.line.TryRead_one_flag(exe, "-p", "--password"))
+                                    infos.input_is_passward = true;
                                 break;
 
                             case type_dropdown:
@@ -102,22 +105,27 @@ namespace _COBALT_
                 clone.onButton_confirm += () =>
                 {
                     List<object> results = new();
+
                     for (int i = 0; i < clone.clones.Count; i++)
                         switch (clone.clones[i])
                         {
                             case SguiCustomButton_Slider slider:
                                 results.Add(slider.slider.value);
                                 break;
+
                             case SguiCustomButton_InputField inputfield:
-                                results.Add(inputfield.input_field.text);
+                                results.Add(inputfield.inputfield.text);
                                 break;
+
                             case SguiCustomButton_Dropdown dropdown:
                                 results.Add(dropdown.dropdown.CurrentText());
                                 break;
+
                             default:
                                 results.Add(null);
                                 break;
                         }
+
                     Command.Line line = new(string.Empty, SIGNALS.EXEC, exe.shell);
                     exe.line = line;
                     exe.Stdout(results);
@@ -137,6 +145,11 @@ namespace _COBALT_
                             slider.slider.wholeNumbers = infos.slider_is_int;
                             slider.slider.minValue = infos.slider_min;
                             slider.slider.maxValue = infos.slider_max;
+                            break;
+
+                        case SguiCustomButton_InputField inputfield:
+                            if (infos.input_is_passward)
+                                inputfield.inputfield.contentType = TMP_InputField.ContentType.Password;
                             break;
 
                         case SguiCustomButton_Dropdown dropdown:
