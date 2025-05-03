@@ -36,7 +36,7 @@ namespace _COBALT_
             lock (lines)
             {
                 foreach (object line in lines)
-                    sb.AppendLine(line.ToString());
+                    sb.AppendLine(line?.ToString());
             }
             stdout = sb.ToString();
 
