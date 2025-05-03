@@ -112,7 +112,7 @@ namespace _COBALT_
                 if (exe.opts.TryGetValue_str(opt_t, out string title))
                     clone.trad_title.SetTrad(title);
 
-                clone.onButton_confirm += () =>
+                clone.onAction_confirm += () =>
                 {
                     List<object> results = new();
 
