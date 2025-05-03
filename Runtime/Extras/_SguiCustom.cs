@@ -27,6 +27,7 @@ namespace _COBALT_
                 type_slider = "slider",
                 type_input = "input-field",
                 type_dropdown = "dropdown",
+                type_toggle = "toggle",
                 opt_item = "--item",
                 opt_i = "-i",
                 opt_title = "--title",
@@ -47,7 +48,7 @@ namespace _COBALT_
                 },
                 args: static exe =>
                 {
-                    while (exe.line.TryReadArgument(out string button_type, out _, strict: true, lint: false, completions: new string[] { type_slider, type_input, type_dropdown, }))
+                    while (exe.line.TryReadArgument(out string button_type, out _, strict: true, lint: false, completions: new string[] { type_slider, type_input, type_dropdown, type_toggle, }))
                     {
                         exe.line.LintToThisPosition(exe.line.linter.type);
 
@@ -87,6 +88,10 @@ namespace _COBALT_
                                             infos.dropdown_items.Add(new(item));
                                 }
                                 break;
+
+                            case type_toggle:
+                                infos.type = typeof(SguiCustomButton_Toggle);
+                                break;
                         }
 
                         exe.args.Add(infos);
@@ -119,6 +124,10 @@ namespace _COBALT_
 
                             case SguiCustomButton_Dropdown dropdown:
                                 results.Add(dropdown.dropdown.CurrentText());
+                                break;
+
+                            case SguiCustomButton_Toggle toggle:
+                                results.Add(toggle.toggle.isOn);
                                 break;
 
                             default:
