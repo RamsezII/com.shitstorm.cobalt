@@ -149,7 +149,7 @@ namespace _COBALT_
                 foreach (var arg in exe.args)
                 {
                     CustomButtonInfos infos = (CustomButtonInfos)arg;
-                    SguiCustomButton button = clone.AddButton(infos.type);
+                    SguiCustomButton_Abstract button = clone.AddButton(infos.type);
 
                     button.label.SetTrads(infos.label);
 
