@@ -1874,16 +1874,23 @@ MonoBehaviour:
   animator: {fileID: 0}
   animated_toggle: 1
   animate_hue: 1
-  can_fullscreen: 1
+  hide_on_close: 1
   open_on_awake: 0
   oblivionized: 0
+  hierarchy_viewport_rT: {fileID: 0}
+  hierarchy_content_rT: {fileID: 0}
+  hierarchy_layout: {fileID: 0}
+  root_folder: {fileID: 0}
+  hierarchy_width: 5
+  fs_mode: 255
+  hierarchy_last_select: {fileID: 0}
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
   rT: {fileID: 0}
   rT_parent: {fileID: 0}
   trad_title: {fileID: 0}
-  body_background: {fileID: 0}
+  huable_background: {fileID: 0}
   button_hide: {fileID: 0}
   button_fullscreen: {fileID: 0}
   button_close: {fileID: 0}
@@ -1891,6 +1898,8 @@ MonoBehaviour:
   ui_hue_start: 0
   ui_hue_current: 0
   ui_alpha: 0
+  prefab_hierarchy_folder: {fileID: 0}
+  prefab_hierarchy_file: {fileID: 0}
   drag_mode: 0
   cursor_mode: 0
   shell: {fileID: 0}
