@@ -151,7 +151,7 @@ namespace _COBALT_
                     CustomButtonInfos infos = (CustomButtonInfos)arg;
                     SguiCustomButton_Abstract button = clone.AddButton(infos.type);
 
-                    button.label.SetTrads(infos.label);
+                    button.trad_label.SetTrads(infos.label);
 
                     switch (button)
                     {
