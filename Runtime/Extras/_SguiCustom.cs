@@ -124,7 +124,7 @@ namespace _COBALT_
                                 break;
 
                             case SguiCustomButton_InputField inputfield:
-                                results.Add(inputfield.inputfield.text);
+                                results.Add(inputfield.input_field.text);
                                 break;
 
                             case SguiCustomButton_Dropdown dropdown:
@@ -163,7 +163,7 @@ namespace _COBALT_
 
                         case SguiCustomButton_InputField inputfield:
                             if (infos.input_is_passward)
-                                inputfield.inputfield.contentType = TMP_InputField.ContentType.Password;
+                                inputfield.input_field.contentType = TMP_InputField.ContentType.Password;
                             break;
 
                         case SguiCustomButton_Dropdown dropdown:
