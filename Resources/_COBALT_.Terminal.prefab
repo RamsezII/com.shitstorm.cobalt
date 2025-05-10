@@ -326,7 +326,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8483769108665057459}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.23866667
+  m_Size: 0.272
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1476,16 +1476,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2742296056699221216, guid: 4919d5e9b2082144ba72c94703740d4b,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 650
-      objectReference: {fileID: 0}
-    - target: {fileID: 2742296056699221216, guid: 4919d5e9b2082144ba72c94703740d4b,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 400
-      objectReference: {fileID: 0}
     - target: {fileID: 2983995653213864514, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -1872,12 +1862,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  animated_toggle: 1
   animate_hue: 1
   hide_on_close: 1
   open_on_awake: 0
-  auto_size: 1
-  auto_position: 1
   oblivionized: 0
   hierarchy_viewport_rT: {fileID: 0}
   hierarchy_content_rT: {fileID: 0}

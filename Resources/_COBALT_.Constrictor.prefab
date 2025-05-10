@@ -677,7 +677,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  animated_toggle: 1
   animate_hue: 1
   hide_on_close: 0
   open_on_awake: 1
@@ -687,6 +686,8 @@ MonoBehaviour:
   hierarchy_layout: {fileID: 0}
   root_folder: {fileID: 0}
   hierarchy_width: 5
+  fs_mode: 255
+  hierarchy_last_select: {fileID: 0}
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
