@@ -61,7 +61,7 @@ namespace _COBALT_
                         switch (button_type.ToLower())
                         {
                             case type_slider:
-                                infos.type = typeof(SguiCustomButton_Slider);
+                                infos.type = typeof(SguiCustom_Slider);
                                 {
                                     if (exe.line.TryRead_one_flag(exe, flag_int))
                                         infos.slider_is_int = true;
@@ -75,13 +75,13 @@ namespace _COBALT_
                                 break;
 
                             case type_input:
-                                infos.type = typeof(SguiCustomButton_InputField);
+                                infos.type = typeof(SguiCustom_InputField);
                                 if (exe.line.TryRead_one_flag(exe, "-p", "--password"))
                                     infos.input_is_passward = true;
                                 break;
 
                             case type_dropdown:
-                                infos.type = typeof(SguiCustomButton_Dropdown);
+                                infos.type = typeof(SguiCustom_Dropdown);
                                 {
                                     infos.dropdown_items = new();
                                     while (exe.line.TryRead_one_of_the_flags(exe, out _, opt_i, opt_item))
@@ -91,11 +91,11 @@ namespace _COBALT_
                                 break;
 
                             case type_toggle:
-                                infos.type = typeof(SguiCustomButton_Toggle);
+                                infos.type = typeof(SguiCustom_Toggle);
                                 break;
 
                             case type_button:
-                                infos.type = typeof(SguiCustomButton_Button);
+                                infos.type = typeof(SguiCustom_Button);
                                 break;
                         }
 
@@ -119,19 +119,19 @@ namespace _COBALT_
                     for (int i = 0; i < clone.clones.Count; i++)
                         switch (clone.clones[i])
                         {
-                            case SguiCustomButton_Slider slider:
+                            case SguiCustom_Slider slider:
                                 results.Add(slider.slider.value);
                                 break;
 
-                            case SguiCustomButton_InputField inputfield:
+                            case SguiCustom_InputField inputfield:
                                 results.Add(inputfield.input_field.text);
                                 break;
 
-                            case SguiCustomButton_Dropdown dropdown:
+                            case SguiCustom_Dropdown dropdown:
                                 results.Add(dropdown.dropdown.GetSelectedValue());
                                 break;
 
-                            case SguiCustomButton_Toggle toggle:
+                            case SguiCustom_Toggle toggle:
                                 results.Add(toggle.toggle.isOn);
                                 break;
 
@@ -151,24 +151,24 @@ namespace _COBALT_
                 foreach (var arg in exe.args)
                 {
                     CustomButtonInfos infos = (CustomButtonInfos)arg;
-                    SguiCustomButton_Abstract button = clone.AddButton(infos.type);
+                    SguiCustom_Abstract button = clone.AddButton(infos.type);
 
                     button.trad_label.SetTrads(infos.label);
 
                     switch (button)
                     {
-                        case SguiCustomButton_Slider slider:
+                        case SguiCustom_Slider slider:
                             slider.slider.wholeNumbers = infos.slider_is_int;
                             slider.slider.minValue = infos.slider_min;
                             slider.slider.maxValue = infos.slider_max;
                             break;
 
-                        case SguiCustomButton_InputField inputfield:
+                        case SguiCustom_InputField inputfield:
                             if (infos.input_is_passward)
                                 inputfield.input_field.contentType = TMP_InputField.ContentType.Password;
                             break;
 
-                        case SguiCustomButton_Dropdown dropdown:
+                        case SguiCustom_Dropdown dropdown:
                             dropdown.dropdown.AddOptions(infos.dropdown_items);
                             break;
                     }
