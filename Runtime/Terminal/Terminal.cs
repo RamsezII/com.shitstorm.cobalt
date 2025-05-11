@@ -76,7 +76,7 @@ namespace _COBALT_
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
 
-            USAGES.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
+            UsageManager.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
             flag_stdout.Update(true);
         }
@@ -86,7 +86,7 @@ namespace _COBALT_
             base.OnDisable();
 
             NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
-            USAGES.RemoveUser(this);
+            UsageManager.RemoveUser(this);
         }
 
         //--------------------------------------------------------------------------------------------------------------

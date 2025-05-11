@@ -20,7 +20,7 @@ namespace _COBALT_
                 bool toggle = false;
 
                 if (!toggle)
-                    if (e.keyCode == KeyCode.O && USAGES.AreEmpty(UsageGroups.Typing))
+                    if (e.keyCode == KeyCode.O && UsageManager.AreEmpty(UsageGroups.Typing))
                         toggle = true;
 
                 if (!toggle)
