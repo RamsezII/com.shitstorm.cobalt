@@ -38,7 +38,7 @@ namespace _COBALT_
                 min_args: 1,
                 args: static exe =>
                 {
-                    if (exe.line.TryReadArgument(out string file_path, out bool seems_valid, strict: true, search_pattern: "*" + JSon.json, path_mode: FS_TYPES.FILE))
+                    if (exe.line.TryReadArgument(out string file_path, out bool seems_valid, strict: true, path_mode: FS_TYPES.FILE))
                         exe.args.Add(file_path);
                 },
                 action: static exe =>
