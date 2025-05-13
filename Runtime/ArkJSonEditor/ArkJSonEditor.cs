@@ -11,11 +11,12 @@ namespace _COBALT_
         public void EditJSon(in object json)
         {
             ArkJSon arkjson = json as ArkJSon;
-            trad_title.SetTrad(Path.GetFileName(arkjson.GetFilePath()));
+            string title = Path.GetFileName(arkjson.GetFilePath());
+            trad_title.SetTrad(title);
 
             FieldInfo[] target_fields = arkjson.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
 
-            Action on_save = null;
+            Action on_save = null, on_change = () => trad_title.SetTrad(title + "*");
             onAction_confirm += () =>
             {
                 on_save?.Invoke();
@@ -35,17 +36,15 @@ namespace _COBALT_
 
                 SguiCustom_Abstract button = value switch
                 {
-                    bool _bool => AddBool(field, arkjson, _bool, ref on_save),
-                    int _int => AddInt(field, arkjson, _int, ref on_save),
-                    float _float => AddFloat(field, arkjson, _float, ref on_save),
-                    Enum _enum => AddEnum(field, arkjson, _enum, ref on_save),
-                    string _str => AddString(field, arkjson, _str, ref on_save),
+                    bool _bool => AddBool(field, arkjson, _bool, on_change, ref on_save),
+                    int _int => AddInt(field, arkjson, _int, on_change, ref on_save),
+                    float _float => AddFloat(field, arkjson, _float, on_change, ref on_save),
+                    Enum _enum => AddEnum(field, arkjson, _enum, on_change, ref on_save),
+                    string _str => AddString(field, arkjson, _str, on_change, ref on_save),
                     _ => null,
                 };
 
-                if (button != null)
-                    button.trad_label.SetTrad(field.Name + ":");
-                else
+                if (button == null)
                 {
                     button = AddButton<SguiCustom_Label>();
                     button.trad_label.SetTrads(new()
