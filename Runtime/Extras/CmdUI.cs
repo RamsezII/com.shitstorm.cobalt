@@ -50,7 +50,7 @@ namespace _COBALT_
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
                     Type type = Type.GetType(type_full_name);
 
-                    SguiCustom window = SguiWindow.InstantiateWindow<SguiCustom>();
+                    ArkJSonEditor window = SguiWindow.InstantiateWindow<ArkJSonEditor>();
                     window.EditJSon(JsonUtility.FromJson(File.ReadAllText(file_path), type));
                 });
         }
