@@ -34,7 +34,7 @@ namespace _COBALT_
                 args: null);
 
             Command.static_domain.AddAction(
-                "edit-json",
+                "edit-conf-file",
                 min_args: 1,
                 args: static exe =>
                 {
@@ -43,16 +43,45 @@ namespace _COBALT_
                 },
                 action: static exe =>
                 {
-                    string file_path = exe.shell.PathCheck((string)exe.args[0], PathModes.ForceFull);
+                    string file_path = (string)exe.args[0];
+                    file_path = exe.shell.PathCheck(file_path, PathModes.ForceFull);
+
                     string file_name = Path.GetFileName(file_path);
-                    string type_name = file_name[..^JSon.json.Length];
+                    string type_name = file_name[..^ArkJSon.arkjson.Length];
                     string assembly_name = file_name[..type_name.IndexOf('.')];
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
-                    Type type = Type.GetType(type_full_name);
 
-                    ArkJSonEditor window = SguiWindow.InstantiateWindow<ArkJSonEditor>();
-                    window.EditJSon(JsonUtility.FromJson(File.ReadAllText(file_path), type));
+                    Type type = Type.GetType(type_full_name);
+                    EditFile(file_path, type);
                 });
+
+            Command.static_domain.AddAction(
+                "edit-asset-infos",
+                min_args: 1,
+                args: static exe =>
+                {
+                    if (exe.line.TryReadArgument(out string file_path, out bool seems_valid, strict: true, path_mode: FS_TYPES.FILE))
+                        exe.args.Add(file_path);
+                },
+                action: static exe =>
+                {
+                    string file_path = (string)exe.args[0];
+                    file_path = exe.shell.PathCheck(file_path, PathModes.ForceFull);
+
+                    string file_name = Path.GetFileName(file_path);
+                    string type_name = file_name[..^ArkJSon.arkjson.Length];
+                    string assembly_name = file_name[..type_name.IndexOf('.')];
+                    string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
+
+                    Type type = Type.GetType(type_full_name);
+                    EditFile(file_path, type);
+                });
+
+            static void EditFile(in string file_path, in Type type)
+            {
+                ArkJSonEditor window = SguiWindow.InstantiateWindow<ArkJSonEditor>();
+                window.EditJSon(JsonUtility.FromJson(File.ReadAllText(file_path), type));
+            }
         }
     }
 }

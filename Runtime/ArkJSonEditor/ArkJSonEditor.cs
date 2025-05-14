@@ -21,6 +21,7 @@ namespace _COBALT_
             {
                 on_save?.Invoke();
                 arkjson.SaveArkJSon(true);
+                NUCLEOR.delegates.onApplicationFocus?.Invoke();
                 return true;
             };
 
