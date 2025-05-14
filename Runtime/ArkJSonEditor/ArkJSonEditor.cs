@@ -3,12 +3,19 @@ using _SGUI_;
 using System.IO;
 using System.Reflection;
 using System;
+using UnityEngine;
 
 namespace _COBALT_
 {
     internal partial class ArkJSonEditor : SguiCustom
     {
-        public void EditJSon(in object json)
+        public static void EditFile(in string file_path, in Type type)
+        {
+            ArkJSonEditor window = InstantiateWindow<ArkJSonEditor>();
+            window.EditJSon(JsonUtility.FromJson(File.ReadAllText(file_path), type));
+        }
+
+        void EditJSon(in object json)
         {
             ArkJSon arkjson = json as ArkJSon;
             string title = Path.GetFileName(arkjson.GetFilePath());

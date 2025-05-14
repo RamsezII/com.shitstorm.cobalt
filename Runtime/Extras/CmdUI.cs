@@ -52,7 +52,7 @@ namespace _COBALT_
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
 
                     Type type = Type.GetType(type_full_name);
-                    EditFile(file_path, type);
+                    ArkJSonEditor.EditFile(file_path, type);
                 });
 
             Command.static_domain.AddAction(
@@ -74,14 +74,8 @@ namespace _COBALT_
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
 
                     Type type = Type.GetType(type_full_name);
-                    EditFile(file_path, type);
+                    ArkJSonEditor.EditFile(file_path, type);
                 });
-
-            static void EditFile(in string file_path, in Type type)
-            {
-                ArkJSonEditor window = SguiWindow.InstantiateWindow<ArkJSonEditor>();
-                window.EditJSon(JsonUtility.FromJson(File.ReadAllText(file_path), type));
-            }
         }
     }
 }
