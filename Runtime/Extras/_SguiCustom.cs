@@ -144,8 +144,6 @@ namespace _COBALT_
                     exe.line = line;
                     exe.Stdout(results);
                     exe.line = null;
-
-                    return true;
                 };
 
                 foreach (var arg in exe.args)

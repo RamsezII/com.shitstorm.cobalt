@@ -76,6 +76,25 @@ namespace _COBALT_
                     Type type = Type.GetType(type_full_name);
                     SguiWindow.InstantiateWindow<SguiCustom>().EditArkJSon(file_path, type);
                 });
+
+            Command.static_domain.AddAction(
+                "sguicustom-dynamic",
+                action: static exe =>
+                {
+                    var target = new
+                    {
+                        yes = true,
+                    };
+
+                    SguiCustom sgui = SguiWindow.InstantiateWindow<SguiCustom>();
+                    sgui.ReflectionEditor(target, new_target =>
+                    {
+                        Debug.Log(new_target.GetType().FullName);
+                        var yes = new_target.GetProp("yes");
+                        Debug.Log(yes.GetType().FullName);
+                        Debug.Log(yes);
+                    });
+                });
         }
     }
 }
