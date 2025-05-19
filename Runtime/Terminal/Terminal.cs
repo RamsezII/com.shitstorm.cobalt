@@ -46,6 +46,7 @@ namespace _COBALT_
         static void OnAfterSceneLoad()
         {
             Util.InstantiateOrCreateIfAbsent<Terminal>(SguiGlobal.instance.rT_2D);
+            SguiGlobal.instance.button_terminal.software_type = typeof(Terminal);
         }
 
         //--------------------------------------------------------------------------------------------------------------
