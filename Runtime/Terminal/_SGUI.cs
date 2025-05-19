@@ -14,7 +14,10 @@ namespace _COBALT_
                 {
                     case PointerEventData.InputButton.Left:
                         if (SguiGlobal.instance.button_terminal.instances.IsEmpty)
-                            InstantiateWindow<Terminal>(true, true, true);
+                            InstantiateWindow<Terminal>(true, true, true).SetScalePivot(SguiGlobal.instance.button_terminal);
+                        else
+                            for (int i = 0; i < SguiGlobal.instance.button_terminal.instances._list.Count; i++)
+                                SguiGlobal.instance.button_terminal.instances._list[i].ToggleWindow(true);
                         break;
 
                     case PointerEventData.InputButton.Middle:

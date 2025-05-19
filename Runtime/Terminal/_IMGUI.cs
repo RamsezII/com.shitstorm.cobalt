@@ -10,6 +10,20 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
+        static bool OnOnGui_static(Event e)
+        {
+            if (e.type != EventType.KeyDown)
+                return false;
+
+            if ((e.control || e.command || e.alt) && e.keyCode == KeyCode.T)
+            {
+                InstantiateWindow<Terminal>(true, true, true);
+                return true;
+            }
+
+            return false;
+        }
+
         bool OnOnGui(Event e)
         {
             if (e.type != EventType.KeyDown)
@@ -21,10 +35,6 @@ namespace _COBALT_
 
                 if (!toggle)
                     if (e.keyCode == KeyCode.O && UsageManager.AreEmpty(UsageGroups.Typing))
-                        toggle = true;
-
-                if (!toggle)
-                    if ((e.control || e.command || e.alt) && e.keyCode == KeyCode.T)
                         toggle = true;
 
                 if (toggle)

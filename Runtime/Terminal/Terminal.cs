@@ -8,11 +8,8 @@ namespace _COBALT_
 {
     public partial class Terminal : SguiWindow1, ITerminal
     {
-        public static Terminal instance;
-
         public Shell shell;
         Shell ITerminal.GetShell => shell;
-        public override SoftwareButton taskbar_button => SguiGlobal.instance.button_terminal;
 
         public readonly OnValue<KeyCode>
             flag_alt = new(),
@@ -28,13 +25,13 @@ namespace _COBALT_
         static void OnAfterSceneLoad()
         {
             InitSoftwareButton();
+            IMGUI_global.instance.users_ongui.AddElement(OnOnGui_static, new());
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void Awake()
         {
-            instance = this;
             SguiGlobal.instance.button_terminal.instances.AddElement(this);
 
             base.Awake();
@@ -109,19 +106,21 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
+        protected override void OnOblivion()
+        {
+            base.OnOblivion();
+
+            IMGUI_global.instance.users_ongui.RemoveElement(this);
+            SguiGlobal.instance?.button_terminal?.instances.RemoveElement(this);
+            LogManager.ToggleListener(false, AddLine_log);
+        }
+
         protected override void OnDestroy()
         {
             NUCLEOR.delegates.getInputs -= OnGetInputs;
             NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
 
             base.OnDestroy();
-
-            if (this == instance)
-                instance = null;
-
-            IMGUI_global.instance.users_ongui.RemoveElement(this);
-            SguiGlobal.instance?.button_terminal?.instances.AddElement(this);
-            LogManager.ToggleListener(false, AddLine_log);
         }
     }
 }
