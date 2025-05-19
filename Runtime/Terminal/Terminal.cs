@@ -106,6 +106,7 @@ namespace _COBALT_
             shell = Util.InstantiateOrCreate<Shell>(transform);
 
             NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForSeconds(.5f, false, () => sgui_toggle_window.Update(false)));
+            SguiGlobal.instance.button_terminal.instances.AddElement(this);
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -145,6 +146,7 @@ namespace _COBALT_
                 instance = null;
 
             IMGUI_global.instance.users_ongui.RemoveElement(this);
+            SguiGlobal.instance?.button_terminal?.instances.AddElement(this);
         }
     }
 }
