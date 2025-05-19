@@ -16,7 +16,7 @@ namespace _COBALT_
             {
                 if (string.IsNullOrWhiteSpace(input_text))
                 {
-                    sgui_toggle_window.Update(false);
+                    ToggleWindow(false);
                     return;
                 }
 

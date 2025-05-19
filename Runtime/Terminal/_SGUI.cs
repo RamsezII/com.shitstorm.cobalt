@@ -13,6 +13,8 @@ namespace _COBALT_
                 switch (eventData.button)
                 {
                     case PointerEventData.InputButton.Left:
+                        if (SguiGlobal.instance.button_terminal.instances.IsEmpty)
+                            InstantiateWindow<Terminal>(true, true, true);
                         break;
 
                     case PointerEventData.InputButton.Middle:

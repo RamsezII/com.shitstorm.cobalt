@@ -12,7 +12,6 @@ namespace _COBALT_
 
         public Shell shell;
         Shell ITerminal.GetShell => shell;
-        void ITerminal.ToggleWindow(bool toggle) => sgui_toggle_window.Update(toggle);
         public override SoftwareButton taskbar_button => SguiGlobal.instance.button_terminal;
 
         public readonly OnValue<KeyCode>
@@ -28,7 +27,6 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            Util.InstantiateOrCreateIfAbsent<Terminal>(SguiGlobal.instance.rT_2D);
             InitSoftwareButton();
         }
 
@@ -37,6 +35,7 @@ namespace _COBALT_
         protected override void Awake()
         {
             instance = this;
+            SguiGlobal.instance.button_terminal.instances.AddElement(this);
 
             base.Awake();
 
@@ -79,9 +78,6 @@ namespace _COBALT_
 
             shell = Util.InstantiateOrCreate<Shell>(transform);
 
-            NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForSeconds(.5f, false, () => sgui_toggle_window.Update(false)));
-            SguiGlobal.instance.button_terminal.instances.AddElement(this);
-
             LogManager.ReadLastLogs(250, AddLine_log);
             LogManager.ToggleListener(true, AddLine_log);
         }
@@ -96,6 +92,7 @@ namespace _COBALT_
                 {
                     case BaseStates.toActive:
                     case BaseStates.Active:
+                        flag_stdout.Update(true);
                         ForceSelectStdin();
                         break;
                 }

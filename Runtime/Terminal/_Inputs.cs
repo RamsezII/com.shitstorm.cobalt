@@ -51,7 +51,7 @@ namespace _COBALT_
         {
             InputsFlags inputs = 0;
 
-            if (Application.isFocused || !sgui_toggle_window._value)
+            if (Application.isFocused || !IsWindowOpened)
                 mouse_scroll = Input.mouseScrollDelta.y;
             else
                 mouse_scroll = 0;

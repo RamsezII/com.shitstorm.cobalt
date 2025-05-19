@@ -15,7 +15,7 @@ namespace _COBALT_
             if (e.type != EventType.KeyDown)
                 return false;
 
-            if (!sgui_toggle_window.Value)
+            if (!IsWindowOpened)
             {
                 bool toggle = false;
 
@@ -29,7 +29,7 @@ namespace _COBALT_
 
                 if (toggle)
                 {
-                    sgui_toggle_window.Update(true);
+                    ToggleWindow(true);
                     if (!opened_once)
                     {
                         NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(1, ClearStdout));
@@ -43,7 +43,7 @@ namespace _COBALT_
 
             if (e.keyCode == KeyCode.Escape)
             {
-                sgui_toggle_window.Update(false);
+                ToggleWindow(false);
                 return true;
             }
 
