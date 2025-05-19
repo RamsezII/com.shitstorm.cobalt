@@ -6,9 +6,6 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-#if UNITY_EDITOR
-    [UnityEditor.InitializeOnLoad]
-#endif
     public partial class Terminal : SguiWindow1, ITerminal
     {
         public static Terminal instance;
@@ -28,25 +25,11 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        static Terminal()
-        {
-            InitLogs();
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void OnBeforeSceneLoad()
-        {
-            Application.logMessageReceivedThreaded -= OnLogMessageReceived;
-            Application.logMessageReceivedThreaded += OnLogMessageReceived;
-        }
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
             Util.InstantiateOrCreateIfAbsent<Terminal>(SguiGlobal.instance.rT_2D);
-            SguiGlobal.instance.button_terminal.software_type = typeof(Terminal);
+            InitSoftwareButton();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -58,15 +41,6 @@ namespace _COBALT_
             base.Awake();
 
             AwakeUI();
-
-            lock (onLog)
-                lock (pending_logs)
-                {
-                    foreach (LogInfos log in pending_logs)
-                        AddLine_log(log);
-                    pending_logs.Clear();
-                    onLog._value = AddLine_log;
-                }
 
             IMGUI_global.instance.users_ongui.AddElement(OnOnGui, this);
         }
@@ -107,6 +81,9 @@ namespace _COBALT_
 
             NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForSeconds(.5f, false, () => sgui_toggle_window.Update(false)));
             SguiGlobal.instance.button_terminal.instances.AddElement(this);
+
+            LogManager.ReadLastLogs(250, AddLine_log);
+            LogManager.ToggleListener(true, AddLine_log);
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -147,6 +124,7 @@ namespace _COBALT_
 
             IMGUI_global.instance.users_ongui.RemoveElement(this);
             SguiGlobal.instance?.button_terminal?.instances.AddElement(this);
+            LogManager.ToggleListener(false, AddLine_log);
         }
     }
 }
