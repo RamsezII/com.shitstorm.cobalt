@@ -17,7 +17,11 @@ namespace _COBALT_
                             InstantiateWindow<Terminal>(true, true, true).SetScalePivot(SguiGlobal.instance.button_terminal);
                         else
                             for (int i = 0; i < SguiGlobal.instance.button_terminal.instances._list.Count; i++)
-                                SguiGlobal.instance.button_terminal.instances._list[i].ToggleWindow(true);
+                            {
+                                SguiWindow1 instance = SguiGlobal.instance.button_terminal.instances._list[i];
+                                instance.SetScalePivot(SguiGlobal.instance.button_terminal);
+                                instance.ToggleWindow(true);
+                            }
                         break;
 
                     case PointerEventData.InputButton.Middle:

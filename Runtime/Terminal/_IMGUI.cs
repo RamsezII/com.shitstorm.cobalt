@@ -15,6 +15,18 @@ namespace _COBALT_
             if (e.type != EventType.KeyDown)
                 return false;
 
+            if (e.keyCode == KeyCode.O)
+                if (instance_last == null)
+                {
+                    InstantiateWindow<Terminal>(true, true, true);
+                    return true;
+                }
+                else if (UsageManager.AreEmpty(UsageGroups.Typing))
+                {
+                    instance_last.ToggleWindow(true);
+                    return true;
+                }
+
             if ((e.control || e.command || e.alt) && e.keyCode == KeyCode.T)
             {
                 InstantiateWindow<Terminal>(true, true, true);

@@ -8,6 +8,8 @@ namespace _COBALT_
 {
     public partial class Terminal : SguiWindow1, ITerminal
     {
+        public static Terminal instance_last;
+
         public Shell shell;
         Shell ITerminal.GetShell => shell;
 
@@ -104,6 +106,13 @@ namespace _COBALT_
             }));
         }
 
+        protected override void OnToggleWindow(in bool toggle)
+        {
+            base.OnToggleWindow(toggle);
+            if (toggle)
+                instance_last = this;
+        }
+
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void OnOblivion()
@@ -121,6 +130,9 @@ namespace _COBALT_
             NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
 
             base.OnDestroy();
+
+            if (this == instance_last)
+                instance_last = null;
         }
     }
 }
