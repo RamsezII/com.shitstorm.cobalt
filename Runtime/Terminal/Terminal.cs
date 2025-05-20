@@ -12,6 +12,8 @@ namespace _COBALT_
 
         public Shell shell;
         Shell ITerminal.GetShell => shell;
+        void ITerminal.Exit() => Oblivionize();
+        void ITerminal.ClearLines() => lines.Clear();
 
         public readonly OnValue<KeyCode>
             flag_alt = new(),
