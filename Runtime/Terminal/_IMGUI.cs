@@ -16,16 +16,17 @@ namespace _COBALT_
                 return false;
 
             if (e.keyCode == KeyCode.O)
-                if (instance_last == null)
-                {
-                    InstantiateWindow<Terminal>(true, true, true);
-                    return true;
-                }
-                else if (UsageManager.AreEmpty(UsageGroups.Typing))
-                {
-                    instance_last.ToggleWindow(true);
-                    return true;
-                }
+                if (UsageManager.AreEmpty(UsageGroups.Typing))
+                    if (instance_last == null)
+                    {
+                        InstantiateWindow<Terminal>(true, true, true);
+                        return true;
+                    }
+                    else
+                    {
+                        instance_last.ToggleWindow(true);
+                        return true;
+                    }
 
             if ((e.control || e.command || e.alt) && e.keyCode == KeyCode.T)
             {
