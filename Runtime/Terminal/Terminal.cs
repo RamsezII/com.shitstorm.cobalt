@@ -28,7 +28,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            InitSoftwareButton();
+            SguiGlobal.instance.button_terminal.software_type = typeof(Terminal);
             IMGUI_global.instance.users_ongui.AddElement(OnOnGui_static, new());
         }
 
