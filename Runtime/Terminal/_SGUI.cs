@@ -8,6 +8,7 @@ namespace _COBALT_
         private static void InitSoftwareButton()
         {
             SguiGlobal.instance.button_terminal.software_type = typeof(Terminal);
+            return;
             SguiGlobal.instance.button_terminal.onClickAction = eventData =>
             {
                 switch (eventData.button)
