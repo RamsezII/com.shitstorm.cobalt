@@ -36,7 +36,7 @@ namespace _COBALT_
 
         protected override void Awake()
         {
-            SguiGlobal.instance.button_terminal.instances.AddElement(this);
+            sgui_softwarebutton = SguiGlobal.instance.button_terminal;
 
             base.Awake();
 
@@ -122,7 +122,6 @@ namespace _COBALT_
             base.OnOblivion();
 
             IMGUI_global.instance.users_ongui.RemoveElement(this);
-            SguiGlobal.instance?.button_terminal?.instances.RemoveElement(this);
             LogManager.ToggleListener(false, AddLine_log);
         }
 
