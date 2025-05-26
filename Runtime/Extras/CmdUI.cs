@@ -47,7 +47,7 @@ namespace _COBALT_
                     file_path = exe.shell.PathCheck(file_path, PathModes.ForceFull);
 
                     string file_name = Path.GetFileName(file_path);
-                    string type_name = file_name[..^ArkJSon.arkjson.Length];
+                    string type_name = file_name[..^JSon.json.Length];
                     string assembly_name = file_name[..type_name.IndexOf('.')];
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
 
@@ -69,7 +69,7 @@ namespace _COBALT_
                     file_path = exe.shell.PathCheck(file_path, PathModes.ForceFull);
 
                     string file_name = Path.GetFileName(file_path);
-                    string type_name = file_name[..^ArkJSon.arkjson.Length];
+                    string type_name = file_name[..^JSon.json.Length];
                     string assembly_name = file_name[..type_name.IndexOf('.')];
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
 
