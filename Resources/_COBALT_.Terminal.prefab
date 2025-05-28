@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "input\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 88a9dbd84f0ca7c488932cc45935e967, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 9741e6fd755e9af4196d63491b773606, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ad54ce0f4b202444e85c73b86a204657, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: f1d71105240a68d4995ce705c437c74f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 14
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -860,6 +860,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 474848192070545459}
     m_Modifications:
+    - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7181463110064890683, guid: b010926970086da41865605d5c2dd823,
         type: 3}
       propertyPath: m_Pivot.x
@@ -996,9 +1001,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
         type: 3}
+      propertyPath: m_fontSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: ad54ce0f4b202444e85c73b86a204657,
+        type: 2}
+    - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
+        type: 3}
       propertyPath: m_fontSizeBase
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: f1d71105240a68d4995ce705c437c74f, type: 2}
     - target: {fileID: 2721572147118600330, guid: b010926970086da41865605d5c2dd823,
         type: 3}
       propertyPath: m_Text
@@ -1864,6 +1885,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   animate_hue: 1
   oblivionized: 0
+  sgui_softwarebutton: {fileID: 0}
   hierarchy_viewport_rT: {fileID: 0}
   hierarchy_content_rT: {fileID: 0}
   hierarchy_layout: {fileID: 0}
@@ -1986,10 +2008,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
         type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -5330691753013373067, guid: 88a9dbd84f0ca7c488932cc45935e967,
-        type: 2}
+      propertyPath: m_fontSizeBase
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
         type: 3}
       propertyPath: m_fontColor32.rgba
@@ -2163,6 +2184,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: "realtime: 100% +++++++______\u200B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
+        type: 3}
+      propertyPath: m_TextWrappingMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1469587111055992904, guid: b010926970086da41865605d5c2dd823,
         type: 3}

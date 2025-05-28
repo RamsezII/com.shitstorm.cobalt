@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "text\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 88a9dbd84f0ca7c488932cc45935e967, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 9741e6fd755e9af4196d63491b773606, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ad54ce0f4b202444e85c73b86a204657, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: f1d71105240a68d4995ce705c437c74f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 14
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -263,7 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79aa77b4e2cfb2e4188bdd225e186022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   terminal: {fileID: 0}
   rT: {fileID: 0}
   rT_parent: {fileID: 0}
