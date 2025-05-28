@@ -43,19 +43,19 @@ namespace _COBALT_
                 max_args: 10,
                 opts: static exe =>
                 {
-                    if (exe.line.TryRead_one_of_the_flags(exe, out _, opt_t, opt_title))
-                        if (exe.line.TryReadArgument(out string arg, out _))
+                    if (exe.signal.TryRead_one_of_the_flags(exe, out _, opt_t, opt_title))
+                        if (exe.signal.TryReadArgument(out string arg, out _))
                             exe.opts.Add(opt_t, arg);
                 },
                 args: static exe =>
                 {
-                    while (exe.line.TryReadArgument(out string button_type, out _, strict: true, lint: false, completions: new string[] { type_slider, type_input, type_dropdown, type_toggle, type_button, }))
+                    while (exe.signal.TryReadArgument(out string button_type, out _, strict: true, lint: false, completions: new string[] { type_slider, type_input, type_dropdown, type_toggle, type_button, }))
                     {
-                        exe.line.LintToThisPosition(exe.line.linter.type);
+                        exe.signal.LintToThisPosition(exe.signal.linter.type);
 
                         CustomButtonInfos infos = new();
 
-                        if (exe.line.TryReadArgument(out string label, out _))
+                        if (exe.signal.TryReadArgument(out string label, out _))
                             infos.label = new(label);
 
                         switch (button_type.ToLower())
@@ -63,20 +63,20 @@ namespace _COBALT_
                             case type_slider:
                                 infos.type = typeof(SguiCustom_Slider);
                                 {
-                                    if (exe.line.TryRead_one_flag(exe, flag_int))
+                                    if (exe.signal.TryRead_one_flag(exe, flag_int))
                                         infos.slider_is_int = true;
 
-                                    if (exe.line.TryRead_one_flag(exe, opt_min))
-                                        exe.line.TryReadFloat(out infos.slider_min);
+                                    if (exe.signal.TryRead_one_flag(exe, opt_min))
+                                        exe.signal.TryReadFloat(out infos.slider_min);
 
-                                    if (exe.line.TryRead_one_flag(exe, opt_max))
-                                        exe.line.TryReadFloat(out infos.slider_max);
+                                    if (exe.signal.TryRead_one_flag(exe, opt_max))
+                                        exe.signal.TryReadFloat(out infos.slider_max);
                                 }
                                 break;
 
                             case type_input:
                                 infos.type = typeof(SguiCustom_InputField);
-                                if (exe.line.TryRead_one_flag(exe, "-p", "--password"))
+                                if (exe.signal.TryRead_one_flag(exe, "-p", "--password"))
                                     infos.input_is_passward = true;
                                 break;
 
@@ -84,8 +84,8 @@ namespace _COBALT_
                                 infos.type = typeof(SguiCustom_Dropdown);
                                 {
                                     infos.dropdown_items = new();
-                                    while (exe.line.TryRead_one_of_the_flags(exe, out _, opt_i, opt_item))
-                                        if (exe.line.TryReadArgument(out string item, out _))
+                                    while (exe.signal.TryRead_one_of_the_flags(exe, out _, opt_i, opt_item))
+                                        if (exe.signal.TryReadArgument(out string item, out _))
                                             infos.dropdown_items.Add(new(item));
                                 }
                                 break;
@@ -140,10 +140,10 @@ namespace _COBALT_
                                 break;
                         }
 
-                    Command.Line line = new(string.Empty, SIGNALS.EXEC, exe.shell);
-                    exe.line = line;
+                    Command.Signal signal = new(string.Empty, SIG_FLAGS.EXEC, exe.shell);
+                    exe.signal = signal;
                     exe.Stdout(results);
-                    exe.line = null;
+                    exe.signal = null;
                 };
 
                 foreach (var arg in exe.args)
@@ -176,7 +176,7 @@ namespace _COBALT_
                 {
                     while (clone != null && !clone.oblivionized)
                     {
-                        if (exe.line.signal.HasFlag(SIGNALS.KILL))
+                        if (exe.signal.flags.HasFlag(SIG_FLAGS.KILL))
                         {
                             clone.Oblivionize();
                             clone = null;

@@ -17,7 +17,7 @@ namespace _COBALT_
                 "show-open-prompt",
                 opts: static exe =>
                 {
-                    if (exe.line.TryRead_one_of_the_flags(exe, out string flag, flag_d, flag_f))
+                    if (exe.signal.TryRead_one_of_the_flags(exe, out string flag, flag_d, flag_f))
                         exe.opts.Add(flag, null);
                 },
                 routine: ERoutine
@@ -37,8 +37,8 @@ namespace _COBALT_
                 {
                     if (result_path != null)
                     {
-                        Command.Line line = new(string.Empty, SIGNALS.EXEC, exe.shell);
-                        exe.Stdout(result_path, line: line);
+                        Command.Signal signal = new(string.Empty, SIG_FLAGS.EXEC, exe.shell);
+                        exe.Stdout(result_path, signal: signal);
                     }
                     done = true;
                 });
@@ -47,7 +47,7 @@ namespace _COBALT_
                 {
                     while (!done && clone != null)
                     {
-                        if (exe.line.signal.HasFlag(SIGNALS.KILL))
+                        if (exe.signal.flags.HasFlag(SIG_FLAGS.KILL))
                         {
                             clone.Oblivionize();
                             clone = null;

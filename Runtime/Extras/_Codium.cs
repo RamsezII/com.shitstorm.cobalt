@@ -17,13 +17,13 @@ namespace _COBALT_
                 min_args: 1,
                 opts: static exe =>
                 {
-                    if (exe.line.TryRead_one_of_the_flags(exe, out string flag, flag_F, flag_force_create))
+                    if (exe.signal.TryRead_one_of_the_flags(exe, out string flag, flag_F, flag_force_create))
                         exe.opts.Add(flag_F, null);
                 },
                 args: static exe =>
                 {
                     bool force = exe.opts.ContainsKey(flag_F);
-                    if (exe.line.TryReadArgument(out string path, out _, strict: !force, path_mode: _UTIL_.FS_TYPES.FILE))
+                    if (exe.signal.TryReadArgument(out string path, out _, strict: !force, path_mode: _UTIL_.FS_TYPES.FILE))
                         exe.args.Add(path);
                 },
                 routine: EEditFile);
@@ -40,7 +40,7 @@ namespace _COBALT_
                 {
                     while (notepad != null)
                     {
-                        if (exe.line.signal.HasFlag(SIGNALS.KILL))
+                        if (exe.signal.flags.HasFlag(SIG_FLAGS.KILL))
                         {
                             notepad.Oblivionize();
                             break;
@@ -57,7 +57,7 @@ namespace _COBALT_
 
             Command.static_domain.AddRoutine(
                 "codium",
-                opts: static exe => exe.line.TryReadOption_workdir(exe),
+                opts: static exe => exe.signal.TryReadOption_workdir(exe),
                 routine: ECodium);
 
             static IEnumerator<CMD_STATUS> ECodium(Command.Executor exe)
@@ -70,7 +70,7 @@ namespace _COBALT_
                 {
                     while (constrictor != null)
                     {
-                        if (exe.line.signal.HasFlag(SIGNALS.KILL))
+                        if (exe.signal.flags.HasFlag(SIG_FLAGS.KILL))
                         {
                             constrictor.Oblivionize();
                             break;

@@ -25,8 +25,8 @@ namespace _COBALT_
                 string line = lines[i];
                 character_count += line.Length;
 
-                lines[i] = terminal.linter.GetLint(terminal.shell, line, out Command.Line cmdline, SIGNALS.TAB);
-                Debug.Log(cmdline.text);
+                lines[i] = terminal.linter.GetLint(terminal.shell, line, out Command.Signal signal, SIG_FLAGS.LIST);
+                Debug.Log(signal.text);
             }
 
             lint_tmp.text = lines.Join("\n");

@@ -8,19 +8,19 @@ namespace _COBALT_
     {
         void OnAltKey()
         {
-            SIGNALS signal = flag_alt.PullValue switch
+            SIG_FLAGS flags = flag_alt.PullValue switch
             {
-                KeyCode.LeftArrow => SIGNALS.LEFT,
-                KeyCode.RightArrow => SIGNALS.RIGHT,
-                KeyCode.UpArrow => SIGNALS.UP,
-                KeyCode.DownArrow => SIGNALS.DOWN,
+                KeyCode.LeftArrow => SIG_FLAGS.LEFT,
+                KeyCode.RightArrow => SIG_FLAGS.RIGHT,
+                KeyCode.UpArrow => SIG_FLAGS.UP,
+                KeyCode.DownArrow => SIG_FLAGS.DOWN,
                 _ => 0,
             };
 
-            if (signal == 0)
+            if (flags == 0)
                 return;
 
-            signal |= SIGNALS.ALT;
+            flags |= SIG_FLAGS.ALT;
 
             flag_stdin.Update(true);
 
@@ -29,17 +29,17 @@ namespace _COBALT_
 
             try
             {
-                Command.Line line = new(
+                Command.Signal signal = new(
                     stdin_frame >= tab_frame ? input_stdin.input_field.text : stdin_save,
-                    signal,
+                    flags,
                     shell,
                     input_stdin.input_field.caretPosition
                     );
 
-                shell.PropagateLine(line);
-                stdin_save = line.text;
-                input_stdin.input_field.text = line.text;
-                input_stdin.input_field.caretPosition = line.cursor_i;
+                shell.PropagateSignal(signal);
+                stdin_save = signal.text;
+                input_stdin.input_field.text = signal.text;
+                input_stdin.input_field.caretPosition = signal.cursor_i;
             }
             catch (Exception e)
             {

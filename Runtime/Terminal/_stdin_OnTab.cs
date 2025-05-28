@@ -8,17 +8,17 @@ namespace _COBALT_
         void OnTab(in int charIndex)
         {
             tab_frame = Time.frameCount;
-            Command.Line line = new(
+            Command.Signal signal = new(
                 stdin_save,
-                SIGNALS.TAB,
+                SIG_FLAGS.TAB,
                 shell,
                 Mathf.Min(stdin_save.Length, charIndex),
                 cpl_index++
                 );
 
-            shell.PropagateLine(line);
-            input_stdin.input_field.text = line.text;
-            input_stdin.input_field.caretPosition = line.cursor_i;
+            shell.PropagateSignal(signal);
+            input_stdin.input_field.text = signal.text;
+            input_stdin.input_field.caretPosition = signal.cursor_i;
         }
     }
 }
