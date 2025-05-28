@@ -18,8 +18,6 @@ namespace _COBALT_
             {
                 case CMD_STATES.WAIT_FOR_STDIN:
                     stdin_save = text;
-                    Command.Line line = new(text, SIGNALS.STDIN_CHANGE, shell);
-                    shell.PropagateLine(line);
                     break;
 
                 case CMD_STATES.BLOCKING:

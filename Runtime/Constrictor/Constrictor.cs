@@ -49,13 +49,5 @@ namespace _COBALT_
             instance.Init_folder(folder_path);
             return null;
         }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void OnValueChange(string text)
-        {
-            base.OnValueChange(text);
-            lint_tmp.text = text;
-        }
     }
 }

@@ -20,7 +20,7 @@ namespace _COBALT_
             if (signal == 0)
                 return;
 
-            signal |= SIGNALS.CPL_ALT;
+            signal |= SIGNALS.ALT;
 
             flag_stdin.Update(true);
 

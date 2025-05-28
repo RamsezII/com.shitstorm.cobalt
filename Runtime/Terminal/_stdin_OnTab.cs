@@ -10,7 +10,7 @@ namespace _COBALT_
             tab_frame = Time.frameCount;
             Command.Line line = new(
                 stdin_save,
-                SIGNALS.CPL_TAB,
+                SIGNALS.TAB,
                 shell,
                 Mathf.Min(stdin_save.Length, charIndex),
                 cpl_index++

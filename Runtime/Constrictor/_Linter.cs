@@ -1,4 +1,7 @@
-﻿namespace _COBALT_
+﻿using _COBRA_;
+using UnityEngine;
+
+namespace _COBALT_
 {
     partial class Constrictor
     {
@@ -22,7 +25,8 @@
                 string line = lines[i];
                 character_count += line.Length;
 
-                lines[i] = terminal.linter.GetLint(terminal.shell, line, out _);
+                lines[i] = terminal.linter.GetLint(terminal.shell, line, out Command.Line cmdline, SIGNALS.TAB);
+                Debug.Log(cmdline.text);
             }
 
             lint_tmp.text = lines.Join("\n");
