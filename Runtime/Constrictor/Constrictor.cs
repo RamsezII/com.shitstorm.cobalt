@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-    public partial class Constrictor : SguiEditor
+    public partial class Constrictor : SguiCodium
     {
         public Terminal terminal;
 
