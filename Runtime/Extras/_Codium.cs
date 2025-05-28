@@ -64,6 +64,7 @@ namespace _COBALT_
             {
                 string work_dir = exe.GetWorkdir();
                 string error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
+                constrictor.terminal = (Terminal)exe.shell.terminal;
 
                 try
                 {

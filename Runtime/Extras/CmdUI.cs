@@ -52,7 +52,7 @@ namespace _COBALT_
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
 
                     Type type = Type.GetType(type_full_name);
-                    SguiWindow.InstantiateWindow<SguiCustom>().EditArkJSon(file_path, type);
+                    SguiWindow.InstantiateWindow<SguiCustom>().EditJSon(file_path, type);
                 });
 
             Command.static_domain.AddAction(
@@ -74,7 +74,7 @@ namespace _COBALT_
                     string type_full_name = $"{type_name}, shitstorm.{assembly_name}";
 
                     Type type = Type.GetType(type_full_name);
-                    SguiWindow.InstantiateWindow<SguiCustom>().EditArkJSon(file_path, type);
+                    SguiWindow.InstantiateWindow<SguiCustom>().EditJSon(file_path, type);
                 });
         }
     }

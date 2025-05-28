@@ -13,7 +13,7 @@ namespace _COBALT_
             flag_stdin = new(),
             flag_clampbottom = new();
 
-        [SerializeField] Command.Line.Linter linter = new();
+        public Command.Line.Linter linter = new();
         Command.Line.Linter ITerminal.GetLinter => linter;
 
         //--------------------------------------------------------------------------------------------------------------

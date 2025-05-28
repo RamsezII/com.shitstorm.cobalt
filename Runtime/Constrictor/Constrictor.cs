@@ -1,20 +1,36 @@
 using _SGUI_;
 using System.IO;
-using TMPro;
 using UnityEngine;
 
 namespace _COBALT_
 {
     public partial class Constrictor : SguiEditor
     {
-        [SerializeField] protected TextMeshProUGUI lint_tmp;
+        public Terminal terminal;
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void OnAfterSceneLoad()
+        {
+            SguiGlobal.instance.button_codium.software_type = typeof(Constrictor);
+        }
 
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void Awake()
         {
+            sgui_softwarebutton = SguiGlobal.instance.button_codium;
             base.Awake();
-            lint_tmp = main_input_field.transform.Find("text_area/text/lint").GetComponent<TextMeshProUGUI>();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Start()
+        {
+            base.Start();
+            if (terminal == null)
+                terminal = InstantiateWindow<Terminal>(true, true, true);
         }
 
         //--------------------------------------------------------------------------------------------------------------
