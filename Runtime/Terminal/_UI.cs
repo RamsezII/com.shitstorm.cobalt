@@ -81,7 +81,7 @@ namespace _COBALT_
 
             input_stdin.input_field.onValidateInput = OnValidateStdin;
 
-            MachineSettings.user_name.AddListener(value => flag_stdin.Update(true));
+            ArkMachine.user_name.AddListener(value => flag_stdin.Update(true));
 
             font_size.AddProcessor(value => Mathf.Clamp(value, .5f, 2));
 
