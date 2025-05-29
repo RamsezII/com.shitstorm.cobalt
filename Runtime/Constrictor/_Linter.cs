@@ -31,7 +31,7 @@ namespace _COBALT_
                     lines[i] = terminal.linter.GetLint(terminal.shell, line, out Command.Signal signal, cursor_i: main_input_field.caretPosition - character_count, flags: SIG_FLAGS.LIST);
                     if (signal.completions != null)
                     {
-                        TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[character_count + signal.cpl_start_i];
+                        TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[character_count + signal.cpl_last_i];
 
                         // Passe en world space
                         Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
