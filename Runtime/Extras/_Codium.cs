@@ -12,7 +12,7 @@ namespace _COBALT_
                 flag_force_create = "--create-if-null",
                 flag_F = "-F";
 
-            Command.static_domain.AddRoutine(
+            Command.static_domain.AddAction(
                 "edit-file",
                 min_args: 1,
                 opts: static exe =>
@@ -26,64 +26,23 @@ namespace _COBALT_
                     if (exe.signal.TryReadArgument(out string path, out _, strict: !force, path_mode: _UTIL_.FS_TYPES.FILE))
                         exe.args.Add(path);
                 },
-                routine: EEditFile);
-
-            static IEnumerator<CMD_STATUS> EEditFile(Command.Executor exe)
-            {
-                bool force = exe.opts.ContainsKey(flag_F);
-                string file_path = (string)exe.args[0];
-                file_path = exe.shell.PathCheck(file_path, PathModes.ForceFull);
-
-                string error = SguiNotepad.TryOpenNotepad(file_path, false, out SguiNotepad notepad);
-
-                try
+                action: static exe =>
                 {
-                    while (notepad != null)
-                    {
-                        if (exe.signal.flags.HasFlag(SIG_FLAGS.KILL))
-                        {
-                            notepad.Oblivionize();
-                            break;
-                        }
-                        yield return new CMD_STATUS(CMD_STATES.BLOCKING);
-                    }
-                }
-                finally
-                {
-                    if (notepad != null)
-                        notepad.Oblivionize();
-                }
-            }
+                    bool force = exe.opts.ContainsKey(flag_F);
+                    string file_path = (string)exe.args[0];
+                    file_path = exe.shell.PathCheck(file_path, PathModes.ForceFull);
+                    string error = SguiNotepad.TryOpenNotepad(file_path, false, out SguiNotepad notepad);
+                });
 
-            Command.static_domain.AddRoutine(
+            Command.static_domain.AddAction(
                 "codium",
                 opts: static exe => exe.signal.TryReadOption_workdir(exe),
-                routine: ECodium);
-
-            static IEnumerator<CMD_STATUS> ECodium(Command.Executor exe)
-            {
-                string work_dir = exe.GetWorkdir();
-                string error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
-                constrictor.terminal = (Terminal)exe.shell.terminal;
-
-                try
+                action: static exe =>
                 {
-                    while (constrictor != null)
-                    {
-                        if (exe.signal.flags.HasFlag(SIG_FLAGS.KILL))
-                        {
-                            constrictor.Oblivionize();
-                            break;
-                        }
-                        yield return new CMD_STATUS(CMD_STATES.BLOCKING);
-                    }
-                }
-                finally
-                {
-                    if (constrictor != null)
-                        constrictor.Oblivionize();
-                }
-            }
+                    string work_dir = exe.GetWorkdir();
+                    string error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
+                    constrictor.terminal = (Terminal)exe.shell.terminal;
+                });
         }
     }
 }
