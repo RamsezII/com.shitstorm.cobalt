@@ -14,7 +14,7 @@ namespace _COBALT_
         {
             base.OnLint();
 
-            ResetIntellisense();
+            completor.ResetIntellisense();
 
             string text = main_input_field.text;
             if (string.IsNullOrWhiteSpace(text))
@@ -39,7 +39,7 @@ namespace _COBALT_
                         // Passe en écran (optionnel, utile pour placer une fenêtre UI dans le canvas Overlay)
                         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
 
-                        UpdateIntellisense(screenPos, cmd_line.completions);
+                        completor.UpdateIntellisense(screenPos, cmd_line.completions);
                     }
                 }
                 character_count += 1 + text_line.Length;
