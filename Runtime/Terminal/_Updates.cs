@@ -13,8 +13,8 @@ namespace _COBALT_
             flag_stdin = new(),
             flag_clampbottom = new();
 
-        public Command.Signal.Linter linter = new();
-        Command.Signal.Linter ITerminal.GetLinter => linter;
+        public Command.Line.Linter linter = new();
+        Command.Line.Linter ITerminal.GetLinter => linter;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ namespace _COBALT_
 
                 if (flag_nav_history.TryPullValue(out KeyCode nav_val))
                 {
-                    Command.Signal.OnHistoryNav(nav_val, out string entry);
+                    Command.Line.OnHistoryNav(nav_val, out string entry);
                     input_stdin.input_field.text = entry;
                     input_stdin.input_field.caretPosition = entry.Length;
                     flag_stdin.Update(true);

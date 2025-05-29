@@ -29,17 +29,17 @@ namespace _COBALT_
 
             try
             {
-                Command.Signal signal = new(
+                Command.Line line = new(
                     stdin_frame >= tab_frame ? input_stdin.input_field.text : stdin_save,
                     flags,
                     shell,
                     input_stdin.input_field.caretPosition
                     );
 
-                shell.PropagateSignal(signal);
-                stdin_save = signal.text;
-                input_stdin.input_field.text = signal.text;
-                input_stdin.input_field.caretPosition = signal.cursor_i;
+                shell.PropagateSignal(line);
+                stdin_save = line.text;
+                input_stdin.input_field.text = line.text;
+                input_stdin.input_field.caretPosition = line.cursor_i;
             }
             catch (Exception e)
             {

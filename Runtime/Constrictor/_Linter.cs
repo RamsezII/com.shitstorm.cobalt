@@ -25,13 +25,13 @@ namespace _COBALT_
 
             for (int i = 0; i < lines.Length; i++)
             {
-                string line = lines[i];
-                if (!string.IsNullOrWhiteSpace(line))
+                string text_line = lines[i];
+                if (!string.IsNullOrWhiteSpace(text_line))
                 {
-                    lines[i] = terminal.linter.GetLint(terminal.shell, line, out Command.Signal signal, cursor_i: main_input_field.caretPosition - character_count, flags: SIG_FLAGS.LIST);
-                    if (signal.completions != null)
+                    lines[i] = terminal.linter.GetLint(terminal.shell, text_line, out Command.Line cmd_line, cursor_i: main_input_field.caretPosition - character_count, flags: SIG_FLAGS.LIST);
+                    if (cmd_line.completions != null)
                     {
-                        TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[character_count + signal.cpl_last_i];
+                        TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[character_count + cmd_line.cpl_last_i];
 
                         // Passe en world space
                         Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
@@ -39,10 +39,10 @@ namespace _COBALT_
                         // Passe en écran (optionnel, utile pour placer une fenêtre UI dans le canvas Overlay)
                         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
 
-                        UpdateIntellisense(screenPos, signal.completions);
+                        UpdateIntellisense(screenPos, cmd_line.completions);
                     }
                 }
-                character_count += 1 + line.Length;
+                character_count += 1 + text_line.Length;
             }
 
             lint_tmp.text = lines.Join("\n");

@@ -122,7 +122,7 @@ namespace _COBALT_
                         case KeyCode.DownArrow:
                             if (!e.alt && !e.control && !e.command)
                             {
-                                Command.Signal signal = new(string.Empty, e.keyCode switch
+                                Command.Line line = new(string.Empty, e.keyCode switch
                                 {
                                     KeyCode.UpArrow => SIG_FLAGS.HIST_UP,
                                     KeyCode.DownArrow => SIG_FLAGS.HIST_DOWN,
@@ -130,7 +130,7 @@ namespace _COBALT_
                                 },
                                 shell);
 
-                                shell.PropagateSignal(signal);
+                                shell.PropagateSignal(line);
 
                                 flag_nav_history.Update(e.keyCode);
                                 return true;
@@ -144,8 +144,8 @@ namespace _COBALT_
 
         void Shortcut_CtrlS()
         {
-            Command.Signal signal = new(string.Empty, SIG_FLAGS.SAVE, shell);
-            shell.PropagateSignal(signal);
+            Command.Line line = new(string.Empty, SIG_FLAGS.SAVE, shell);
+            shell.PropagateSignal(line);
         }
 
         bool Shortcut_AltBackspace()
@@ -158,17 +158,17 @@ namespace _COBALT_
                 Debug.LogWarning($"{shell}: no operation to kill");
             else
             {
-                Command.Signal signal = new(string.Empty, SIG_FLAGS.KILL, shell);
-                shell.PropagateSignal(signal);
+                Command.Line line = new(string.Empty, SIG_FLAGS.KILL, shell);
+                shell.PropagateSignal(line);
 
-                if (signal.data.status == CMDLINE_STATUS.CONFIRM)
+                if (line.data.status == CMDLINE_STATUS.CONFIRM)
                 {
                     input_stdin.ResetText();
                     flag_stdin.Update(true);
-                    Debug.Log($"{shell} {signal.flags} signal confirmed. {signal.data}".ToSubLog());
+                    Debug.Log($"{shell} {line.flags} signal confirmed. {line.data}".ToSubLog());
                 }
                 else
-                    Debug.LogWarning($"{shell} {signal.flags} signal not confirmed. {signal.data}");
+                    Debug.LogWarning($"{shell} {line.flags} signal not confirmed. {line.data}");
             }
 
             return true;
@@ -185,18 +185,18 @@ namespace _COBALT_
 
                     if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
                     {
-                        Command.Signal signal = new(input_stdin.input_field.text, SIG_FLAGS._none_, shell, input_stdin.input_field.caretPosition, cpl_index);
-                        shell.PropagateSignal(signal);
+                        Command.Line line = new(input_stdin.input_field.text, SIG_FLAGS._none_, shell, input_stdin.input_field.caretPosition, cpl_index);
+                        shell.PropagateSignal(line);
 
-                        if (signal.is_cursor_on_path)
+                        if (line.is_cursor_on_path)
                         {
-                            int index = signal.path_last.LastIndexOf('/');
+                            int index = line.path_last.LastIndexOf('/');
                             if (index == -1)
-                                index = signal.path_i;
+                                index = line.path_i;
                             else
                             {
-                                index += signal.path_i;
-                                if (!signal.path_last.EndsWith('/'))
+                                index += line.path_i;
+                                if (!line.path_last.EndsWith('/'))
                                     ++index;
                             }
 

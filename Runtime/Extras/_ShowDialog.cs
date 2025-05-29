@@ -18,15 +18,15 @@ namespace _COBALT_
                 max_args: 1,
                 opts: static exe =>
                 {
-                    if (exe.signal.TryRead_options(exe, out var output, opt_title, opt_ok_button, opt_cancel_button))
+                    if (exe.line.TryRead_options(exe, out var output, opt_title, opt_ok_button, opt_cancel_button))
                         foreach (var pair in output)
                             exe.opts.Add(pair.Key, pair.Value);
                     else
-                        exe.error = $"'{exe.command.name}' problem reading option ({nameof(exe.signal.arg_last)}: '{exe.signal.arg_last}')";
+                        exe.error = $"'{exe.command.name}' problem reading option ({nameof(exe.line.arg_last)}: '{exe.line.arg_last}')";
                 },
                 args: static exe =>
                 {
-                    if (exe.signal.TryReadArgument(out string arg, out _))
+                    if (exe.line.TryReadArgument(out string arg, out _))
                         exe.args.Add(arg);
                 },
                 routine: EShowDialog
@@ -36,7 +36,7 @@ namespace _COBALT_
             {
                 SguiCustom sgui = SguiWindow.InstantiateWindow<SguiCustom>();
 
-                sgui.onDestroy += exe.signal.shell.terminal.ForceSelectStdin;
+                sgui.onDestroy += exe.line.shell.terminal.ForceSelectStdin;
                 sgui.onAction_confirm += () => exe.Stdout(true);
                 sgui.onAction_cancel += () => exe.Stdout(false);
 

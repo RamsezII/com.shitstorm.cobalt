@@ -8,7 +8,7 @@ namespace _COBALT_
         void OnTab(in int charIndex)
         {
             tab_frame = Time.frameCount;
-            Command.Signal signal = new(
+            Command.Line line = new(
                 stdin_save,
                 SIG_FLAGS.TAB,
                 shell,
@@ -16,9 +16,9 @@ namespace _COBALT_
                 cpl_index++
                 );
 
-            shell.PropagateSignal(signal);
-            input_stdin.input_field.text = signal.text;
-            input_stdin.input_field.caretPosition = signal.cursor_i;
+            shell.PropagateSignal(line);
+            input_stdin.input_field.text = line.text;
+            input_stdin.input_field.caretPosition = line.cursor_i;
         }
     }
 }

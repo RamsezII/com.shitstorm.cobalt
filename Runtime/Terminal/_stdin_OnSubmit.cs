@@ -24,18 +24,18 @@ namespace _COBALT_
                 Debug.Log(input_prefixe.input_field.text + " " + lint_text, this);
             }
 
-            Command.Signal signal = new(input_text, SIG_FLAGS.CHECK, shell);
-            string error = shell.PropagateSignal(signal);
+            Command.Line line = new(input_text, SIG_FLAGS.CHECK, shell);
+            string error = shell.PropagateSignal(line);
 
             if (error == null)
             {
-                signal = new(input_text, SIG_FLAGS.EXEC, shell);
+                line = new(input_text, SIG_FLAGS.EXEC, shell);
                 bool was_idle = shell.IsIdle;
 
-                error = shell.PropagateSignal(signal);
+                error = shell.PropagateSignal(line);
 
                 if (was_idle && error == null)
-                    Command.Signal.AddToHistory(signal.text);
+                    Command.Line.AddToHistory(line.text);
             }
         }
     }
