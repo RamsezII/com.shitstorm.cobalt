@@ -81,21 +81,11 @@ namespace _COBALT_
                         case KeyCode.DownArrow:
                             flag_alt.Update(e.keyCode);
                             return true;
-
-#if UNITY_EDITOR
-                        case KeyCode.S:
-                            Shortcut_CtrlS();
-                            return true;
-#endif
                     }
 
                 if (e.control || e.command)
                     switch (e.keyCode)
                     {
-                        case KeyCode.S:
-                            Shortcut_CtrlS();
-                            return true;
-
                         case KeyCode.Backspace:
                             if (Shortcut_CtrlBackspace())
                                 return true;
@@ -105,10 +95,6 @@ namespace _COBALT_
                 if (e.alt)
                     switch (e.keyCode)
                     {
-                        case KeyCode.S:
-                            Shortcut_CtrlS();
-                            return true;
-
                         case KeyCode.Backspace:
                             if (Shortcut_AltBackspace())
                                 return true;
@@ -140,12 +126,6 @@ namespace _COBALT_
             }
 
             return false;
-        }
-
-        void Shortcut_CtrlS()
-        {
-            Command.Line line = new(string.Empty, SIG_FLAGS.SAVE, shell);
-            shell.PropagateSignal(line);
         }
 
         bool Shortcut_AltBackspace()
