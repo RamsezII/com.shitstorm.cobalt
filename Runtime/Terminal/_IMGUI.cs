@@ -10,7 +10,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        static bool OnOnGui_static(Event e)
+        static bool OnOnGuiInputs_static(Event e)
         {
             if (e.type != EventType.KeyDown)
                 return false;
@@ -37,7 +37,7 @@ namespace _COBALT_
             return false;
         }
 
-        bool OnOnGui(Event e)
+        bool OnOnGuiInputs(Event e)
         {
             if (e.type != EventType.KeyDown)
                 return false;

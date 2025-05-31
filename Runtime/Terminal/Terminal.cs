@@ -29,7 +29,7 @@ namespace _COBALT_
         static void OnAfterSceneLoad()
         {
             SguiGlobal.instance.button_terminal.software_type = typeof(Terminal);
-            IMGUI_global.instance.users_ongui.AddElement(OnOnGui_static, new());
+            IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs_static, new());
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace _COBALT_
 
             AwakeUI();
 
-            IMGUI_global.instance.users_ongui.AddElement(OnOnGui, this);
+            IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs, this);
         }
 
         protected override void OnEnable()
@@ -121,7 +121,7 @@ namespace _COBALT_
         {
             base.OnOblivion();
 
-            IMGUI_global.instance.users_ongui.RemoveElement(this);
+            IMGUI_global.instance.users_inputs.RemoveKeysByValue(this);
             LogManager.ToggleListener(false, AddLine_log);
         }
 
