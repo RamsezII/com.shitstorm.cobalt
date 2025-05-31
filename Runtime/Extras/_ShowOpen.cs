@@ -36,10 +36,7 @@ namespace _COBALT_
                 SguiOpen clone = SguiOpen.InstantiatePrompt(mode, result_path =>
                 {
                     if (result_path != null)
-                    {
-                        Command.Line line = new(string.Empty, SIG_FLAGS.EXEC, exe.shell);
-                        exe.Stdout(result_path, line: line);
-                    }
+                        exe.Stdout(result_path);
                     done = true;
                 });
 

@@ -140,10 +140,7 @@ namespace _COBALT_
                                 break;
                         }
 
-                    Command.Line line = new(string.Empty, SIG_FLAGS.EXEC, exe.shell);
-                    exe.line = line;
                     exe.Stdout(results);
-                    exe.line = null;
                 };
 
                 foreach (var arg in exe.args)

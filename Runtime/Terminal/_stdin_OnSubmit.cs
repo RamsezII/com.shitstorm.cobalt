@@ -29,7 +29,7 @@ namespace _COBALT_
 
             if (error == null)
             {
-                line = new(input_text, SIG_FLAGS.EXEC, shell);
+                line = new(input_text, SIG_FLAGS.SUBMIT, shell);
                 bool was_idle = shell.IsIdle;
 
                 error = shell.PropagateSignal(line);
