@@ -11,7 +11,7 @@ namespace _COBALT_
             Command.Line.ResetHistoryCount();
             flag_stdin.Update(true);
 
-            if (shell.current_status.state == CMD_STATES.BLOCKING)
+            if (shell.current_state.status.state == CMD_STATES.BLOCKING)
                 return '\0';
 
             try

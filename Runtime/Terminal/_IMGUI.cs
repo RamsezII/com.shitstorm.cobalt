@@ -101,7 +101,7 @@ namespace _COBALT_
                             break;
                     }
 
-                if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+                if (shell.current_state.status.state == CMD_STATES.WAIT_FOR_STDIN)
                     switch (e.keyCode)
                     {
                         case KeyCode.UpArrow:
@@ -163,7 +163,7 @@ namespace _COBALT_
                     int caret = input_stdin.input_field.caretPosition;
                     int read_i = caret;
 
-                    if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+                    if (shell.current_state.status.state == CMD_STATES.WAIT_FOR_STDIN)
                     {
                         Command.Line line = new(input_stdin.input_field.text, SIG_FLAGS._none_, shell, input_stdin.input_field.caretPosition, cpl_index);
                         shell.PropagateSignal(line);

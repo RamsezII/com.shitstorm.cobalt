@@ -14,7 +14,7 @@ namespace _COBALT_
             stdin_frame = Time.frameCount;
             flag_stdin.Update(true);
 
-            switch (shell.current_status.state)
+            switch (shell.current_state.status.state)
             {
                 case CMD_STATES.WAIT_FOR_STDIN:
                     stdin_save = text;

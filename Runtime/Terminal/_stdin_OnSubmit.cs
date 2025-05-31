@@ -12,7 +12,7 @@ namespace _COBALT_
             string input_text = input_stdin.input_field.text;
             input_stdin.ResetText();
 
-            if (shell.current_status.state == CMD_STATES.WAIT_FOR_STDIN)
+            if (shell.current_state.status.state == CMD_STATES.WAIT_FOR_STDIN)
             {
                 if (string.IsNullOrWhiteSpace(input_text))
                 {

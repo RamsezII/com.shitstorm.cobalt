@@ -6,7 +6,7 @@ namespace _COBALT_
     {
         void RefreshStdin()
         {
-            input_prefixe.input_field.text = shell.current_status.prefixe;
+            input_prefixe.input_field.text = shell.current_state.status.prefixe;
 
             Vector2 prefered_dims = input_prefixe.input_field.textComponent.GetPreferredValues(input_prefixe.input_field.text + "_", scrollview.content.rect.width, float.PositiveInfinity);
             line_height = prefered_dims.y;

@@ -49,13 +49,13 @@ namespace _COBALT_
                 }
             }
 
-            if (shell.current_status.state == CMD_STATES.BLOCKING)
+            if (shell.current_state.status.state == CMD_STATES.BLOCKING)
                 flag_progress.Update(true);
 
-            if (shell.state_changed)
+            if (shell.stdin_change_flag.PullValue())
             {
                 flag_stdout.Update(true);
-                if (shell.current_status.state == CMD_STATES.BLOCKING)
+                if (shell.current_state.status.state == CMD_STATES.BLOCKING)
                     input_stdin.ResetText();
             }
         }
@@ -79,13 +79,13 @@ namespace _COBALT_
 
         void RefreshProgressBars()
         {
-            if (shell.current_status.state == CMD_STATES.BLOCKING)
+            if (shell.current_state.status.state == CMD_STATES.BLOCKING)
             {
                 float body_width = rT_body.rect.width;
                 float char_width = input_realtime.input_field.textComponent.GetPreferredValues("_", body_width, float.PositiveInfinity).x;
                 int max_chars = (int)(body_width / char_width);
 
-                float progress = shell.current_status.progress;
+                float progress = shell.current_state.status.progress;
 
                 int bar_count = max_chars - 5;
                 int count = (int)(Mathf.Clamp01(progress) * bar_count);
