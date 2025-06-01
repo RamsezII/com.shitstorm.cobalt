@@ -45,11 +45,12 @@ namespace _COBALT_
                 alert.SetType(SguiCustom_Alert.DialogTypes.Dialog);
 
                 if (exe.args.Count > 0)
-                    if (exe.opts.TryGetValue((string)exe.args[0], out object text))
-                        alert.SetText(new((string)text));
+                    alert.SetText(new((string)exe.args[0]));
 
                 if (exe.opts.TryGetValue(opt_title, out object title))
                     sgui.trad_title.SetTrad((string)title);
+                else
+                    sgui.trad_title.SetTrads(new() { french = "Dialogue", english = "Dialog", });
 
                 if (exe.opts.TryGetValue(opt_ok_button, out object ok_button))
                     sgui.trad_confirm.SetTrad((string)ok_button);
