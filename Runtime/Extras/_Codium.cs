@@ -1,6 +1,7 @@
 ﻿using _COBRA_;
 using _SGUI_;
-using System.Collections.Generic;
+using _UTIL_;
+using System.IO;
 
 namespace _COBALT_
 {
@@ -23,7 +24,7 @@ namespace _COBALT_
                 args: static exe =>
                 {
                     bool force = exe.opts.ContainsKey(flag_F);
-                    if (exe.line.TryReadArgument(out string path, out _, strict: !force, path_mode: _UTIL_.FS_TYPES.FILE))
+                    if (exe.line.TryReadArgument(out string path, out _, strict: !force, path_mode: FS_TYPES.FILE))
                         exe.args.Add(path);
                 },
                 action: static exe =>
@@ -36,12 +37,25 @@ namespace _COBALT_
 
             Command.static_domain.AddAction(
                 "codium",
-                opts: static exe => exe.line.TryReadOption_workdir(exe),
+                max_args: 1,
+                args: static exe =>
+                {
+                    if (exe.line.TryReadArgument(out string path, out _, strict: true, path_mode: FS_TYPES.DIRECTORY))
+                        exe.args.Add(path);
+                },
                 action: static exe =>
                 {
-                    string work_dir = exe.GetWorkdir();
-                    string error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
-                    constrictor.terminal = (Terminal)exe.shell.terminal;
+                    string work_dir = exe.args.Count == 0
+                        ? exe.GetWorkdir()
+                        : exe.shell.PathCheck((string)exe.args[0], PathModes.ForceFull);
+
+                    if (Directory.Exists(work_dir))
+                    {
+                        exe.error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
+                        constrictor.terminal = (Terminal)exe.shell.terminal;
+                    }
+                    else
+                        exe.error = $"directory does not exists: '{work_dir}'";
                 });
         }
     }

@@ -35,10 +35,8 @@ namespace _COBALT_
                         int text_index = character_count + cmd_line.last_start_i;
                         TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[text_index];
 
-                        // Passe en world space
                         Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
 
-                        // Passe en écran (optionnel, utile pour placer une fenêtre UI dans le canvas Overlay)
                         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
 
                         SguiCompletor.instance.PopulateCompletions(character_count + cmd_line.last_start_i, character_count + cmd_line.last_read_i, screenPos, cmd_line.completions);
