@@ -1772,6 +1772,7 @@ MonoBehaviour:
     var_unknown: {r: 0.8, g: 0.9333333, b: 1, a: 1}
     literal: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     value: {r: 0.7916667, g: 1, b: 0.5, a: 1}
+    boa_symbol: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     type: {r: 0.9737507, g: 0.740566, b: 1, a: 1}
     directory: {r: 1, g: 0.9666667, b: 0.8, a: 1}
     file: {r: 0.8, g: 1, b: 1, a: 1}
