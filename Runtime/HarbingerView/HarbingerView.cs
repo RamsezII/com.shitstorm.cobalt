@@ -11,6 +11,7 @@ namespace _COBALT_
 
         protected override void Awake()
         {
+            shell = GetComponent<Shell>();
             base.Awake();
         }
 

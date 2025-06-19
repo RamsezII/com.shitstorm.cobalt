@@ -111,17 +111,17 @@ PrefabInstance:
     - target: {fileID: 1363310077135526981, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_Name
-      value: _COBALT_.HarbingerView Variant
+      value: _COBALT_.HarbingerView
       objectReference: {fileID: 0}
     - target: {fileID: 1434868952945012411, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_Size
-      value: 0.4975
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1434868952945012411, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_Value
-      value: -0.00000022774312
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2203090463755132783, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
@@ -186,7 +186,7 @@ PrefabInstance:
     - target: {fileID: 9085884329126528803, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 402.00006
+      value: 0.000061035156
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -196,6 +196,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5258501301800878324}
+    - targetCorrespondingSourceObject: {fileID: 1363310077135526981, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2861514828889551154}
   m_SourcePrefab: {fileID: 100100000, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
 --- !u!1 &3653920483413209346 stripped
 GameObject:
@@ -218,3 +222,25 @@ MonoBehaviour:
   std_out: {fileID: 0}
   std_in: {fileID: 0}
   tmp_progress: {fileID: 0}
+  shell: {fileID: 0}
+--- !u!114 &2861514828889551154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3653920483413209346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d157073f95be3f874ef4812b53b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  shell_status:
+    prefixe: 
+    progress: 0
+  current_status:
+    prefixe: 
+    progress: 0
+  stdout_flag: 0
+  working_dir: 
