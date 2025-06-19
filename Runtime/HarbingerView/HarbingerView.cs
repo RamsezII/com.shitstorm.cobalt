@@ -19,12 +19,12 @@ namespace _COBALT_
 
         protected override char OnValidateInput(string text, int charIndex, char addedChar)
         {
-            return base.OnValidateInput(text, charIndex, addedChar);
+            return addedChar;
         }
 
         protected override void OnValueChanged(string value)
         {
-            base.OnValueChanged(value);
+
         }
     }
 }
