@@ -116,12 +116,12 @@ PrefabInstance:
     - target: {fileID: 1434868952945012411, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1434868952945012411, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2203090463755132783, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
@@ -183,10 +183,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085884329126528803, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -82.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9085884329126528803, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 14760
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -199,7 +209,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1363310077135526981, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2861514828889551154}
+      addedObject: {fileID: 4118769578445092435}
   m_SourcePrefab: {fileID: 100100000, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
 --- !u!1 &3653920483413209346 stripped
 GameObject:
@@ -222,8 +232,11 @@ MonoBehaviour:
   std_out: {fileID: 0}
   std_in: {fileID: 0}
   tmp_progress: {fileID: 0}
+  terminal: {fileID: 0}
   shell: {fileID: 0}
---- !u!114 &2861514828889551154
+  stdin_save: 
+  frame_tab: 0
+--- !u!114 &4118769578445092435
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
