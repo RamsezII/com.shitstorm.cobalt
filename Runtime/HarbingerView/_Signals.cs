@@ -11,15 +11,12 @@ namespace _COBALT_
 
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
-                stdin_field.ResetTexts();
-                return '\0';
+                ResetStdin();
+                goto failure;
             }
 
             if (!CheckStdin())
-            {
-                Debug.Log($"wrong input {{{text}}}", this);
-                return '\0';
-            }
+                goto failure;
 
             try
             {
@@ -27,55 +24,58 @@ namespace _COBALT_
                 {
                     case '\t':
                         last_tab = Time.frameCount;
-                        OnTab(text, charIndex);
-                        return '\0';
+                        OnTab();
+                        goto failure;
 
                     case '\n':
-                        OnSubmit(text);
-                        return '\0';
+                        OnSubmit();
+                        goto failure;
                 }
             }
             catch (System.Exception e)
             {
                 Debug.LogException(e, this);
-                return '\0';
+                goto failure;
             }
 
             return addedChar;
+
+        failure:
+            return '\0';
         }
 
         protected override void OnValueChanged(string text)
         {
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
-                stdin_field.ResetTexts();
+                ResetStdin();
                 return;
             }
 
             if (!CheckStdin())
-            {
-                Debug.Log($"wrong change {{{text}}}", this);
                 return;
-            }
 
             ResizeStdin();
 
-            if (!string.IsNullOrEmpty(text) && shell.current_status.state == Contract.Status.States.WAIT_FOR_STDIN)
+            if (shell.current_status.state == Contract.Status.States.WAIT_FOR_STDIN)
             {
                 if (Time.frameCount > last_tab)
                     stdin_save = text;
-                LintStdin();
             }
             else
             {
                 stdin_save = string.Empty;
-                stdin_field.ResetTexts();
+                ResetStdin();
             }
+
+            LintStdin();
         }
 
-        void OnTab(in string text, in int charIndex)
+        void OnTab()
         {
-            var reader = BoaReader.ReadLines(shell.lint_theme, false, charIndex, text);
+            GetStdin(out string text, out int cursor_i);
+
+            var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
             var signal = new BoaSignal(SIG_FLAGS_new.TAB, reader);
 
             shell.PropagateSignal(signal);
@@ -83,19 +83,36 @@ namespace _COBALT_
             Debug.Log($"{reader.completions.Count} completions: {reader.completions.Join(" ")}");
         }
 
-        void OnSubmit(in string text)
+        void OnSubmit()
         {
-            Debug.Log("submit");
+            shell.AddLine(stdin_field.inputfield.text, stdin_field.lint.text);
+            if (GetStdin(out string text, out int cursor_i))
+            {
+                var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
+                var signal = new BoaSignal(SIG_FLAGS_new.SUBMIT, reader);
+                shell.PropagateSignal(signal);
+                if (reader.error != null)
+                {
+                    reader.LocalizeError();
+                    string error = reader.long_error ?? reader.error;
+                    shell.AddLine(error, error.SetColor(Color.orange));
+                }
+            }
+            ResetStdin();
+        }
 
-            stdin_field.ResetTexts();
+        void LintStdin()
+        {
+            stdin_field.lint.text = shell.current_status.prefixe_lint;
+            if (GetStdin(out string text, out int cursor_i))
+            {
+                var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
+                var signal = new BoaSignal(SIG_FLAGS_new.LINT, reader);
 
-            var reader = BoaReader.ReadLines(shell.lint_theme, false, stdin_field.inputfield.caretPosition, text);
-            var signal = new BoaSignal(SIG_FLAGS_new.SUBMIT, reader);
+                shell.PropagateSignal(signal);
 
-            shell.PropagateSignal(signal);
-
-            if (reader.error != null)
-                Debug.LogError(reader.error);
+                stdin_field.lint.text += reader.GetLintResult(Color.gray6);
+            }
         }
     }
 }

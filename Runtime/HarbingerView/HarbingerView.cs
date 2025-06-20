@@ -1,4 +1,5 @@
-﻿using _BOA_;
+﻿using _ARK_;
+using _BOA_;
 using _SGUI_;
 using UnityEngine;
 
@@ -26,7 +27,16 @@ namespace _COBALT_
         {
             base.Start();
             shell.on_stdout += RefreshStdout;
-            stdin_field.inputfield.text = "> ";
+            ResetStdin();
+            NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
+        }
+
+        //----------------------------------------------------------------------------------------------------------
+
+        protected override void OnDestroy()
+        {
+            NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
+            base.OnDestroy();
         }
     }
 }

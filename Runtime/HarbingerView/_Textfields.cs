@@ -1,12 +1,32 @@
 using System;
 using _ARK_;
-using _BOA_;
 using UnityEngine;
 
 namespace _COBALT_
 {
     partial class HarbingerView
     {
+        [SerializeField] byte last_status_id;
+
+        //----------------------------------------------------------------------------------------------------------
+
+        void OnLateUpdate()
+        {
+            if (last_status_id != shell.current_status.id)
+            {
+                CheckStdin();
+                last_status_id = shell.current_status.id;
+            }
+        }
+
+        bool GetStdin(out string stdin, out int cursor_i)
+        {
+            int pref_len = shell.current_status.prefixe_text.Length;
+            stdin = stdin_field.inputfield.text[pref_len..];
+            cursor_i = stdin_field.inputfield.caretPosition - pref_len;
+            return !string.IsNullOrWhiteSpace(stdin);
+        }
+
         void RefreshStdout() => Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnRefreshStdout);
         void OnRefreshStdout()
         {
@@ -20,6 +40,14 @@ namespace _COBALT_
         {
             float stdin_h = stdin_field.inputfield.preferredHeight;
             float line_h = stdin_field.inputfield.textComponent.GetPreferredValues("#", stdin_field.parent_rT.rect.width, 1000).y;
+        }
+
+        void ResetStdin()
+        {
+            stdin_field.lint.text = shell.current_status.prefixe_lint ?? string.Empty;
+            string prefixe = shell.current_status.prefixe_text ?? string.Empty;
+            if (!prefixe.Equals(stdin_field.inputfield.text, StringComparison.Ordinal))
+                stdin_field.inputfield.text = prefixe;
         }
 
         bool CheckStdin()
@@ -37,26 +65,10 @@ namespace _COBALT_
 
             stdin_field.inputfield.text = current;
 
+            if (stdin_field.inputfield.caretPosition < prefixe.Length)
+                stdin_field.inputfield.caretPosition = prefixe.Length;
+
             return false;
-        }
-
-        void LintStdin()
-        {
-            stdin_field.lint.text = shell.current_status.prefixe_lint;
-
-            string text = stdin_field.inputfield.text[shell.current_status.prefixe_text.Length..];
-
-            if (!string.IsNullOrWhiteSpace(text))
-            {
-                var reader = BoaReader.ReadLines(shell.lint_theme, false, stdin_field.inputfield.caretPosition, text);
-                var signal = new BoaSignal(SIG_FLAGS_new.LINT, reader);
-
-                shell.PropagateSignal(signal);
-
-                string lint = reader.GetLintResult(Color.gray6);
-                stdin_field.lint.text += lint;
-                Debug.Log(stdin_field.lint.text, this);
-            }
         }
     }
 }
