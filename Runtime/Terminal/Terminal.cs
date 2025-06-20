@@ -28,7 +28,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            SguiGlobal.instance.button_terminal.software_type = typeof(Terminal);
+            SguiGlobal.instance.button_terminal_1.software_type = typeof(Terminal);
             IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs_static, new());
         }
 
@@ -36,7 +36,7 @@ namespace _COBALT_
 
         protected override void Awake()
         {
-            sgui_softwarebutton = SguiGlobal.instance.button_terminal;
+            sgui_softwarebutton = SguiGlobal.instance.button_terminal_1;
 
             base.Awake();
 
