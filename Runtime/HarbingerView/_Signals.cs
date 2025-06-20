@@ -7,9 +7,17 @@ namespace _COBALT_
     {
         protected override char OnValidateInput(string text, int charIndex, char addedChar)
         {
+            last_input = Time.frameCount;
+
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
-                std_in.ResetText();
+                stdin_field.ResetTexts();
+                return '\0';
+            }
+
+            if (!CheckStdin())
+            {
+                Debug.Log($"wrong input {{{text}}}", this);
                 return '\0';
             }
 
@@ -18,7 +26,7 @@ namespace _COBALT_
                 switch (addedChar)
                 {
                     case '\t':
-                        frame_tab = Time.frameCount;
+                        last_tab = Time.frameCount;
                         OnTab(text, charIndex);
                         return '\0';
 
@@ -36,18 +44,32 @@ namespace _COBALT_
             return addedChar;
         }
 
-        protected override void OnValueChanged(string value)
+        protected override void OnValueChanged(string text)
         {
-            if (!string.IsNullOrEmpty(value) && shell.current_status.state == Contract.Status.States.WAIT_FOR_STDIN)
+            if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
-                if (Time.frameCount > frame_tab)
-                    stdin_save = value;
-                LintStdin(value);
+                stdin_field.ResetTexts();
+                return;
+            }
+
+            if (!CheckStdin())
+            {
+                Debug.Log($"wrong change {{{text}}}", this);
+                return;
+            }
+
+            ResizeStdin();
+
+            if (!string.IsNullOrEmpty(text) && shell.current_status.state == Contract.Status.States.WAIT_FOR_STDIN)
+            {
+                if (Time.frameCount > last_tab)
+                    stdin_save = text;
+                LintStdin();
             }
             else
             {
                 stdin_save = string.Empty;
-                std_in.ResetText();
+                stdin_field.ResetTexts();
             }
         }
 
@@ -61,23 +83,13 @@ namespace _COBALT_
             Debug.Log($"{reader.completions.Count} completions: {reader.completions.Join(" ")}");
         }
 
-        void LintStdin(in string stdin)
-        {
-            var reader = BoaReader.ReadLines(shell.lint_theme, false, std_in.inputfield.caretPosition, stdin);
-            var signal = new BoaSignal(SIG_FLAGS_new.LINT, reader);
-
-            shell.PropagateSignal(signal);
-
-            std_in.lint.text = reader.GetLintResult(Color.gray6);
-        }
-
         void OnSubmit(in string text)
         {
             Debug.Log("submit");
 
-            std_in.ResetText();
+            stdin_field.ResetTexts();
 
-            var reader = BoaReader.ReadLines(shell.lint_theme, false, std_in.inputfield.caretPosition, text);
+            var reader = BoaReader.ReadLines(shell.lint_theme, false, stdin_field.inputfield.caretPosition, text);
             var signal = new BoaSignal(SIG_FLAGS_new.SUBMIT, reader);
 
             shell.PropagateSignal(signal);

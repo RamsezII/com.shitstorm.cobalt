@@ -9,7 +9,7 @@ namespace _COBALT_
         public SguiTerminal terminal;
         public Shell shell;
         [SerializeField] string stdin_save;
-        [SerializeField] int frame_tab;
+        [SerializeField] int last_input, last_tab;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -25,7 +25,8 @@ namespace _COBALT_
         protected override void Start()
         {
             base.Start();
-            shell.on_stdout += OnRefreshStdout;
+            shell.on_stdout += RefreshStdout;
+            stdin_field.inputfield.text = "> ";
         }
     }
 }
