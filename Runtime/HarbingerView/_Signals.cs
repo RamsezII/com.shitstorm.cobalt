@@ -90,7 +90,9 @@ namespace _COBALT_
             {
                 var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
                 var signal = new BoaSignal(SIG_FLAGS_new.SUBMIT, reader);
+
                 shell.PropagateSignal(signal);
+
                 if (reader.error != null)
                 {
                     reader.LocalizeError();

@@ -14,8 +14,9 @@ namespace _COBALT_
         {
             if (last_status_id != shell.current_status.id)
             {
-                CheckStdin();
+                ResetStdin();
                 last_status_id = shell.current_status.id;
+                Debug.Log("status_id: " + last_status_id);
             }
         }
 
@@ -48,6 +49,7 @@ namespace _COBALT_
             string prefixe = shell.current_status.prefixe_text ?? string.Empty;
             if (!prefixe.Equals(stdin_field.inputfield.text, StringComparison.Ordinal))
                 stdin_field.inputfield.text = prefixe;
+            stdin_field.inputfield.caretPosition = prefixe.Length;
         }
 
         bool CheckStdin()
