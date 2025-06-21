@@ -1,7 +1,6 @@
 ﻿using _ARK_;
 using _BOA_;
 using _SGUI_;
-using UnityEngine;
 
 namespace _COBALT_
 {
@@ -9,8 +8,6 @@ namespace _COBALT_
     {
         public SguiTerminal terminal;
         public Shell shell;
-        [SerializeField] string stdin_save;
-        [SerializeField] int last_input, last_tab;
 
         //----------------------------------------------------------------------------------------------------------
 
