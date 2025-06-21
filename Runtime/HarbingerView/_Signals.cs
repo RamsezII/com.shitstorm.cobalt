@@ -55,8 +55,6 @@ namespace _COBALT_
             if (!CheckStdin())
                 return;
 
-            ResizeStdin();
-
             if (shell.current_status.state == Contract.Status.States.WAIT_FOR_STDIN)
             {
                 if (Time.frameCount > last_tab)
@@ -68,6 +66,7 @@ namespace _COBALT_
                 ResetStdin();
             }
 
+            ResizeStdin();
             LintStdin();
         }
 

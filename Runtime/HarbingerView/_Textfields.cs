@@ -47,7 +47,7 @@ namespace _COBALT_
 
         void ResizeStdin()
         {
-            Rect prect = stdin_field.parent_rT.rect;
+            Rect prect = scrollview.viewport.rect;
 
             float line_h = stdin_field.inputfield.textComponent.GetPreferredValues("#", prect.width, 1000).y;
 
@@ -59,7 +59,7 @@ namespace _COBALT_
 
             stdin_field.rT.sizeDelta = new(0, stdin_h);
 
-            scrollview_rT.sizeDelta = new(0, stdout_h + stdin_h);
+            content_layout_rT.sizeDelta = new(0, stdout_h + stdin_h);
         }
 
         void ResetStdin()

@@ -29,6 +29,8 @@ namespace _COBALT_
             shell.on_stdout += RefreshStdout;
             ResetStdin();
             NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
+            RefreshStdout();
+            stdin_field.inputfield.text = "> ";
         }
 
         //----------------------------------------------------------------------------------------------------------

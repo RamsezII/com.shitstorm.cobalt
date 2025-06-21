@@ -173,6 +173,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5389448451933788839, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 58753152
+      objectReference: {fileID: 0}
     - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -188,15 +193,20 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8989386928366725095, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 58753152
+      objectReference: {fileID: 0}
     - target: {fileID: 9085884329126528803, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -82.5
+      value: -257.5
       objectReference: {fileID: 0}
     - target: {fileID: 9085884329126528803, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 14760
+      value: 46740
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -229,13 +239,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0c029f0176be44582fb16138e3792b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  std_out: {fileID: 0}
-  std_in: {fileID: 0}
+  stdout_field: {fileID: 0}
+  stdin_field: {fileID: 0}
   tmp_progress: {fileID: 0}
+  scrollview: {fileID: 0}
+  content_layout_rT: {fileID: 0}
+  scrollbar: {fileID: 0}
   terminal: {fileID: 0}
   shell: {fileID: 0}
   stdin_save: 
-  frame_tab: 0
+  last_input: 0
+  last_tab: 0
+  last_status:
+    prefixe_text: 
+    prefixe_lint: 
+    progress: 0
+  stdin_h: 0
+  stdout_h: 0
 --- !u!114 &4118769578445092435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,10 +270,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   shell_status:
-    prefixe: 
+    prefixe_text: 
+    prefixe_lint: 
     progress: 0
   current_status:
-    prefixe: 
+    prefixe_text: 
+    prefixe_lint: 
     progress: 0
-  stdout_flag: 0
+  stdout_text: 
+  stdout_lint: 
   working_dir: 
