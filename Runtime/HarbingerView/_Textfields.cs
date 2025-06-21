@@ -33,7 +33,14 @@ namespace _COBALT_
             return !string.IsNullOrWhiteSpace(stdin);
         }
 
-        void RefreshStdout() => Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnRefreshStdout);
+        void RefreshStdout()
+        {
+            if (true)
+                OnRefreshStdout();
+            else
+                Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnRefreshStdout);
+        }
+
         void OnRefreshStdout()
         {
             stdout_field.inputfield.text = shell.stdout_text;
@@ -41,7 +48,14 @@ namespace _COBALT_
             Util.AddAction(ref NUCLEOR.delegates.onStartOfFrame_once, stdout_field.AudoResize);
         }
 
-        void ResizeStdin() => Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnResizeStdin);
+        void ResizeStdin()
+        {
+            if (true)
+                OnResizeStdin();
+            else
+                Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnResizeStdin);
+        }
+
         void OnResizeStdin()
         {
             float stdin_h = stdin_field.inputfield.preferredHeight;
