@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Text;
-using _ARK_;
 using _BOA_;
 using UnityEngine;
 
@@ -25,7 +24,6 @@ namespace _COBALT_
                 var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
 
                 SIG_FLAGS_new flags = SIG_FLAGS_new.CHANGE;
-
 
                 var signal = new BoaSignal(flags, reader);
                 shell.PropagateSignal(signal);
