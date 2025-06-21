@@ -1,22 +1,27 @@
 using System;
 using _ARK_;
+using _BOA_;
 using UnityEngine;
 
 namespace _COBALT_
 {
     partial class HarbingerView
     {
-        [SerializeField] byte last_status_id;
+        [SerializeField] Contract.Status last_status;
 
         //----------------------------------------------------------------------------------------------------------
 
         void OnLateUpdate()
         {
-            if (last_status_id != shell.current_status.id)
+            if (!last_status.Equals(shell.current_status))
             {
+                if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
+                    tmp_progress.text = shell.current_status.progress.PercentLog(1);
+                else
+                    tmp_progress.text = string.Empty;
+
                 ResetStdin();
-                last_status_id = shell.current_status.id;
-                Debug.Log("status_id: " + last_status_id);
+                last_status = shell.current_status;
             }
         }
 
