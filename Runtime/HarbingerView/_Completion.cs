@@ -10,7 +10,7 @@ namespace _COBALT_
     partial class HarbingerView
     {
         [SerializeField] BoaReader last_reader;
-        [SerializeField] string[] last_completions;
+        [SerializeField] string[] last_completions_tab, last_completions_all;
         [SerializeField] string stdin_save;
         [SerializeField] int last_tab, tab_i;
 
@@ -36,7 +36,9 @@ namespace _COBALT_
                 {
                     tab_i = 0;
                     last_reader = reader;
-                    last_completions = last_reader.completions.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                    string arg_select = text[reader.cpl_start..reader.cpl_end];
+                    last_completions_all = last_reader.completions.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                    last_completions_tab = last_completions_all.ECompletionMatches(arg_select).ToArray();
                 }
             }
 
@@ -47,12 +49,12 @@ namespace _COBALT_
         void OnTab()
         {
             last_tab = Time.frameCount;
-            if (last_completions == null)
+            if (last_completions_tab == null)
                 tab_i = 0;
             else
             {
-                tab_i = ++tab_i % last_completions.Length;
-                string completion = last_completions[tab_i];
+                tab_i = ++tab_i % last_completions_tab.Length;
+                string completion = last_completions_tab[tab_i];
 
                 StringBuilder sb = new();
 
