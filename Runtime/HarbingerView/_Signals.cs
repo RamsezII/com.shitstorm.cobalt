@@ -1,3 +1,4 @@
+using _ARK_;
 using _BOA_;
 using UnityEngine;
 
@@ -5,7 +6,18 @@ namespace _COBALT_
 {
     partial class HarbingerView
     {
-        protected override char OnValidateInput(string text, int charIndex, char addedChar)
+        protected override void OnSelectStdin(string text)
+        {
+            base.OnSelectStdin(text);
+            NUCLEOR.delegates.onEndOfFrame_once += () =>
+            {
+                int min_pos = shell.current_status.prefixe_text?.Length ?? 0;
+                if (stdin_field.inputfield.caretPosition < min_pos)
+                    stdin_field.inputfield.caretPosition = min_pos;
+            };
+        }
+
+        protected override char OnValidateStdin_char(string text, int charIndex, char addedChar)
         {
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
@@ -42,7 +54,7 @@ namespace _COBALT_
             return '\0';
         }
 
-        protected override void OnValueChanged(string text)
+        protected override void OnStdinChanged(string text)
         {
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
