@@ -46,18 +46,12 @@ namespace _COBALT_
         {
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
+                stdin_save = string.Empty;
                 ResetStdin();
-                return;
             }
 
             if (!CheckStdin())
                 return;
-
-            if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
-            {
-                stdin_save = string.Empty;
-                ResetStdin();
-            }
 
             ResizeStdin();
             OnChange();

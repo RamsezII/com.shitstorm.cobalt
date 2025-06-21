@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using System.Text;
+using _ARK_;
 using _BOA_;
 using UnityEngine;
 
@@ -6,8 +10,9 @@ namespace _COBALT_
     partial class HarbingerView
     {
         [SerializeField] BoaReader last_reader;
+        [SerializeField] string[] last_completions;
         [SerializeField] string stdin_save;
-        [SerializeField] int last_tab;
+        [SerializeField] int last_tab, tab_i;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -17,12 +22,22 @@ namespace _COBALT_
 
             if (GetStdin(out string text, out int cursor_i))
             {
-                last_reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
+                var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
 
-                var signal = new BoaSignal(SIG_FLAGS_new.CHANGE, last_reader);
+                SIG_FLAGS_new flags = SIG_FLAGS_new.CHANGE;
+
+
+                var signal = new BoaSignal(flags, reader);
                 shell.PropagateSignal(signal);
 
-                stdin_field.lint.text += last_reader.GetLintResult(Color.gray6);
+                stdin_field.lint.text += reader.GetLintResult(Color.gray6);
+
+                if (Time.frameCount > last_tab)
+                {
+                    tab_i = 0;
+                    last_reader = reader;
+                    last_completions = last_reader.completions.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                }
             }
 
             if (Time.frameCount > last_tab)
@@ -31,11 +46,24 @@ namespace _COBALT_
 
         void OnTab()
         {
-            if (last_reader != null && last_reader.completions != null)
+            last_tab = Time.frameCount;
+            if (last_completions == null)
+                tab_i = 0;
+            else
             {
-                string text = $"{last_reader.completions.Count} completions: {last_reader.completions.Join(" ")}";
-                shell.AddLine(text);
-                Debug.Log(text, this);
+                tab_i = ++tab_i % last_completions.Length;
+                string completion = last_completions[tab_i];
+
+                StringBuilder sb = new();
+
+                sb.Append(shell.current_status.prefixe_text);
+                sb.Append(last_reader.text[..last_reader.cpl_start]);
+                sb.Append(completion);
+                sb.Append(last_reader.text[last_reader.cpl_end..]);
+
+                stdin_field.inputfield.text = sb.ToString();
+
+                stdin_field.inputfield.caretPosition = shell.current_status.prefixe_text.Length + last_reader.cpl_start + completion.Length;
             }
         }
     }
