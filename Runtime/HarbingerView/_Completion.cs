@@ -51,7 +51,7 @@ namespace _COBALT_
         void OnTab()
         {
             last_tab = Time.frameCount;
-            if (last_completions_tab == null)
+            if (last_completions_tab == null || last_completions_tab.Length == 0)
                 tab_i = 0;
             else
             {
