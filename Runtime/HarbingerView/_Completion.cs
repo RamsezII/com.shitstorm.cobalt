@@ -34,7 +34,11 @@ namespace _COBALT_
                 {
                     tab_i = 0;
                     last_reader = reader;
-                    string arg_select = text[reader.cpl_start..reader.cpl_end];
+
+                    string arg_select = string.Empty;
+                    if (reader.cpl_end > reader.cpl_start)
+                        arg_select = text[reader.cpl_start..reader.cpl_end];
+
                     last_completions_all = last_reader.completions.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
                     last_completions_tab = last_completions_all.ECompletionMatches(arg_select).ToArray();
                 }
