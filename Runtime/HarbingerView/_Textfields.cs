@@ -1,14 +1,13 @@
-using _ARK_;
 using _BOA_;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _COBALT_
 {
     partial class HarbingerView
     {
         [SerializeField] Contract.Status last_status;
+        [SerializeField] float stdin_h, stdout_h;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -36,23 +35,31 @@ namespace _COBALT_
 
         void RefreshStdout()
         {
-            string text = shell.stdout_text;
-
-            stdout_field.inputfield.text = text;
+            stdout_field.inputfield.text = shell.stdout_text;
             stdout_field.lint.text = shell.stdout_lint;
 
-            Vector2 size = new(0, 0);
-            if (!string.IsNullOrWhiteSpace(text))
-                size.y = stdout_field.inputfield.textComponent.GetPreferredValues(text, stdout_field.parent_rT.rect.width, 1000).y;
-            stdout_field.rT.sizeDelta = size;
+            stdout_h = 0;
+            if (!string.IsNullOrWhiteSpace(shell.stdout_text))
+                stdout_h = stdout_field.inputfield.textComponent.GetPreferredValues(shell.stdout_text, stdout_field.parent_rT.rect.width, 1000).y;
 
-            Debug.Log(size, this);
+            stdout_field.rT.sizeDelta = new Vector2(0, stdout_h);
         }
 
         void ResizeStdin()
         {
-            float stdin_h = stdin_field.inputfield.preferredHeight;
-            float line_h = stdin_field.inputfield.textComponent.GetPreferredValues("#", stdin_field.parent_rT.rect.width, 1000).y;
+            Rect prect = stdin_field.parent_rT.rect;
+
+            float line_h = stdin_field.inputfield.textComponent.GetPreferredValues("#", prect.width, 1000).y;
+
+            float stdin_h = line_h;
+            if (!string.IsNullOrWhiteSpace(stdin_field.inputfield.text))
+                stdin_h = stdin_field.inputfield.textComponent.GetPreferredValues(stdin_field.inputfield.text, prect.width, 1000).y;
+
+            stdin_h = Mathf.Max(stdin_h, prect.height);
+
+            stdin_field.rT.sizeDelta = new(0, stdin_h);
+
+            scrollview_rT.sizeDelta = new(0, stdout_h + stdin_h);
         }
 
         void ResetStdin()
