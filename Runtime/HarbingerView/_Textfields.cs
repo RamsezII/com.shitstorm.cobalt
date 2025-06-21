@@ -1,7 +1,8 @@
-using System;
 using _ARK_;
 using _BOA_;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _COBALT_
 {
@@ -35,28 +36,20 @@ namespace _COBALT_
 
         void RefreshStdout()
         {
-            if (true)
-                OnRefreshStdout();
-            else
-                Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnRefreshStdout);
-        }
+            string text = shell.stdout_text;
 
-        void OnRefreshStdout()
-        {
-            stdout_field.inputfield.text = shell.stdout_text;
+            stdout_field.inputfield.text = text;
             stdout_field.lint.text = shell.stdout_lint;
-            Util.AddAction(ref NUCLEOR.delegates.onStartOfFrame_once, stdout_field.AudoResize);
+
+            Vector2 size = new(0, 0);
+            if (!string.IsNullOrWhiteSpace(text))
+                size.y = stdout_field.inputfield.textComponent.GetPreferredValues(text, stdout_field.parent_rT.rect.width, 1000).y;
+            stdout_field.rT.sizeDelta = size;
+
+            Debug.Log(size, this);
         }
 
         void ResizeStdin()
-        {
-            if (true)
-                OnResizeStdin();
-            else
-                Util.AddAction(ref NUCLEOR.delegates.onLateUpdate, OnResizeStdin);
-        }
-
-        void OnResizeStdin()
         {
             float stdin_h = stdin_field.inputfield.preferredHeight;
             float line_h = stdin_field.inputfield.textComponent.GetPreferredValues("#", stdin_field.parent_rT.rect.width, 1000).y;
