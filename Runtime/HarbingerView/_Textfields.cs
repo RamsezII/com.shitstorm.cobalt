@@ -38,8 +38,6 @@ namespace _COBALT_
             stdout_field.inputfield.text = shell.stdout_text;
             stdout_field.lint.text = shell.stdout_lint;
 
-            Debug.Log(shell.stdout_lint, this);
-
             stdout_h = 0;
             if (!string.IsNullOrWhiteSpace(shell.stdout_text))
             {
