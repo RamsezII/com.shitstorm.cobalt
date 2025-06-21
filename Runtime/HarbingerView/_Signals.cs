@@ -93,10 +93,10 @@ namespace _COBALT_
 
                 shell.PropagateSignal(signal);
 
-                if (reader.error != null)
+                if (reader.sig_error != null)
                 {
                     reader.LocalizeError();
-                    string error = reader.long_error ?? reader.error;
+                    string error = reader.sig_long_error ?? reader.sig_error;
                     shell.AddLine(error, error.SetColor(Color.orange));
                 }
             }
