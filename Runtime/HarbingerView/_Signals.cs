@@ -6,6 +6,31 @@ namespace _COBALT_
 {
     partial class HarbingerView
     {
+        protected override bool OnImguiInputs(Event e)
+        {
+            if (e.isKey)
+                if (e.type == EventType.KeyDown)
+                {
+                    if (e.control || e.command)
+                        switch (e.keyCode)
+                        {
+                            case KeyCode.A:
+                                return true;
+                        }
+
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.UpArrow:
+                        case KeyCode.DownArrow:
+                            if (e.alt)
+                                ;
+                            return true;
+                    }
+                }
+
+            return base.OnImguiInputs(e);
+        }
+
         protected override void OnSelectStdin(string text)
         {
             base.OnSelectStdin(text);
