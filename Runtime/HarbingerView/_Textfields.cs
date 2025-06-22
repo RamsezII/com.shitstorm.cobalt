@@ -60,7 +60,7 @@ namespace _COBALT_
                 stdin_h = stdin_field.inputfield.textComponent.GetPreferredValues(stdin_field.inputfield.text, prect.width, 1000).y;
 
             float bottom_height = content_rT.anchoredPosition.y - stdout_h - stdin_h + prect.height;
-            stdin_h = Mathf.Max(stdin_h, prect.height);
+            stdin_h = Mathf.Max(stdin_h, prect.height - offset_h);
 
             stdin_field.rT.sizeDelta = new(0, stdin_h);
             content_rT.sizeDelta = new(0, stdout_h + stdin_h);
