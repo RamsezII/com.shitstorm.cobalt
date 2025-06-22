@@ -28,21 +28,21 @@ namespace _COBALT_
         bool GetStdin(out string stdin, out int cursor_i)
         {
             int pref_len = shell.current_status.prefixe_text?.Length ?? 0;
-            stdin = stdin_field.inputfield.text[pref_len..];
-            cursor_i = stdin_field.inputfield.caretPosition - pref_len;
+            stdin = stdin_field.text[pref_len..];
+            cursor_i = stdin_field.caretPosition - pref_len;
             return !string.IsNullOrWhiteSpace(stdin);
         }
 
         void RefreshStdout()
         {
-            stdout_field.inputfield.text = shell.stdout_text;
+            stdout_field.text = shell.stdout_text;
             stdout_field.lint.text = shell.stdout_lint;
 
             stdout_h = 0;
             if (!string.IsNullOrWhiteSpace(shell.stdout_text))
             {
                 Rect prect = scrollview.viewport.rect;
-                stdout_h = stdout_field.inputfield.textComponent.GetPreferredValues(shell.stdout_text, prect.width, 1000).y;
+                stdout_h = stdout_field.textComponent.GetPreferredValues(shell.stdout_text, prect.width, 1000).y;
             }
 
             stdout_field.rT.sizeDelta = new Vector2(0, stdout_h);
@@ -53,11 +53,11 @@ namespace _COBALT_
         {
             Rect prect = scrollview.viewport.rect;
 
-            float line_h = stdin_field.inputfield.textComponent.GetPreferredValues("#", prect.width, 1000).y;
+            float line_h = stdin_field.textComponent.GetPreferredValues("#", prect.width, 1000).y;
 
             float stdin_h = line_h;
-            if (!string.IsNullOrWhiteSpace(stdin_field.inputfield.text))
-                stdin_h = stdin_field.inputfield.textComponent.GetPreferredValues(stdin_field.inputfield.text, prect.width, 1000).y;
+            if (!string.IsNullOrWhiteSpace(stdin_field.text))
+                stdin_h = stdin_field.textComponent.GetPreferredValues(stdin_field.text, prect.width, 1000).y;
 
             float bottom_height = content_rT.anchoredPosition.y - stdout_h - stdin_h - offset_bottom_h + prect.height;
             stdin_h = Mathf.Max(stdin_h, prect.height);
@@ -73,15 +73,15 @@ namespace _COBALT_
         {
             stdin_field.lint.text = shell.current_status.prefixe_lint ?? string.Empty;
             string prefixe = shell.current_status.prefixe_text ?? string.Empty;
-            if (!prefixe.Equals(stdin_field.inputfield.text, StringComparison.Ordinal))
-                stdin_field.inputfield.text = prefixe;
-            stdin_field.inputfield.caretPosition = prefixe.Length;
+            if (!prefixe.Equals(stdin_field.text, StringComparison.Ordinal))
+                stdin_field.text = prefixe;
+            stdin_field.caretPosition = prefixe.Length;
         }
 
         bool CheckStdin()
         {
             string prefixe = shell.current_status.prefixe_text ?? string.Empty;
-            string current = stdin_field.inputfield.text;
+            string current = stdin_field.text;
 
             if (current.StartsWith(prefixe, StringComparison.Ordinal))
                 return true;
@@ -91,10 +91,10 @@ namespace _COBALT_
             else
                 current = prefixe + current[prefixe.Length..];
 
-            stdin_field.inputfield.text = current;
+            stdin_field.text = current;
 
-            if (stdin_field.inputfield.caretPosition < prefixe.Length)
-                stdin_field.inputfield.caretPosition = prefixe.Length;
+            if (stdin_field.caretPosition < prefixe.Length)
+                stdin_field.caretPosition = prefixe.Length;
 
             return false;
         }

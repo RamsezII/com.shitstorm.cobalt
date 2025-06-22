@@ -15,6 +15,11 @@ namespace _COBALT_
                         switch (e.keyCode)
                         {
                             case KeyCode.A:
+                                NUCLEOR.delegates.onEndOfFrame_once += () =>
+                                {
+                                    stdin_field.caretPosition = stdin_field.text.Length;
+                                    stdin_field.selectionAnchorPosition = shell.current_status.prefixe_text.Length;
+                                };
                                 return true;
                         }
 
@@ -37,8 +42,8 @@ namespace _COBALT_
             NUCLEOR.delegates.onEndOfFrame_once += () =>
             {
                 int min_pos = shell.current_status.prefixe_text?.Length ?? 0;
-                if (stdin_field.inputfield.caretPosition < min_pos)
-                    stdin_field.inputfield.caretPosition = min_pos;
+                if (stdin_field.caretPosition < min_pos)
+                    stdin_field.caretPosition = min_pos;
             };
         }
 
@@ -96,7 +101,7 @@ namespace _COBALT_
 
         void OnSubmit()
         {
-            shell.AddLine(stdin_field.inputfield.text, stdin_field.lint.text);
+            shell.AddLine(stdin_field.text, stdin_field.lint.text);
             if (GetStdin(out string text, out int cursor_i))
             {
                 var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);

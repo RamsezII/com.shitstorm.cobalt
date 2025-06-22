@@ -65,9 +65,9 @@ namespace _COBALT_
                 sb.Append(completion);
                 sb.Append(last_reader.text[last_reader.cpl_end..]);
 
-                stdin_field.inputfield.text = sb.ToString();
+                stdin_field.text = sb.ToString();
 
-                stdin_field.inputfield.caretPosition = shell.current_status.prefixe_text.Length + last_reader.cpl_start + completion.Length;
+                stdin_field.caretPosition = shell.current_status.prefixe_text.Length + last_reader.cpl_start + completion.Length;
             }
         }
     }
