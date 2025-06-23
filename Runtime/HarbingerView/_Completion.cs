@@ -39,7 +39,7 @@ namespace _COBALT_
                     if (reader.cpl_end > reader.cpl_start)
                         arg_select = text[reader.cpl_start..reader.cpl_end];
 
-                    last_completions_all = last_reader.completions.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                    last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
                     last_completions_tab = last_completions_all.ECompletionMatches(arg_select).ToArray();
                 }
             }
@@ -69,6 +69,35 @@ namespace _COBALT_
 
                 stdin_field.caretPosition = shell.current_status.prefixe_text.Length + last_reader.cpl_start + completion.Length;
             }
+        }
+
+        void OnAlt_up_down(in KeyCode key)
+        {
+
+        }
+
+        void OnAlt_left_right(in KeyCode key)
+        {
+            string completion = key switch
+            {
+                KeyCode.LeftArrow => last_reader.completion_l,
+                KeyCode.RightArrow => last_reader.completion_r,
+                _ => null,
+            };
+
+            if (completion == null)
+                return;
+
+            StringBuilder sb = new();
+
+            sb.Append(shell.current_status.prefixe_text);
+            sb.Append(last_reader.text[..last_reader.cpl_start]);
+            sb.Append(completion);
+            sb.Append(last_reader.text[last_reader.cpl_end..]);
+
+            stdin_field.text = sb.ToString();
+
+            stdin_field.caretPosition = shell.current_status.prefixe_text.Length + last_reader.cpl_start + completion.Length;
         }
     }
 }

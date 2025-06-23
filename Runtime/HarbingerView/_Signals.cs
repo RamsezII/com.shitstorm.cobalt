@@ -23,14 +23,19 @@ namespace _COBALT_
                                 return true;
                         }
 
-                    switch (e.keyCode)
-                    {
-                        case KeyCode.UpArrow:
-                        case KeyCode.DownArrow:
-                            if (e.alt)
-                                ;
-                            return true;
-                    }
+                    if (e.alt)
+                        switch (e.keyCode)
+                        {
+                            case KeyCode.UpArrow:
+                            case KeyCode.DownArrow:
+                                OnAlt_up_down(e.keyCode);
+                                return true;
+
+                            case KeyCode.LeftArrow:
+                            case KeyCode.RightArrow:
+                                OnAlt_left_right(e.keyCode);
+                                return true;
+                        }
                 }
 
             return base.OnImguiInputs(e);
