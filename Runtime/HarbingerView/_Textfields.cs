@@ -76,6 +76,7 @@ namespace _COBALT_
             if (!prefixe.Equals(stdin_field.text, StringComparison.Ordinal))
                 stdin_field.text = prefixe;
             stdin_field.caretPosition = prefixe.Length;
+            ResizeStdin();
         }
 
         bool CheckStdin()

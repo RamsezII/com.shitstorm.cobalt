@@ -10,7 +10,6 @@ namespace _COBALT_
     {
         [SerializeField] BoaReader last_reader;
         [SerializeField] string[] last_completions_tab, last_completions_all;
-        [SerializeField] string stdin_save;
         [SerializeField] int last_tab;
         [SerializeField, Range(0, ushort.MaxValue)] ushort tab_i, alt_i;
 
@@ -29,6 +28,8 @@ namespace _COBALT_
                 var signal = new BoaSignal(flags, last_reader);
                 shell.PropagateSignal(signal);
 
+                shell.AddLine($"{{ {last_reader.completion_l} }} {{ {last_reader.completion_r} }}");
+
                 stdin_field.lint.text += last_reader.GetLintResult(Color.gray6);
 
                 last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
@@ -44,9 +45,6 @@ namespace _COBALT_
                     last_completions_tab = last_completions_all.ECompletionMatches(arg_select).ToArray();
                 }
             }
-
-            if (Time.frameCount > last_tab)
-                stdin_save = text;
         }
 
         void OnTab()
