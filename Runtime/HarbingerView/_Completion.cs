@@ -11,7 +11,8 @@ namespace _COBALT_
         [SerializeField] BoaReader last_reader;
         [SerializeField] string[] last_completions_tab, last_completions_all;
         [SerializeField] string stdin_save;
-        [SerializeField] int last_tab, tab_i;
+        [SerializeField] int last_tab;
+        [SerializeField, Range(0, ushort.MaxValue)] ushort tab_i, alt_i;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -21,25 +22,25 @@ namespace _COBALT_
 
             if (GetStdin(out string text, out int cursor_i))
             {
-                var reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
+                last_reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
 
                 SIG_FLAGS_new flags = SIG_FLAGS_new.CHANGE;
 
-                var signal = new BoaSignal(flags, reader);
+                var signal = new BoaSignal(flags, last_reader);
                 shell.PropagateSignal(signal);
 
-                stdin_field.lint.text += reader.GetLintResult(Color.gray6);
+                stdin_field.lint.text += last_reader.GetLintResult(Color.gray6);
+
+                last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
 
                 if (Time.frameCount > last_tab)
                 {
                     tab_i = 0;
-                    last_reader = reader;
 
                     string arg_select = string.Empty;
-                    if (reader.cpl_end > reader.cpl_start)
-                        arg_select = text[reader.cpl_start..reader.cpl_end];
+                    if (last_reader.cpl_end > last_reader.cpl_start)
+                        arg_select = text[last_reader.cpl_start..last_reader.cpl_end];
 
-                    last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
                     last_completions_tab = last_completions_all.ECompletionMatches(arg_select).ToArray();
                 }
             }
@@ -55,7 +56,7 @@ namespace _COBALT_
                 tab_i = 0;
             else
             {
-                tab_i = ++tab_i % last_completions_tab.Length;
+                tab_i = (ushort)(++tab_i % last_completions_tab.Length);
                 string completion = last_completions_tab[tab_i];
 
                 StringBuilder sb = new();
@@ -73,7 +74,32 @@ namespace _COBALT_
 
         void OnAlt_up_down(in KeyCode key)
         {
+            if (last_completions_all == null || last_completions_all.Length == 0)
+                alt_i = 0;
+            else
+            {
+                alt_i += (ushort)(key switch
+                {
+                    KeyCode.UpArrow => -1,
+                    KeyCode.DownArrow => 1,
+                    _ => 0,
+                });
 
+                alt_i %= (ushort)last_completions_all.Length;
+
+                string completion = last_completions_all[alt_i];
+
+                StringBuilder sb = new();
+
+                sb.Append(shell.current_status.prefixe_text);
+                sb.Append(last_reader.text[..last_reader.cpl_start]);
+                sb.Append(completion);
+                sb.Append(last_reader.text[last_reader.cpl_end..]);
+
+                stdin_field.text = sb.ToString();
+
+                stdin_field.caretPosition = shell.current_status.prefixe_text.Length + last_reader.cpl_start + completion.Length;
+            }
         }
 
         void OnAlt_left_right(in KeyCode key)
