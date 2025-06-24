@@ -21,17 +21,14 @@ namespace _COBALT_
 
             if (GetStdin(out string text, out int cursor_i))
             {
-                last_reader = BoaReader.ReadLines(shell.lint_theme, false, cursor_i, text);
+                last_reader = BoaReader.ReadLines(lint_theme, false, cursor_i, text);
 
                 SIG_FLAGS_new flags = SIG_FLAGS_new.CHANGE;
 
                 var signal = new BoaSignal(flags, last_reader);
                 shell.PropagateSignal(signal);
 
-                if (false)
-                    shell.AddLine($"({last_reader.completions_v.Count} completions)  {{ {last_reader.completion_l} }} {{ {last_reader.completion_r} }}");
-
-                stdin_field.lint.text += last_reader.GetLintResult(Color.gray6);
+                stdin_field.lint.text += last_reader.GetLintResult();
 
                 last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
 

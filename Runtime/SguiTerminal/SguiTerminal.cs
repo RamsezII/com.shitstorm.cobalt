@@ -1,5 +1,4 @@
-﻿using _BOA_;
-using _SGUI_;
+﻿using _SGUI_;
 using UnityEngine;
 
 namespace _COBALT_
@@ -23,14 +22,6 @@ namespace _COBALT_
             sgui_softwarebutton = SguiGlobal.instance.button_terminal_2;
             harbinger_view = GetComponentInChildren<HarbingerView>();
             base.Awake();
-        }
-
-        //----------------------------------------------------------------------------------------------------------
-
-        protected override void Start()
-        {
-            harbinger_view.shell.lint_theme = LintTheme.theme_dark;
-            base.Start();
         }
     }
 }

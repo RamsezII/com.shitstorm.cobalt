@@ -8,6 +8,7 @@ namespace _COBALT_
     {
         public SguiTerminal terminal;
         public Shell shell;
+        public LintTheme lint_theme;
 
         //----------------------------------------------------------------------------------------------------------
 

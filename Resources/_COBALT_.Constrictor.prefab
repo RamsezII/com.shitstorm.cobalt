@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.9490196, g: 0.9395294, b: 0.89207846, a: 0.9882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -852,6 +852,32 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 992967392034870469}
     m_Modifications:
+    - target: {fileID: 647188162593053941, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188162593053941, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188162593053941, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188162593053941, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7212626210877754923, guid: 4b84d875640e3164ea87984542f97f4d,
+        type: 2}
+    - target: {fileID: 647188162593053941, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
     - target: {fileID: 2632725895625637443, guid: d21c717d77d335d4a8762e4d23fce2dc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -972,6 +998,167 @@ PrefabInstance:
       propertyPath: m_Value
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4535365810598584757, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535365810598584757, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535365810598584757, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535365810598584757, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7212626210877754923, guid: 4b84d875640e3164ea87984542f97f4d,
+        type: 2}
+    - target: {fileID: 4535365810598584757, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.quotes.b
+      value: 0.015686274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.quotes.g
+      value: 0.015686274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.literal.b
+      value: 0.8018868
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.literal.g
+      value: 0.7704897
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.literal.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.strings.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.strings.r
+      value: 0.754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.keywords.b
+      value: 0.8301887
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.keywords.g
+      value: 0.07440368
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.keywords.r
+      value: 0.8301887
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_0.b
+      value: 0.7075472
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_0.g
+      value: 0.027294429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_0.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_1.b
+      value: 0.15337431
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_1.g
+      value: 0.5754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_1.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.bracket_2.r
+      value: 0.47530353
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.functions.b
+      value: 0.9056604
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.functions.g
+      value: 0.6783574
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.operators.b
+      value: 0.7075472
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.operators.g
+      value: 0.7075472
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.operators.r
+      value: 0.7075472
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.variables.b
+      value: 0.33957142
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.variables.g
+      value: 0.6981132
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.variables.r
+      value: 0.1745283
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.command_separators.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.command_separators.g
+      value: 0.8521739
+      objectReference: {fileID: 0}
     - target: {fileID: 5448218118706541662, guid: d21c717d77d335d4a8762e4d23fce2dc,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -985,6 +1172,21 @@ PrefabInstance:
     - target: {fileID: 5448218118706541662, guid: d21c717d77d335d4a8762e4d23fce2dc,
         type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662877589607827610, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_CaretColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662877589607827610, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_CaretColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662877589607827610, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: m_CaretColor.r
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

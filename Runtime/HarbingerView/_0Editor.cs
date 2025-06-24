@@ -5,11 +5,18 @@ namespace _COBALT_
 {
     partial class HarbingerView
     {
+        //--------------------------------------------------------------------------------------------------------------
 
+        [ContextMenu(nameof(OnValidate))]
+        private void OnValidate()
+        {
+            if (didStart)
+                OnChange();
+        }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        private void OnGUI()
+        private void _OnGUI()
         {
             Rect rect = new(10, 30, 400, Screen.height - 60);
 
