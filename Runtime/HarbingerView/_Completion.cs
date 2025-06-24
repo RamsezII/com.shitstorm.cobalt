@@ -28,7 +28,8 @@ namespace _COBALT_
                 var signal = new BoaSignal(flags, last_reader);
                 shell.PropagateSignal(signal);
 
-                shell.AddLine($"({last_reader.completions_v.Count} completions)  {{ {last_reader.completion_l} }} {{ {last_reader.completion_r} }}");
+                if (false)
+                    shell.AddLine($"({last_reader.completions_v.Count} completions)  {{ {last_reader.completion_l} }} {{ {last_reader.completion_r} }}");
 
                 stdin_field.lint.text += last_reader.GetLintResult(Color.gray6);
 
