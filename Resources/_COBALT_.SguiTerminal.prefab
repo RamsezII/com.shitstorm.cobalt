@@ -255,6 +255,16 @@ PrefabInstance:
       propertyPath: traductions.english
       value: Terminal
       objectReference: {fileID: 0}
+    - target: {fileID: 7164477143110899342, guid: 4919d5e9b2082144ba72c94703740d4b,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.9019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7164477143110899342, guid: 4919d5e9b2082144ba72c94703740d4b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 7847935345013814596, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
       propertyPath: m_AnchorMax.y
