@@ -109,7 +109,7 @@ namespace _COBALT_
             shell.AddLine(stdin_field.text, stdin_field.lint.text);
             if (GetStdin(out string text, out int cursor_i))
             {
-                var reader = BoaReader.ReadLines(lint_theme, false, cursor_i, text);
+                var reader = new BoaReader(lint_theme, false, text, null, cursor_i);
                 var signal = new BoaSignal(SIG_FLAGS_new.SUBMIT, reader);
                 shell.PropagateSignal(signal);
             }

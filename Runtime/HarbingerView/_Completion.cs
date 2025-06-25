@@ -21,7 +21,7 @@ namespace _COBALT_
 
             if (GetStdin(out string text, out int cursor_i))
             {
-                last_reader = BoaReader.ReadLines(lint_theme, false, cursor_i, text);
+                last_reader = new BoaReader(lint_theme, false, text, null, cursor_i);
 
                 SIG_FLAGS_new flags = SIG_FLAGS_new.CHANGE;
 
