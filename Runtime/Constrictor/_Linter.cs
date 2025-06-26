@@ -32,7 +32,7 @@ namespace _COBALT_
             BoaSignal signal = new(SIG_FLAGS_new.LINT, reader);
             Harbinger harbinger = new(null, null, workdir, data => Debug.Log(data, this));
             ScopeNode scope = new(null, false);
-            harbinger.TryParseProgram(reader, scope, out _);
+            harbinger.TryParseProgram(reader, scope, out _, out _);
 
             lint_tmp.text = reader.GetLintResult();
 
