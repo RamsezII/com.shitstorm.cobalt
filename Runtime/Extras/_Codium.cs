@@ -50,10 +50,7 @@ namespace _COBALT_
                         : exe.shell.PathCheck((string)exe.args[0], PathModes.ForceFull);
 
                     if (Directory.Exists(work_dir))
-                    {
                         exe.error = Constrictor.TryOpenConstrictor(work_dir, false, out Constrictor constrictor);
-                        constrictor.terminal = (Terminal)exe.shell.terminal;
-                    }
                     else
                         exe.error = $"directory does not exists: '{work_dir}'";
                 });

@@ -6,7 +6,7 @@ namespace _COBALT_
 {
     public partial class Constrictor : SguiCodium
     {
-        public Terminal terminal;
+        public HarbingerView harbinger_view;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -21,16 +21,8 @@ namespace _COBALT_
         protected override void Awake()
         {
             sgui_softwarebutton = SguiGlobal.instance.button_codium;
+            harbinger_view = transform.Find("rT/body/_COBALT_.HarbingerView").GetComponent<HarbingerView>();
             base.Awake();
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void Start()
-        {
-            base.Start();
-            if (terminal == null)
-                terminal = InstantiateWindow<Terminal>(true, true, true);
         }
 
         //--------------------------------------------------------------------------------------------------------------

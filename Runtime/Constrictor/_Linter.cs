@@ -1,4 +1,4 @@
-﻿using _COBRA_;
+﻿using _BOA_;
 using _SGUI_;
 using TMPro;
 using UnityEngine;
@@ -7,7 +7,10 @@ namespace _COBALT_
 {
     partial class Constrictor
     {
-
+        [SerializeField] bool strict_syntax;
+        [SerializeField] string script_path;
+        [SerializeField] string workdir;
+        [SerializeField] bool use_intellisense;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -15,37 +18,32 @@ namespace _COBALT_
         {
             base.OnLint();
 
-            SguiCompletor.instance.ResetIntellisense();
+            if (use_intellisense)
+                SguiCompletor.instance.ResetIntellisense();
 
             string text = main_input_field.text;
             if (string.IsNullOrWhiteSpace(text))
-                return;
-
-            string[] lines = text.Split('\n');
-            int character_count = 0;
-
-            for (int i = 0; i < lines.Length; i++)
             {
-                string text_line = lines[i];
-                if (!string.IsNullOrWhiteSpace(text_line))
-                {
-                    lines[i] = terminal.linter.GetLint(terminal.shell, text_line, out Command.Line cmd_line, cursor_i: main_input_field.caretPosition - character_count, flags: SIG_FLAGS.LIST);
-                    if (cmd_line.completions != null)
-                    {
-                        int text_index = character_count + cmd_line.last_start_i;
-                        TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[text_index];
-
-                        Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
-
-                        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
-
-                        SguiCompletor.instance.PopulateCompletions(character_count + cmd_line.last_start_i, character_count + cmd_line.last_read_i, screenPos, cmd_line.completions);
-                    }
-                }
-                character_count += 1 + text_line.Length;
+                lint_tmp.text = text;
+                return;
             }
 
-            lint_tmp.text = lines.Join("\n");
+            BoaReader reader = new(harbinger_view.lint_theme, strict_syntax, text, script_path, cursor_i: main_input_field.caretPosition);
+            BoaSignal signal = new(SIG_FLAGS_new.LINT, reader);
+            Harbinger harbinger = new(null, null, workdir, data => Debug.Log(data, this));
+            ScopeNode scope = new(null, false);
+            harbinger.TryParseProgram(reader, scope, out _);
+
+            lint_tmp.text = reader.GetLintResult();
+
+            TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[reader.cpl_start];
+
+            Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
+
+            Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
+
+            if (use_intellisense)
+                SguiCompletor.instance.PopulateCompletions(reader.cpl_start, reader.cpl_end, screenPos, reader.completions_v);
         }
     }
 }
