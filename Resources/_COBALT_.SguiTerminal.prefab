@@ -623,6 +623,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
         type: 3}
+      propertyPath: lint_theme.sub_contracts.b
+      value: 0.79912496
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.sub_contracts.g
+      value: 0.8867924
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.sub_contracts.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
       propertyPath: lint_theme.fallback_default.b
       value: 0.85
       objectReference: {fileID: 0}
