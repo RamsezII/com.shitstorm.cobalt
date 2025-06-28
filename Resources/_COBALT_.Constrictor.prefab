@@ -683,6 +683,7 @@ MonoBehaviour:
   strict_syntax: 0
   script_path: 
   workdir: 
+  use_intellisense: 0
 --- !u!1001 &5016209723149513425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1121,6 +1122,21 @@ PrefabInstance:
         type: 3}
       propertyPath: lint_theme.flags.r
       value: 0.2256141
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.point.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.point.g
+      value: 0.2754993
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
+        type: 3}
+      propertyPath: lint_theme.point.r
+      value: 0.6320754
       objectReference: {fileID: 0}
     - target: {fileID: 5258501301800878324, guid: d21c717d77d335d4a8762e4d23fce2dc,
         type: 3}
