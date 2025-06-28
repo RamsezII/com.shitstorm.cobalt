@@ -197,6 +197,31 @@ MonoBehaviour:
   scrollbar: {fileID: 0}
   terminal: {fileID: 0}
   shell: {fileID: 0}
+  lint_theme:
+    argument: {r: 1, g: 0.07843138, b: 0.5764706, a: 1}
+    argument_coma: {r: 1, g: 0.7137255, b: 0.7568628, a: 1}
+    point: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    flags: {r: 0.9607844, g: 0.9607844, b: 0.8627452, a: 1}
+    options: {r: 1, g: 0.8941177, b: 0.7686275, a: 1}
+    option_args: {r: 0.9568628, g: 0.6431373, b: 0.3764706, a: 1}
+    operators: {r: 0.8274511, g: 0.8274511, b: 0.8274511, a: 1}
+    contracts: {r: 0.282353, g: 0.2392157, b: 0.5450981, a: 1}
+    sub_contracts: {r: 0.282353, g: 0.2392157, b: 0.5450981, a: 1}
+    functions: {r: 0, g: 0.7490196, b: 1, a: 1}
+    variables: {r: 0.5764706, g: 0.4392157, b: 0.8588236, a: 1}
+    paths: {r: 1, g: 1, b: 0.9411765, a: 1}
+    comments: {r: 0.3333333, g: 0.4196079, b: 0.1843137, a: 1}
+    command_separators: {r: 1, g: 0.9333334, b: 0.5490196, a: 1}
+    keywords: {r: 1, g: 0, b: 1, a: 1}
+    bracket_0: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    bracket_1: {r: 0.4, g: 0.2, b: 0.6, a: 1}
+    bracket_2: {r: 0, g: 0, b: 0.5019608, a: 1}
+    literal: {r: 0.1960784, g: 0.8039216, b: 0.1960784, a: 1}
+    constants: {r: 0, g: 0.7490196, b: 1, a: 1}
+    strings: {r: 1, g: 0.6470588, b: 0, a: 1}
+    quotes: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    error: {r: 1, g: 0, b: 0, a: 1}
+    fallback_default: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   last_reader:
     cursor_i: 0
     cpl_start: 0
@@ -204,11 +229,15 @@ MonoBehaviour:
     cpl_end: 0
     last_arg: 
     sig_error: 
+    err_trace: 
     sig_long_error: 
-  last_completions: []
-  stdin_save: 
+    completion_l: 
+    completion_r: 
+  last_completions_tab: []
+  last_completions_all: []
   last_tab: 0
   tab_i: 0
+  alt_i: 0
   last_status:
     prefixe_text: 
     prefixe_lint: 
@@ -238,4 +267,4 @@ MonoBehaviour:
     progress: 0
   stdout_text: 
   stdout_lint: 
-  working_dir: 
+  workdir: 
