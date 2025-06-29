@@ -29,8 +29,11 @@ namespace _COBALT_
 
             BoaReader reader = new(harbinger_view.lint_theme, strict_syntax, text, script_path, cursor_i: main_input_field.caretPosition);
             BoaSignal signal = new(SIG_FLAGS_new.LINT, reader);
-            Harbinger harbinger = new(null, null, workdir, data => Debug.Log(data, this));
             ScopeNode scope = new(null, false);
+
+            Harbinger harbinger = new(null, null, workdir, data => Debug.Log(data, this));
+            harbinger.signal = signal;
+
             harbinger.TryParseProgram(reader, scope, out _, out _);
 
             lint_tmp.text = reader.GetLintResult();
