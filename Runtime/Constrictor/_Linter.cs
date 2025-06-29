@@ -10,7 +10,6 @@ namespace _COBALT_
         [SerializeField] bool strict_syntax;
         [SerializeField] string script_path;
         [SerializeField] string workdir;
-        [SerializeField] bool use_intellisense;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -18,7 +17,7 @@ namespace _COBALT_
         {
             base.OnLint();
 
-            if (use_intellisense)
+            if (settings.use_intellisense)
                 SguiCompletor.instance.ResetIntellisense();
 
             string text = main_input_field.text;
@@ -42,7 +41,7 @@ namespace _COBALT_
 
             Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
 
-            if (use_intellisense)
+            if (settings.use_intellisense)
                 SguiCompletor.instance.PopulateCompletions(reader.cpl_start, reader.cpl_end, screenPos, reader.completions_v);
         }
     }
