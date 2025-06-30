@@ -38,14 +38,19 @@ namespace _COBALT_
 
             lint_tmp.text = reader.GetLintResult();
 
-            TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[reader.cpl_start];
+            int index_completor_window = reader.cpl_start;
+            index_completor_window = main_input_field.caretPosition;
+            TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[index_completor_window];
 
             Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
 
             Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
 
             if (settings.use_intellisense)
-                SguiCompletor.instance.PopulateCompletions(reader.cpl_start, reader.cpl_end, screenPos, reader.completions_v);
+                if (reader.cpl_end > reader.cpl_start)
+                    if (reader.completions_v.Count > 0)
+                        if (!string.IsNullOrWhiteSpace(reader.text[reader.cpl_start..reader.cpl_end]))
+                            SguiCompletor.instance.PopulateCompletions(reader.cpl_start, reader.cpl_end, screenPos, reader.completions_v);
         }
     }
 }
