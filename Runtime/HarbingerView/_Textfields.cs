@@ -1,5 +1,6 @@
 using _BOA_;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace _COBALT_
@@ -38,14 +39,9 @@ namespace _COBALT_
             stdout_field.text = shell.stdout_text;
             stdout_field.lint.text = shell.stdout_lint;
 
-            stdout_h = 0;
-            if (!string.IsNullOrWhiteSpace(shell.stdout_text))
-            {
-                Rect prect = scrollview.viewport.rect;
-                stdout_h = stdout_field.textComponent.GetPreferredValues(shell.stdout_text, prect.width, 1000).y;
-            }
-
+            stdout_h = stdout_field.textComponent.GetInvisibleHeight();
             stdout_field.rT.sizeDelta = new Vector2(0, stdout_h);
+
             ResizeStdin();
         }
 
@@ -53,11 +49,7 @@ namespace _COBALT_
         {
             Rect prect = scrollview.viewport.rect;
 
-            float line_h = stdin_field.textComponent.GetPreferredValues("#", prect.width, 1000).y;
-
-            float stdin_h = line_h;
-            if (!string.IsNullOrWhiteSpace(stdin_field.text))
-                stdin_h = stdin_field.textComponent.GetPreferredValues(stdin_field.text, prect.width, 1000).y;
+            float stdin_h = stdin_field.textComponent.GetInvisibleHeight();
 
             float bottom_height = content_rT.anchoredPosition.y - stdout_h - stdin_h - offset_bottom_h + prect.height;
             stdin_h = Mathf.Max(stdin_h, prect.height);
