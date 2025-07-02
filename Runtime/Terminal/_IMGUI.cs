@@ -10,33 +10,6 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        static bool OnOnGuiInputs_static(Event e)
-        {
-            if (e.type != EventType.KeyDown)
-                return false;
-
-            if (e.keyCode == KeyCode.O)
-                if (UsageManager.AreEmpty(UsageGroups.Typing))
-                    if (instance_last == null)
-                    {
-                        InstantiateWindow<Terminal>(true, true, true);
-                        return true;
-                    }
-                    else
-                    {
-                        instance_last.ToggleWindow(true);
-                        return true;
-                    }
-
-            if ((e.control || e.command || e.alt) && e.keyCode == KeyCode.T)
-            {
-                InstantiateWindow<Terminal>(true, true, true);
-                return true;
-            }
-
-            return false;
-        }
-
         bool OnOnGuiInputs(Event e)
         {
             if (e.type != EventType.KeyDown)

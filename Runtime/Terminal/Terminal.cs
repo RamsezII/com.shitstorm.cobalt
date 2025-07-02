@@ -29,7 +29,6 @@ namespace _COBALT_
         static void OnAfterSceneLoad()
         {
             SguiGlobal.instance.button_terminal_1.software_type = typeof(Terminal);
-            IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs_static, new());
         }
 
         //--------------------------------------------------------------------------------------------------------------
