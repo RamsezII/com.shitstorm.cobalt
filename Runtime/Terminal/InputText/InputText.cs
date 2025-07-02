@@ -41,12 +41,12 @@ namespace _COBALT_
                 input_field.text = string.Empty;
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
             terminal.OnTextClick(this, eventData, true);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {
             terminal.OnTextClick(this, eventData, false);
         }
