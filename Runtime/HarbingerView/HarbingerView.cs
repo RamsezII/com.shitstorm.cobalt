@@ -1,6 +1,7 @@
 ﻿using _ARK_;
 using _BOA_;
 using _SGUI_;
+using UnityEngine;
 
 namespace _COBALT_
 {
@@ -9,6 +10,10 @@ namespace _COBALT_
         public SguiTerminal terminal;
         public Shell shell;
         public LintTheme lint_theme;
+
+        [SerializeField] Contract.Status last_status;
+        [SerializeField] float stdin_h, stdout_h;
+        [SerializeField] bool flag_history;
 
         //----------------------------------------------------------------------------------------------------------
 

@@ -1,17 +1,11 @@
 using _BOA_;
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace _COBALT_
 {
     partial class HarbingerView
     {
-        [SerializeField] Contract.Status last_status;
-        [SerializeField] float stdin_h, stdout_h;
-
-        //----------------------------------------------------------------------------------------------------------
-
         void OnLateUpdate()
         {
             if (!last_status.Equals(shell.current_status))

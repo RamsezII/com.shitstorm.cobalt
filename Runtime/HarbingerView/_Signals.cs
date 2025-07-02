@@ -6,41 +6,6 @@ namespace _COBALT_
 {
     partial class HarbingerView
     {
-        protected override bool OnImguiInputs(Event e)
-        {
-            if (e.isKey)
-                if (e.type == EventType.KeyDown)
-                {
-                    if (e.control || e.command)
-                        switch (e.keyCode)
-                        {
-                            case KeyCode.A:
-                                NUCLEOR.delegates.onEndOfFrame_once += () =>
-                                {
-                                    stdin_field.caretPosition = stdin_field.text.Length;
-                                    stdin_field.selectionAnchorPosition = shell.current_status.prefixe_text.Length;
-                                };
-                                return true;
-                        }
-
-                    if (e.alt)
-                        switch (e.keyCode)
-                        {
-                            case KeyCode.UpArrow:
-                            case KeyCode.DownArrow:
-                                OnAlt_up_down(e.keyCode);
-                                return true;
-
-                            case KeyCode.LeftArrow:
-                            case KeyCode.RightArrow:
-                                OnAlt_left_right(e.keyCode);
-                                return true;
-                        }
-                }
-
-            return base.OnImguiInputs(e);
-        }
-
         protected override void OnSelectStdin(string text)
         {
             base.OnSelectStdin(text);
@@ -91,6 +56,9 @@ namespace _COBALT_
 
         protected override void OnStdinChanged(string text)
         {
+            if (!flag_history.PullValue())
+                shell.ResetHistoryNav();
+
             if (shell.current_status.state != Contract.Status.States.WAIT_FOR_STDIN)
             {
                 ResetStdin();
