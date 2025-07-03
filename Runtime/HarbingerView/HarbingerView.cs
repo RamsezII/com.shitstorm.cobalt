@@ -22,6 +22,7 @@ namespace _COBALT_
             terminal = GetComponentInParent<SguiTerminal>();
             shell = GetComponent<Shell>();
             base.Awake();
+            shell.change_stdin += value => stdin_field.text = value;
         }
 
         //----------------------------------------------------------------------------------------------------------
