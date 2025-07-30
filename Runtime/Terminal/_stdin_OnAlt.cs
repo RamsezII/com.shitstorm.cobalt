@@ -8,7 +8,7 @@ namespace _COBALT_
     {
         void OnAltKey()
         {
-            SIG_FLAGS flags = flag_alt.PullValue switch
+            SIG_FLAGS flags = flag_alt.PullValue() switch
             {
                 KeyCode.LeftArrow => SIG_FLAGS.LEFT,
                 KeyCode.RightArrow => SIG_FLAGS.RIGHT,

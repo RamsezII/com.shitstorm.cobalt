@@ -64,16 +64,16 @@ namespace _COBALT_
 
         void OnLateUpdate()
         {
-            if (flag_progress.PullValue)
+            if (flag_progress.PullValue())
                 RefreshProgressBars();
 
-            if (flag_stdout.PullValue)
+            if (flag_stdout.PullValue())
                 RefreshStdout();
 
-            if (flag_stdin.PullValue)
+            if (flag_stdin.PullValue())
                 RefreshStdin();
 
-            if (flag_clampbottom.PullValue)
+            if (flag_clampbottom.PullValue())
                 ClampBottom();
         }
 
