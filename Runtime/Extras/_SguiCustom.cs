@@ -128,7 +128,7 @@ namespace _COBALT_
                                 break;
 
                             case SguiCustom_Dropdown dropdown:
-                                results.Add(dropdown.dropdown.GetSelectedValue());
+                                results.Add(dropdown.dropdown.GetSelectedName());
                                 break;
 
                             case SguiCustom_Toggle toggle:
