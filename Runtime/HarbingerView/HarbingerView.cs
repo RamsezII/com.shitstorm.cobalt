@@ -32,7 +32,7 @@ namespace _COBALT_
             base.Start();
             shell.on_stdout += RefreshStdout;
             ResetStdin();
-            NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
+            NUCLEOR.delegates.LateUpdate += OnLateUpdate;
             RefreshStdout();
             stdin_field.text = "> ";
         }
@@ -41,7 +41,7 @@ namespace _COBALT_
 
         protected override void OnDestroy()
         {
-            NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
+            NUCLEOR.delegates.LateUpdate -= OnLateUpdate;
             base.OnDestroy();
         }
     }

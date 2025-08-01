@@ -48,8 +48,8 @@ namespace _COBALT_
         {
             base.OnEnable();
 
-            NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
-            NUCLEOR.delegates.onLateUpdate += OnLateUpdate;
+            NUCLEOR.delegates.LateUpdate -= OnLateUpdate;
+            NUCLEOR.delegates.LateUpdate += OnLateUpdate;
 
             UsageManager.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
@@ -60,7 +60,7 @@ namespace _COBALT_
         {
             base.OnDisable();
 
-            NUCLEOR.delegates.onLateUpdate -= OnLateUpdate;
+            NUCLEOR.delegates.LateUpdate -= OnLateUpdate;
             UsageManager.RemoveUser(this);
         }
 
@@ -71,8 +71,8 @@ namespace _COBALT_
             base.Start();
             StartUI();
 
-            NUCLEOR.delegates.getInputs += OnGetInputs;
-            NUCLEOR.delegates.onPlayerInputs += OnUpdate;
+            NUCLEOR.delegates.Update_GettInputs += OnGetInputs;
+            NUCLEOR.delegates.Update_OnPlayerInputs += OnUpdate;
 
             fullscreen.AddListener(value => flag_stdout.Update(true));
 
@@ -126,8 +126,8 @@ namespace _COBALT_
 
         protected override void OnDestroy()
         {
-            NUCLEOR.delegates.getInputs -= OnGetInputs;
-            NUCLEOR.delegates.onPlayerInputs -= OnUpdate;
+            NUCLEOR.delegates.Update_GettInputs -= OnGetInputs;
+            NUCLEOR.delegates.Update_OnPlayerInputs -= OnUpdate;
 
             base.OnDestroy();
 

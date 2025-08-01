@@ -15,7 +15,7 @@ namespace _COBALT_
                         switch (e.keyCode)
                         {
                             case KeyCode.A:
-                                NUCLEOR.delegates.onEndOfFrame_once += () =>
+                                NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () =>
                                 {
                                     stdin_field.caretPosition = stdin_field.text.Length;
                                     stdin_field.selectionAnchorPosition = shell.current_status.prefixe_text.Length;

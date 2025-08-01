@@ -31,8 +31,8 @@ namespace _COBALT_
                         {
                             Vector2 npos = scrollview.normalizedPosition;
                             font_size.Update(font_size.Value + mouse_scroll * 0.3f);
-                            NUCLEOR.delegates.onEndOfFrame_once += () => scrollview.normalizedPosition = npos;
-                            NUCLEOR.delegates.onStartOfFrame_once += () => scrollview.normalizedPosition = npos;
+                            NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () => scrollview.normalizedPosition = npos;
+                            NUCLEOR.delegates.Update_OnStartOfFrame_once += () => scrollview.normalizedPosition = npos;
                         }
                         else
                             scrollview.verticalNormalizedPosition = Mathf.Clamp01(scrollview.verticalNormalizedPosition + mouse_scroll * 0.1f);

@@ -9,7 +9,7 @@ namespace _COBALT_
         protected override void OnSelectStdin(string text)
         {
             base.OnSelectStdin(text);
-            NUCLEOR.delegates.onEndOfFrame_once += () =>
+            NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () =>
             {
                 int min_pos = shell.current_status.prefixe_text?.Length ?? 0;
                 if (stdin_field.caretPosition < min_pos)
