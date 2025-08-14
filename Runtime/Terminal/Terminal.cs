@@ -100,7 +100,7 @@ namespace _COBALT_
 
         void ITerminal.SetStdin(string text)
         {
-            NUCLEOR.instance.subSequencer.AddRoutine(Util.EWaitForFrames(1, () =>
+            NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(1, () =>
             {
                 stdin_save = input_stdin.input_field.text = text;
                 flag_stdin.Update(true);
