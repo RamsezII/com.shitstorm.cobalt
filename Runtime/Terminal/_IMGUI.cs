@@ -28,7 +28,7 @@ namespace _COBALT_
                     ToggleWindow(true);
                     if (!opened_once)
                     {
-                        NUCLEOR.instance.subScheduler.AddRoutine(Util.EWaitForFrames(1, ClearStdout));
+                        NUCLEOR.instance.subSequencer.AddRoutine(Util.EWaitForFrames(1, ClearStdout));
                         opened_once = true;
                     }
                     return true;
