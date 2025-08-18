@@ -39,6 +39,7 @@ namespace _COBALT_
                 }
             instance = Util.InstantiateOrCreate<Constrictor>(SguiGlobal.instance.rT_2D);
             instance.Init_folder(folder_path);
+            instance.harbinger_view.shell.workdir = folder_path;
             return null;
         }
     }
