@@ -42,7 +42,7 @@ namespace _COBALT_
 
                 var alert = sgui.AddButton<SguiCustom_Alert>();
 
-                alert.SetType(SguiCustom_Alert.DialogTypes.Dialog);
+                alert.SetType(SguiCustom_Alert.SguiDialogTypes.Dialog);
 
                 if (exe.args.Count > 0)
                     alert.SetText(new((string)exe.args[0]));
