@@ -53,7 +53,7 @@ namespace _COBALT_
 
             UsageManager.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
 
-            flag_stdout.Update(true);
+            flag_stdout.Value = true;
         }
 
         protected override void OnDisable()
@@ -74,7 +74,7 @@ namespace _COBALT_
             NUCLEOR.delegates.Update_GettInputs += OnGetInputs;
             NUCLEOR.delegates.Update_OnPlayerInputs += OnUpdate;
 
-            fullscreen.AddListener(value => flag_stdout.Update(true));
+            fullscreen.AddListener(value => flag_stdout.Value = true);
 
             shell = Util.InstantiateOrCreate<Shell>(transform);
 
@@ -92,7 +92,7 @@ namespace _COBALT_
                 {
                     case BaseStates.toActive:
                     case BaseStates.Active:
-                        flag_stdout.Update(true);
+                        flag_stdout.Value = true;
                         ForceSelectStdin();
                         break;
                 }
@@ -103,7 +103,7 @@ namespace _COBALT_
             NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(1, () =>
             {
                 stdin_save = input_stdin.input_field.text = text;
-                flag_stdin.Update(true);
+                flag_stdin.Value = true;
             }));
         }
 

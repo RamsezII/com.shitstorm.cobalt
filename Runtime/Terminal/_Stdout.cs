@@ -21,7 +21,7 @@ namespace _COBALT_
                 while (lines.Count >= max_lines)
                     lines.Dequeue();
                 lines.Enqueue(lint);
-                flag_stdout.Update(true);
+                flag_stdout.Value = true;
             }
         }
 
@@ -43,8 +43,8 @@ namespace _COBALT_
             input_stdout.input_field.text = stdout;
 
             input_stdout.AutoSize(true);
-            flag_stdin.Update(true);
-            flag_clampbottom.Update(true);
+            flag_stdin.Value = true;
+            flag_clampbottom.Value = true;
         }
     }
 }

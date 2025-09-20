@@ -29,7 +29,7 @@ namespace _COBALT_
         private void OnValidate()
         {
             if (Application.isPlaying)
-                flag_stdin.Update(true);
+                flag_stdin.Value = true;
         }
 #endif
 
@@ -74,14 +74,14 @@ namespace _COBALT_
             input_realtime.ResetText();
             input_stdin.ResetText();
 
-            flag_progress.Update(true);
-            flag_stdin.Update(true);
+            flag_progress.Value = true;
+            flag_stdin.Value = true;
 
             input_stdin.input_field.onValueChanged.AddListener(OnChangeStdin);
 
             input_stdin.input_field.onValidateInput = OnValidateStdin;
 
-            ArkMachine.user_name.AddListener(value => flag_stdin.Update(true));
+            ArkMachine.user_name.AddListener(value => flag_stdin.Value = true);
 
             font_size.AddProcessor(value => Mathf.Clamp(value, .5f, 2));
 
@@ -95,7 +95,7 @@ namespace _COBALT_
                 linter_tmp.fontSize = value;
                 input_stdin.input_field.textComponent.fontSize = value;
 
-                flag_stdout.Update(true);
+                flag_stdout.Value = true;
             });
         }
 
@@ -128,7 +128,7 @@ namespace _COBALT_
         protected override void OnCheckBounds()
         {
             base.OnCheckBounds();
-            flag_stdout.Update(true);
+            flag_stdout.Value = true;
         }
     }
 }

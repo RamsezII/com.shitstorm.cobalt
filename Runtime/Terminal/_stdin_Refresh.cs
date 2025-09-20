@@ -36,7 +36,7 @@ namespace _COBALT_
                 scrollview.content.sizeDelta = new(0, stdin_offset + input_stdout.text_height + input_realtime.text_height + stdin_height);
             }
 
-            flag_clampbottom.Update(true);
+            flag_clampbottom.Value = true;
         }
     }
 }

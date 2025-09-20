@@ -52,7 +52,7 @@ namespace _COBALT_
                         case KeyCode.RightArrow:
                         case KeyCode.UpArrow:
                         case KeyCode.DownArrow:
-                            flag_alt.Update(e.keyCode);
+                            flag_alt.Value = e.keyCode;
                             return true;
                     }
 
@@ -91,7 +91,7 @@ namespace _COBALT_
 
                                 shell.PropagateSignal(line);
 
-                                flag_nav_history.Update(e.keyCode);
+                                flag_nav_history.Value = e.keyCode;
                                 return true;
                             }
                             break;
@@ -117,7 +117,7 @@ namespace _COBALT_
                 if (line.data.status == CMDLINE_STATUS.CONFIRM)
                 {
                     input_stdin.ResetText();
-                    flag_stdin.Update(true);
+                    flag_stdin.Value = true;
                     Debug.Log($"{shell} {line.flags} signal confirmed. {line.data}".ToSubLog());
                 }
                 else
@@ -156,7 +156,7 @@ namespace _COBALT_
                             stdin_save = input_stdin.input_field.text = text[..index];
                             input_stdin.input_field.caretPosition = index;
 
-                            flag_stdin.Update(true);
+                            flag_stdin.Value = true;
                             return true;
                         }
                     }
@@ -168,7 +168,7 @@ namespace _COBALT_
                     }
 
                     stdin_save = input_stdin.input_field.text;
-                    flag_stdin.Update(true);
+                    flag_stdin.Value = true;
                 }
             return true;
         }

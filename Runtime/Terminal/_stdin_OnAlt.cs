@@ -22,7 +22,7 @@ namespace _COBALT_
 
             flags |= SIG_FLAGS.ALT;
 
-            flag_stdin.Update(true);
+            flag_stdin.Value = true;
 
             tab_frame = Time.frameCount;
             stdin_save = input_stdin.input_field.text;

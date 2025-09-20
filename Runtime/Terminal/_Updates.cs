@@ -30,7 +30,7 @@ namespace _COBALT_
                         if (GetInputs_hold(InputsFlags.Ctrl))
                         {
                             Vector2 npos = scrollview.normalizedPosition;
-                            font_size.Update(font_size.Value + mouse_scroll * 0.3f);
+                            font_size.Value = font_size.Value + mouse_scroll * 0.3f;
                             NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () => scrollview.normalizedPosition = npos;
                             NUCLEOR.delegates.Update_OnStartOfFrame_once += () => scrollview.normalizedPosition = npos;
                         }
@@ -45,16 +45,16 @@ namespace _COBALT_
                     Command.Line.OnHistoryNav(nav_val, out string entry);
                     input_stdin.input_field.text = entry;
                     input_stdin.input_field.caretPosition = entry.Length;
-                    flag_stdin.Update(true);
+                    flag_stdin.Value = true;
                 }
             }
 
             if (shell.current_state.status.state == CMD_STATES.BLOCKING)
-                flag_progress.Update(true);
+                flag_progress.Value = true;
 
             if (shell.stdin_change_flag.PullValue())
             {
-                flag_stdout.Update(true);
+                flag_stdout.Value = true;
                 if (shell.current_state.status.state == CMD_STATES.BLOCKING)
                     input_stdin.ResetText();
             }
@@ -92,7 +92,7 @@ namespace _COBALT_
 
                 input_realtime.input_field.text = $"{new string('▓', count)}{new string('░', bar_count - count)} {Mathf.RoundToInt(100 * progress),3}%";
 
-                flag_progress.Update(true);
+                flag_progress.Value = true;
             }
             else
                 input_realtime.ResetText();

@@ -12,7 +12,7 @@ namespace _COBALT_
 
             cpl_index = 0;
             stdin_frame = Time.frameCount;
-            flag_stdin.Update(true);
+            flag_stdin.Value = true;
 
             switch (shell.current_state.status.state)
             {

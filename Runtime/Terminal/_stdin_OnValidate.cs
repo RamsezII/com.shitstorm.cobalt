@@ -9,7 +9,7 @@ namespace _COBALT_
         char OnValidateStdin(string text, int charIndex, char addedChar)
         {
             Command.Line.ResetHistoryCount();
-            flag_stdin.Update(true);
+            flag_stdin.Value = true;
 
             if (shell.current_state.status.state == CMD_STATES.BLOCKING)
                 return '\0';
