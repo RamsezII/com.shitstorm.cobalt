@@ -7,7 +7,7 @@ namespace _COBALT_
 {
     partial class Terminal
     {
-        public readonly OnValue<bool>
+        public readonly OnValue_bool
             flag_progress = new(),
             flag_stdout = new(),
             flag_stdin = new(),
