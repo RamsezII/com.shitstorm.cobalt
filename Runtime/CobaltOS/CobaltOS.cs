@@ -22,7 +22,7 @@ namespace _COBALT_
             switch (e.keyCode)
             {
                 case KeyCode.O:
-                    if (UsageManager.AreEmpty(UsageGroups.Typing))
+                    if (UsageManager.AllAreEmpty(UsageGroups.Typing))
                         if (Terminal.instance_last == null)
                         {
                             SguiWindow.InstantiateWindow<Terminal>(true, true, true);
