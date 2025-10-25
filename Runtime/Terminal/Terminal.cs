@@ -51,7 +51,7 @@ namespace _COBALT_
             NUCLEOR.delegates.LateUpdate -= OnLateUpdate;
             NUCLEOR.delegates.LateUpdate += OnLateUpdate;
 
-            UsageManager.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayers, UsageGroups.Typing);
+            UsageManager.ToggleUser(this, true, UsageGroups.TrueMouse, UsageGroups.Keyboard, UsageGroups.BlockPlayer, UsageGroups.Typing);
 
             flag_stdout.Value = true;
         }
