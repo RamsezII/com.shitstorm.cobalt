@@ -15,7 +15,7 @@ namespace _COBALT_
         void ITerminal.Exit() => Oblivionize();
         void ITerminal.ClearLines() => lines.Clear();
 
-        public readonly OnValue<KeyCode>
+        public readonly ValueHandler<KeyCode>
             flag_alt = new(),
             flag_nav_history = new();
 

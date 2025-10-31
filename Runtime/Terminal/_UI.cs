@@ -20,7 +20,7 @@ namespace _COBALT_
         public float line_height;
 
         float initial_fontsize;
-        public readonly OnValue<float> font_size = new(1);
+        public readonly ValueHandler<float> font_size = new(1);
 
         //--------------------------------------------------------------------------------------------------------------
 
