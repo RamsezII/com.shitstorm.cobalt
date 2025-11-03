@@ -12,14 +12,13 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            SguiGlobal.instance.button_terminal_2.software_type = typeof(SguiTerminal);
+            OSView.instance.AddOrGetSoftwareButton<SguiTerminal>();
         }
 
         //----------------------------------------------------------------------------------------------------------
 
         protected override void Awake()
         {
-            sgui_softwarebutton = SguiGlobal.instance.button_terminal_2;
             harbinger_view = GetComponentInChildren<HarbingerView>();
             base.Awake();
         }

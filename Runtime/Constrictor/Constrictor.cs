@@ -13,14 +13,14 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            SguiGlobal.instance.button_codium.software_type = typeof(Constrictor);
+            SoftwareButton os_button = OSView.instance.AddOrGetSoftwareButton<Constrictor>();
+            os_button.onClick_left_empty += eventData => LoggerOverlay.Log($"Please specify a path when opening {typeof(Constrictor)}", logLevel: LoggerOverlay.LogLevel.Warning);
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void Awake()
         {
-            sgui_softwarebutton = SguiGlobal.instance.button_codium;
             harbinger_view = transform.Find("rT/body/_COBALT_.HarbingerView").GetComponent<HarbingerView>();
             base.Awake();
         }
@@ -37,9 +37,11 @@ namespace _COBALT_
                     instance = null;
                     return $"can not find directory '{folder_path}'\n";
                 }
+
             instance = Util.InstantiateOrCreate<Constrictor>(SguiGlobal.instance.rt_windows);
             instance.Init_folder(folder_path);
             instance.harbinger_view.shell.workdir = folder_path;
+
             return null;
         }
     }

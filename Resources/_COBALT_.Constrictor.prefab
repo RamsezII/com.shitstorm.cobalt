@@ -648,7 +648,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   animate_hue: 1
   oblivionized: 0
-  sgui_softwarebutton: {fileID: 0}
+  window_icon: {fileID: 2800000, guid: 1f467e44153683149927ffacfbf5e030, type: 3}
+  id: 13
   hierarchy_viewport_rT: {fileID: 0}
   hierarchy_content_rT: {fileID: 0}
   hierarchy_layout: {fileID: 0}
@@ -683,7 +684,6 @@ MonoBehaviour:
   strict_syntax: 0
   script_path: 
   workdir: 
-  use_intellisense: 0
 --- !u!1001 &5016209723149513425
 PrefabInstance:
   m_ObjectHideFlags: 0
