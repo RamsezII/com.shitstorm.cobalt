@@ -38,7 +38,7 @@ namespace _COBALT_
 
                 sgui.onDestroy += exe.line.shell.terminal.ForceSelectStdin;
                 sgui.onAction_confirm += () => exe.Stdout(true);
-                sgui.onAction_cancel += () => exe.Stdout(false);
+                sgui.onAction_close += () => exe.Stdout(false);
 
                 var alert = sgui.AddButton<SguiCustom_Alert>();
 
