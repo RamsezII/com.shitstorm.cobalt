@@ -107,17 +107,18 @@ namespace _COBALT_
 
             static IEnumerator<CMD_STATUS> ERoutine(Command.Executor exe)
             {
-                SguiCustom clone = SguiWindow.InstantiateWindow<SguiCustom>();
+                SguiCustom window = SguiWindow.InstantiateWindow<SguiCustom>();
 
                 if (exe.opts.TryGetValue_str(opt_t, out string title))
-                    clone.trad_title.SetTrad(title);
+                    window.trad_title.SetTrad(title);
 
-                clone.onAction_confirm += () =>
+                window.onAction_confirm += () =>
                 {
                     List<object> results = new();
+                    var buttons = window.GetButtons();
 
-                    for (int i = 0; i < clone.clones.Count; i++)
-                        switch (clone.clones[i])
+                    for (int i = 0; i < buttons.Length; i++)
+                        switch (buttons[i])
                         {
                             case SguiCustom_Slider slider:
                                 results.Add(slider.slider.value);
@@ -146,7 +147,7 @@ namespace _COBALT_
                 foreach (var arg in exe.args)
                 {
                     CustomButtonInfos infos = (CustomButtonInfos)arg;
-                    SguiCustom_Abstract button = clone.AddButton(infos.type);
+                    SguiCustom_Abstract button = window.AddButton(infos.type);
 
                     button.trad_label.SetTrads(infos.label);
 
@@ -171,24 +172,24 @@ namespace _COBALT_
 
                 try
                 {
-                    while (clone != null && !clone.oblivionized)
+                    while (window != null && !window.oblivionized)
                     {
                         if (exe.line.flags.HasFlag(SIG_FLAGS.KILL))
                         {
-                            clone.Oblivionize();
-                            clone = null;
+                            window.Oblivionize();
+                            window = null;
                             yield break;
                         }
                         yield return new CMD_STATUS(CMD_STATES.BLOCKING);
                     }
 
-                    if (clone != null)
-                        clone = null;
+                    if (window != null)
+                        window = null;
                 }
                 finally
                 {
-                    if (clone != null)
-                        clone.Oblivionize();
+                    if (window != null)
+                        window.Oblivionize();
                 }
             }
         }
