@@ -38,7 +38,7 @@ namespace _COBALT_
                     return $"can not find directory '{folder_path}'\n";
                 }
 
-            instance = Util.InstantiateOrCreate<Constrictor>(SguiGlobal.instance.rt_windows);
+            instance = Util.InstantiateOrCreate<Constrictor>(SguiGlobal.instance.rt_windows2);
             instance.Init_folder(folder_path);
             instance.harbinger_view.shell.workdir = folder_path;
 
