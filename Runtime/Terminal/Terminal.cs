@@ -28,7 +28,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            OSView.instance.AddOrGetSoftwareButton<Terminal>();
+            OSView.instance.GetSoftwareButton<Terminal>(force: true);
         }
 
         //--------------------------------------------------------------------------------------------------------------
