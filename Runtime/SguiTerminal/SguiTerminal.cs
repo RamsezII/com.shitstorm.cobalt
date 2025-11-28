@@ -21,6 +21,7 @@ namespace _COBALT_
         {
             harbinger_view = GetComponentInChildren<HarbingerView>();
             base.Awake();
+            trad_title.SetTrad("HARBINGER");
         }
     }
 }

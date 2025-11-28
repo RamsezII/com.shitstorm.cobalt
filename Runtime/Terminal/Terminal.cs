@@ -38,6 +38,7 @@ namespace _COBALT_
             base.Awake();
 
             AwakeUI();
+            trad_title.SetTrad("COBALT");
 
             IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs, this);
         }
