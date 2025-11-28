@@ -78,7 +78,7 @@ namespace _COBALT_
             if (GetStdin(out string text, out int cursor_i))
             {
                 var reader = new BoaReader(lint_theme, false, text, null, cursor_i);
-                var signal = new BoaSignal(SIG_FLAGS_new.SUBMIT, reader);
+                var signal = new BoaSignal(SIG_FLAGS_old.SUBMIT, reader);
                 shell.PropagateSignal(signal);
             }
             ResetStdin();

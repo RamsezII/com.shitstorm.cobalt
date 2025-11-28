@@ -23,7 +23,7 @@ namespace _COBALT_
             {
                 last_reader = new BoaReader(lint_theme, false, text, null, cursor_i);
 
-                SIG_FLAGS_new flags = SIG_FLAGS_new.CHANGE;
+                SIG_FLAGS_old flags = SIG_FLAGS_old.CHANGE;
 
                 var signal = new BoaSignal(flags, last_reader);
                 shell.PropagateSignal(signal);

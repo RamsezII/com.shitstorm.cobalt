@@ -28,7 +28,7 @@ namespace _COBALT_
             }
 
             BoaReader reader = new(harbinger_view.lint_theme, strict_syntax, text, script_path, cursor_i: main_input_field.caretPosition);
-            BoaSignal signal = new(SIG_FLAGS_new.LINT, reader);
+            BoaSignal signal = new(SIG_FLAGS_old.LINT, reader);
             ScopeNode scope = new(null, false);
 
             Harbinger harbinger = new(null, null, workdir, (data, lint) => Debug.Log(lint ?? data, this));
