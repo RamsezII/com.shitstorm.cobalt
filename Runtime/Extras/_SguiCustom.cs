@@ -129,7 +129,7 @@ namespace _COBALT_
                                 break;
 
                             case SguiCustom_Dropdown dropdown:
-                                results.Add(dropdown.dropdown.GetSelectedName());
+                                results.Add(dropdown._dropdown.GetSelectedName());
                                 break;
 
                             case SguiCustom_Toggle toggle:
@@ -165,7 +165,7 @@ namespace _COBALT_
                             break;
 
                         case SguiCustom_Dropdown dropdown:
-                            dropdown.dropdown.AddOptions(infos.dropdown_items);
+                            dropdown._dropdown.AddOptions(infos.dropdown_items);
                             break;
                     }
                 }

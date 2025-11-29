@@ -1,4 +1,5 @@
-﻿using _BOA_;
+﻿using _ARK_;
+using _COBRA_;
 using _SGUI_;
 using TMPro;
 using UnityEngine;
@@ -13,44 +14,99 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnLint()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void AddLinter()
         {
-            base.OnLint();
+            ScriptView.on_stdin_linters.Add("ZOA", script_view =>
+            {
+                script_view.lint_theme = LintTheme.theme_light;
 
-            if (settings.use_intellisense)
+                string text = script_view.input_field.text;
+
+                CodeReader reader = new(lint_theme: script_view.lint_theme,
+                    strict_syntax: false,
+                    text: text,
+                    script_path: script_view.file_path._value?.FullName ?? null,
+                    cursor_i: script_view.input_field.caretPosition
+                );
+
+                using _ZOA_.ZoaShell shell = new();
+                shell.Init();
+                _ZOA_.Signal signal = new(shell, _ZOA_.SIG_FLAGS.CHANGE | _ZOA_.SIG_FLAGS.SCRIPT | _ZOA_.SIG_FLAGS.LINT, reader, static (data, lint) =>
+                {
+
+                });
+                shell.OnSignal(signal);
+
+                script_view.input_lint.text = signal.reader.GetLintResult();
+
+                if (reader.sig_error != null)
+                {
+                    int lines = 0;
+                    int last_index = 1;
+
+                    for (int i = 0; i < reader.read_i; ++i)
+                        if (text[i] == '\n')
+                        {
+                            last_index = 1 + i;
+                            ++lines;
+                        }
+
+                    string error = $"└──> {reader.sig_error}";
+
+                    if (reader.read_i > last_index)
+                        error = new string(' ', reader.read_i - last_index) + error;
+
+                    if (lines >= 0)
+                        error = new string('\n', 1 + lines) + error;
+
+                    script_view.input_error.text = error;
+                }
+                else
+                    script_view.input_error.text = string.Empty;
+            });
+
+            ScriptView.on_stdin_linters.Add("BOA", script_view =>
+            {
                 SguiCompletor.instance.ResetIntellisense();
 
-            string text = main_input_field.text;
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                lint_tmp.text = text;
-                return;
-            }
+                string text = script_view.input_field.text;
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    script_view.input_lint.text = text;
+                    return;
+                }
 
-            BoaReader reader = new(harbinger_view.lint_theme, strict_syntax, text, script_path, cursor_i: main_input_field.caretPosition);
-            BoaSignal signal = new(SIG_FLAGS_old.LINT, reader);
-            ScopeNode scope = new(null, false);
+                _BOA_.BoaReader reader = new(LintTheme.theme_light,
+                    strict_syntax: false,
+                    text: text,
+                    script_path: script_view.file_path._value.FullName,
+                    cursor_i: script_view.input_field.caretPosition
+                );
 
-            Harbinger harbinger = new(null, null, workdir, (data, lint) => Debug.Log(lint ?? data, this));
-            harbinger.signal = signal;
+                _BOA_.BoaSignal signal = new(_BOA_.SIG_FLAGS_old.LINT, reader);
+                _BOA_.ScopeNode scope = new(null, false);
 
-            harbinger.TryParseProgram(reader, scope, out _, out _);
+                _BOA_.Harbinger harbinger = new(null, null, ArkPaths.instance.Value.dpath_home, (data, lint) => Debug.Log(lint ?? data));
+                harbinger.signal = signal;
 
-            lint_tmp.text = reader.GetLintResult();
+                harbinger.TryParseProgram(reader, scope, out _, out _);
 
-            int index_completor_window = reader.cpl_start;
-            index_completor_window = main_input_field.caretPosition;
-            TMP_CharacterInfo info = main_input_field.textComponent.textInfo.characterInfo[index_completor_window];
+                script_view.input_lint.text = reader.GetLintResult();
 
-            Vector3 worldPos = main_input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
+                int index_completor_window = reader.cpl_start;
+                index_completor_window = script_view.input_field.caretPosition;
+                TMP_CharacterInfo info = script_view.input_field.textComponent.textInfo.characterInfo[index_completor_window];
 
-            Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
+                Vector3 worldPos = script_view.input_field.textComponent.rectTransform.TransformPoint(info.bottomLeft);
 
-            if (settings.use_intellisense)
+                Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
+
                 if (reader.cpl_end > reader.cpl_start)
                     if (reader.completions_v.Count > 0)
                         if (!string.IsNullOrWhiteSpace(reader.text[reader.cpl_start..reader.cpl_end]))
                             SguiCompletor.instance.PopulateCompletions(reader.cpl_start, reader.cpl_end, screenPos, reader.completions_v);
+            });
         }
     }
 }
