@@ -124,11 +124,5 @@ namespace _COBALT_
             input_stdin.input_field.ActivateInputField();
             input_stdin.input_field.Select();
         }
-
-        protected override void OnCheckBounds()
-        {
-            base.OnCheckBounds();
-            flag_stdout.Value = true;
-        }
     }
 }

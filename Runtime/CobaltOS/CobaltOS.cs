@@ -1,5 +1,6 @@
 ﻿using _ARK_;
 using _SGUI_;
+using _ZOA_;
 using UnityEngine;
 
 namespace _COBALT_
@@ -25,7 +26,7 @@ namespace _COBALT_
                     if (UsageManager.AllAreEmpty(UsageGroups.Typing))
                         if (Terminal.instance_last == null)
                         {
-                            SguiWindow.InstantiateWindow<Terminal>(true, true, true);
+                            OSView.instance.GetSoftwareButton<Terminal>(force: true).InstantiateSoftware();
                             return true;
                         }
                         else
@@ -41,11 +42,15 @@ namespace _COBALT_
                 {
                     case KeyCode.T:
                     case KeyCode.O:
-                        SguiWindow.InstantiateWindow<Terminal>(true, true, true);
+                        OSView.instance.GetSoftwareButton<Terminal>(force: true).InstantiateSoftware();
                         return true;
 
                     case KeyCode.I:
-                        SguiWindow.InstantiateWindow<SguiTerminal>(true, true, true);
+                        OSView.instance.GetSoftwareButton<SguiTerminal>(force: true).InstantiateSoftware();
+                        return true;
+
+                    case KeyCode.U:
+                        OSView.instance.GetSoftwareButton<ZoaTerminal>(force: true).InstantiateSoftware();
                         return true;
                 }
 
