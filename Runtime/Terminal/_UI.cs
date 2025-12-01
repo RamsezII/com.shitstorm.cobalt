@@ -60,9 +60,9 @@ namespace _COBALT_
             rT_selection = (RectTransform)transform.Find("rT/body/selection");
             img_selection = rT_selection.GetComponent<RawImage>();
 
-            Vector2 size = rT.rect.size;
-            Vector2 psize = rT_parent.rect.size;
-            rT.anchoredPosition = .5f * (psize - size);
+            Vector2 size = rt.rect.size;
+            Vector2 psize = rt_parent.rect.size;
+            rt.anchoredPosition = .5f * (psize - size);
         }
 
         //--------------------------------------------------------------------------------------------------------------
