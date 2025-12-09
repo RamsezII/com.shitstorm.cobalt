@@ -40,7 +40,7 @@ namespace _COBALT_
             AwakeUI();
             trad_title.SetTrad("COBALT");
 
-            IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs, this);
+            IMGUI_global.instance.inputs_users.AddElement(OnOnGuiInputs);
         }
 
         protected override void OnEnable()
@@ -119,7 +119,7 @@ namespace _COBALT_
         {
             base.OnOblivion();
 
-            IMGUI_global.instance.users_inputs.RemoveKeysByValue(this);
+            IMGUI_global.instance.inputs_users.RemoveElement(OnOnGuiInputs);
             LogManager.ToggleListener(false, AddLine_log);
         }
 

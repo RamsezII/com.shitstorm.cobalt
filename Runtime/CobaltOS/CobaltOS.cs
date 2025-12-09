@@ -10,7 +10,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            IMGUI_global.instance.users_inputs.AddElement(OnOnGuiInputs_static, new());
+            IMGUI_global.instance.inputs_users.AddElement(OnOnGuiInputs_static);
         }
 
         //--------------------------------------------------------------------------------------------------------------
