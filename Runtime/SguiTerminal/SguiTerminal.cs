@@ -17,10 +17,10 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        protected override void OnAwake()
         {
             harbinger_view = GetComponentInChildren<HarbingerView>();
-            base.Awake();
+            base.OnAwake();
             trad_title.SetTrad("HARBINGER");
         }
     }

@@ -33,9 +33,9 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        protected override void OnAwake()
         {
-            base.Awake();
+            base.OnAwake();
 
             AwakeUI();
             trad_title.SetTrad("COBALT");

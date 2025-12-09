@@ -19,10 +19,10 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        protected override void OnAwake()
         {
             harbinger_view = transform.Find("rT/body/_COBALT_.HarbingerView").GetComponent<HarbingerView>();
-            base.Awake();
+            base.OnAwake();
         }
 
         //--------------------------------------------------------------------------------------------------------------
