@@ -384,8 +384,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  animate_hue: 1
   oblivionized: 0
+  animate_hue: 1
   window_icon: {fileID: 2800000, guid: 3f4a748f38fa18749bb45913b7e139d8, type: 3}
   id: 2
   hierarchy_viewport_rT: {fileID: 0}
@@ -398,13 +398,11 @@ MonoBehaviour:
   state_base: 0
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
-  rT: {fileID: 0}
-  rT_parent: {fileID: 0}
+  rt: {fileID: 0}
+  rt_parent: {fileID: 0}
   trad_title: {fileID: 0}
   huable_background: {fileID: 0}
   buttons_rt: {fileID: 0}
-  button_hide: {fileID: 0}
-  button_fullscreen: {fileID: 0}
   button_close: {fileID: 0}
   anim_alpha: 1
   ui_hue_start: 0
@@ -412,8 +410,10 @@ MonoBehaviour:
   ui_alpha: 0
   prefab_hierarchy_folder: {fileID: 0}
   prefab_hierarchy_file: {fileID: 0}
-  drag_mode: 0
-  cursor_mode: 0
+  button_hide: {fileID: 0}
+  button_fullscreen: {fileID: 0}
+  resizer_dragzone: {fileID: 0}
+  resizer_visual: {fileID: 0}
   harbinger_view: {fileID: 0}
 --- !u!224 &5127911760254055459 stripped
 RectTransform:
