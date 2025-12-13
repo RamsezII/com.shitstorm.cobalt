@@ -12,7 +12,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            OSView.instance.GetSoftwareButton<SguiTerminal>(force: true);
+            OSView.instance.AddSoftwareButton<SguiTerminal>(new("Harbinger terminal"));
         }
 
         //----------------------------------------------------------------------------------------------------------

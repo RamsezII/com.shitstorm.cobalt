@@ -13,7 +13,11 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            SoftwareButton os_button = OSView.instance.GetSoftwareButton<Constrictor>(force: true);
+            SoftwareButton os_button = OSView.instance.AddSoftwareButton<Constrictor>(new()
+            {
+                french = "Éditeur de code",
+                english = "Code editor",
+            });
             os_button.onClick_left_empty += eventData => LoggerOverlay.Log($"Please specify a path when opening {typeof(Constrictor)}", logLevel: LoggerOverlay.LogLevel.Warning);
         }
 
