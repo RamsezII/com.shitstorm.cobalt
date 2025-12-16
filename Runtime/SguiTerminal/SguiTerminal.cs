@@ -1,27 +1,38 @@
-﻿using _SGUI_;
+﻿using _ARK_;
+using _COBRA_;
+using _SGUI_;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _COBALT_
 {
     public sealed partial class SguiTerminal : SguiWindow1
     {
-        public HarbingerView harbinger_view;
+        public ShellView shellView;
 
         //--------------------------------------------------------------------------------------------------------------
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            OSView.instance.AddSoftwareButton<SguiTerminal>(new("Harbinger terminal"));
+            var button = OSView.instance.AddSoftwareButton<SguiTerminal>(new("Terminal"));
+
+            ArkShortcuts.AddShortcut<Keyboard>(
+                shortcutName: typeof(SguiTerminal).FullName,
+                nameof_button: "o",
+                action: () => OSView.instance.softwaresButtons[typeof(SguiTerminal)].InstantiateSoftware()
+            );
         }
 
-        //----------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------
 
         protected override void OnAwake()
         {
-            harbinger_view = GetComponentInChildren<HarbingerView>();
+            shellView = GetComponentInChildren<ShellView>(true);
+
             base.OnAwake();
-            trad_title.SetTrad("HARBINGER");
+
+            trad_title.SetTrad(typeof(Shell).FullName);
         }
     }
 }
