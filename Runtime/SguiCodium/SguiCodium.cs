@@ -1,8 +1,8 @@
-using _ARK_;
+using _SGUI_;
 
-namespace _SGUI_
+namespace _COBALT_
 {
-    public partial class SguiCodium : SguiNotepad
+    public partial class SguiCodium : SguiWindow1
     {
 
         //--------------------------------------------------------------------------------------------------------------
@@ -10,20 +10,6 @@ namespace _SGUI_
         protected override void OnAwake()
         {
             base.OnAwake();
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            UsageManager.ToggleUser(this, true, UsageGroups.Typing, UsageGroups.IMGUI, UsageGroups.BlockPlayer, UsageGroups.Keyboard);
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            UsageManager.RemoveUser(this);
         }
     }
 }
