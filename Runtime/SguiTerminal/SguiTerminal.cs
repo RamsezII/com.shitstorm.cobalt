@@ -1,5 +1,4 @@
 ﻿using _ARK_;
-using _COBRA_;
 using _SGUI_;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,10 +28,7 @@ namespace _COBALT_
         protected override void OnAwake()
         {
             shellView = GetComponentInChildren<ShellView>(true);
-
             base.OnAwake();
-
-            trad_title.SetTrad(typeof(Shell).FullName);
         }
     }
 }

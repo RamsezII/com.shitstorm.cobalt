@@ -87,7 +87,7 @@ namespace _COBALT_
             stdin_field.onSelect.AddListener(OnSelectStdin);
             stdin_field.onDeselect.AddListener(OnDeselectStdin);
 
-            shell = new _COBRA_.Boa.AstShell();
+            shell = new BoaShell();
             shell.Init();
 
             shell.prefixe.AddListener(value => CheckPrefixe());
