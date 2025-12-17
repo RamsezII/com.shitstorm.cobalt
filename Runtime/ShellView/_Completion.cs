@@ -31,7 +31,7 @@ namespace _COBALT_
 
                 shell.OnReader(last_reader);
 
-                stdin_field.lint.text = Util.ForceCharacterWrap(shell.prefixe._value.lint + last_reader.GetLintResult());
+                stdin_field.lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + last_reader.GetLintResult());
 
                 last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
 
@@ -64,14 +64,14 @@ namespace _COBALT_
 
                 StringBuilder sb = new();
 
-                sb.Append(shell.prefixe._value.text);
+                sb.Append(shell.status._value.prefixe.Text);
                 sb.Append(last_reader.text[..last_reader.cpl_start]);
                 sb.Append(completion);
                 sb.Append(last_reader.text[last_reader.cpl_end..]);
 
                 stdin_field.text = Util.ForceCharacterWrap(sb.ToString());
 
-                stdin_field.caretPosition = shell.prefixe._value.text.Length + last_reader.cpl_start + completion.Length;
+                stdin_field.caretPosition = shell.status._value.prefixe.Text.Length + last_reader.cpl_start + completion.Length;
             }
         }
 
@@ -94,14 +94,14 @@ namespace _COBALT_
 
                 StringBuilder sb = new();
 
-                sb.Append(shell.prefixe._value.text);
+                sb.Append(shell.status._value.prefixe.Text);
                 sb.Append(last_reader.text[..last_reader.cpl_start]);
                 sb.Append(completion);
                 sb.Append(last_reader.text[last_reader.cpl_end..]);
 
                 stdin_field.text = Util.ForceCharacterWrap(sb.ToString());
 
-                stdin_field.caretPosition = shell.prefixe._value.text.Length + last_reader.cpl_start + completion.Length;
+                stdin_field.caretPosition = shell.status._value.prefixe.Text.Length + last_reader.cpl_start + completion.Length;
             }
         }
 
@@ -119,14 +119,14 @@ namespace _COBALT_
 
             StringBuilder sb = new();
 
-            sb.Append(shell.prefixe._value.text);
+            sb.Append(shell.status._value.prefixe.Text);
             sb.Append(last_reader.text[..last_reader.cpl_start]);
             sb.Append(completion);
             sb.Append(last_reader.text[last_reader.cpl_end..]);
 
             stdin_field.text = Util.ForceCharacterWrap(sb.ToString());
 
-            stdin_field.caretPosition = shell.prefixe._value.text.Length + last_reader.cpl_start + completion.Length;
+            stdin_field.caretPosition = shell.status._value.prefixe.Text.Length + last_reader.cpl_start + completion.Length;
         }
     }
 }

@@ -30,5 +30,13 @@ namespace _COBALT_
             shellView = GetComponentInChildren<ShellView>(true);
             base.OnAwake();
         }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Start()
+        {
+            base.Start();
+            shellView.stdin_field.Select();
+        }
     }
 }

@@ -26,12 +26,6 @@ namespace _COBALT_
         public LintTheme lint_theme = LintTheme.theme_dark;
         public Shell shell;
 
-        LintedString GetShellPrefixe() => shell.status._value switch
-        {
-            CMD_STATUS.BLOCKED => LintedString.EMPTY,
-            _ => shell.prefixe._value,
-        };
-
         //----------------------------------------------------------------------------------------------------------
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -89,19 +83,17 @@ namespace _COBALT_
             shell = new BoaShell();
             shell.Init();
 
-            shell.prefixe.AddListener(value => CheckPrefixe());
-
             shell.on_output += AddLine;
 
             shell.status.AddListener(value =>
             {
                 if (terminal != null)
-                    if (value == CMD_STATUS.WAIT_FOR_STDIN)
+                    if (value.code == CMD_STATUS.WAIT_FOR_STDIN)
                         terminal.trad_title.SetTrad(shell.GetType().Name);
                     else
                         terminal.trad_title.SetTrad($"{shell.GetType().Name}:{value}");
 
-                switch (value)
+                switch (value.code)
                 {
                     case CMD_STATUS.WAIT_FOR_STDIN:
                         ResetStdin();

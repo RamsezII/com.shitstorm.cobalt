@@ -42,8 +42,8 @@ namespace _COBALT_
 
                 foreach (LintedString log in _logs)
                 {
-                    sb_text.AppendLine(log.text);
-                    sb_lint.AppendLine(log.lint);
+                    sb_text.AppendLine(log.Text);
+                    sb_lint.AppendLine(log.Lint);
                 }
             }
 

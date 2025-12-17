@@ -13,7 +13,7 @@ namespace _COBALT_
 
             NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () =>
             {
-                int min_pos = shell.prefixe._value.text?.Length ?? 0;
+                int min_pos = shell.status._value.prefixe.Text.Length;
                 if (stdin_field.caretPosition < min_pos)
                     stdin_field.caretPosition = min_pos;
             };
@@ -26,7 +26,7 @@ namespace _COBALT_
 
         bool GetStdin(out string stdin, out int cursor_i)
         {
-            int pref_len = shell.prefixe._value.text?.Length ?? 0;
+            int pref_len = shell.status._value.prefixe.Text.Length;
             stdin = stdin_field.text[pref_len..];
             cursor_i = stdin_field.caretPosition - pref_len;
             Util.RemoveCharacterWrap(ref stdin);
@@ -35,9 +35,9 @@ namespace _COBALT_
 
         void ResetStdin()
         {
-            LintedString prefixe = GetShellPrefixe();
-            string pref_text = prefixe.text;
-            string pref_lint = prefixe.lint;
+            LintedString prefixe = shell.status._value.prefixe;
+            string pref_text = prefixe.Text;
+            string pref_lint = prefixe.Lint;
 
             Util.ForceCharacterWrap(ref pref_text);
             Util.ForceCharacterWrap(ref pref_lint);
@@ -71,7 +71,7 @@ namespace _COBALT_
         bool CheckPrefixe()
         {
             string current = stdin_field.text;
-            string prefixe = GetShellPrefixe().text;
+            string prefixe = shell.status._value.prefixe.Text;
 
             Util.ForceCharacterWrap(ref prefixe);
 

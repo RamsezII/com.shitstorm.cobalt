@@ -21,7 +21,7 @@ namespace _COBALT_
                                 NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () =>
                                 {
                                     stdin_field.caretPosition = stdin_field.text.Length;
-                                    stdin_field.selectionAnchorPosition = shell.prefixe._value.text.Length;
+                                    stdin_field.selectionAnchorPosition = shell.status._value.prefixe.Text.Length;
                                 };
                                 return true;
                         }
@@ -61,7 +61,7 @@ namespace _COBALT_
                                     if (TryNavHistory(nav, out string value))
                                     {
                                         flag_history = true;
-                                        stdin_field.text = Util.ForceCharacterWrap(shell.prefixe._value.text + value);
+                                        stdin_field.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Text + value);
                                         stdin_field.caretPosition = stdin_field.text.Length;
                                     }
 

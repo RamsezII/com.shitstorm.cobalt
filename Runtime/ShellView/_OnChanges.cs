@@ -9,7 +9,7 @@ namespace _COBALT_
     {
         char OnValidateStdin_char(string text, int charIndex, char addedChar)
         {
-            switch (shell.status._value)
+            switch (shell.status._value.code)
             {
                 case CMD_STATUS.WAIT_FOR_STDIN:
                     try
@@ -52,6 +52,8 @@ namespace _COBALT_
 
         void OnStdinChanged(string value)
         {
+            LoggerOverlay.Log($"text({stdin_field.text}) value({value})");
+
             if (value.HasSpaces())
             {
                 LoggerOverlay.Log($"HAS SPACES (value: [[ {value} ]] [[ {stdin_field.text} ]])", this);
@@ -65,7 +67,7 @@ namespace _COBALT_
             if (!flag_history.PullValue())
                 ResetHistoryNav();
 
-            switch (shell.status._value)
+            switch (shell.status._value.code)
             {
                 case CMD_STATUS.WAIT_FOR_STDIN:
                     OnChange();
