@@ -17,14 +17,10 @@ namespace _COBALT_
 
         public void AddLine(object data, string lint = null)
         {
-            if (data == null)
-                return;
+            string str = string.Empty;
 
-            if (data is not string str)
-                str = data.ToString();
-
-            if (string.IsNullOrWhiteSpace(str))
-                return;
+            if (data != null)
+                str = data is string s ? s : data.ToString();
 
             lint ??= str;
 
