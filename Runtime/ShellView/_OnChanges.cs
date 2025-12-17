@@ -52,8 +52,6 @@ namespace _COBALT_
 
         void OnStdinChanged(string value)
         {
-            LoggerOverlay.Log($"text({stdin_field.text}) value({value})");
-
             if (value.HasSpaces())
             {
                 LoggerOverlay.Log($"HAS SPACES (value: [[ {value} ]] [[ {stdin_field.text} ]])", this);
