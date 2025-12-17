@@ -85,15 +85,15 @@ namespace _COBALT_
 
             shell.on_output += AddLine;
 
-            shell.status.AddListener(value =>
+            shell.status.AddListener(status =>
             {
                 if (terminal != null)
-                    if (value.code == CMD_STATUS.WAIT_FOR_STDIN)
+                    if (status.code == CMD_STATUS.WAIT_FOR_STDIN)
                         terminal.trad_title.SetTrad(shell.GetType().Name);
                     else
-                        terminal.trad_title.SetTrad($"{shell.GetType().Name}:{value}");
+                        terminal.trad_title.SetTrad($"{shell.GetType().Name}:{status.code}");
 
-                switch (value.code)
+                switch (status.code)
                 {
                     case CMD_STATUS.WAIT_FOR_STDIN:
                         ResetStdin();
