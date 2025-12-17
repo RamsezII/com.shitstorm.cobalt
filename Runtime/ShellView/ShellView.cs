@@ -47,9 +47,8 @@ namespace _COBALT_
             terminal = GetComponentInParent<SguiTerminal>(true);
 
             stdout_field = transform.Find("scrollview/viewport/content/std_out").GetComponent<ShellField>();
-            stdin_field = stdout_field.transform.Find("std_in").GetComponent<ShellField>();
-
-            tmp_progress = transform.Find("progress/text").GetComponent<TextMeshProUGUI>();
+            tmp_progress = stdout_field.transform.Find("std_progress").GetComponent<TextMeshProUGUI>();
+            stdin_field = tmp_progress.transform.Find("std_in").GetComponent<ShellField>();
 
             scrollview = transform.Find("scrollview").GetComponent<ScrollRect>();
 
