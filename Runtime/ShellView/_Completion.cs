@@ -11,7 +11,7 @@ namespace _COBALT_
         [SerializeField] CodeReader last_reader;
         [SerializeField] string[] last_completions_tab, last_completions_all;
         [SerializeField] int last_tab;
-        [SerializeField, Range(0, ushort.MaxValue)] ushort tab_i, alt_i;
+        [SerializeField] int tab_i, alt_i;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -31,9 +31,9 @@ namespace _COBALT_
 
                 shell.OnReader(last_reader);
 
-                stdin_field.lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + last_reader.GetLintResult());
+                last_completions_all = last_reader.completions_v.OrderBy(x => x.Length).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
 
-                last_completions_all = last_reader.completions_v.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                stdin_field.lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + last_reader.GetLintResult());
 
                 if (Time.frameCount > last_tab)
                 {
@@ -43,7 +43,7 @@ namespace _COBALT_
                     if (last_reader.cpl_end > last_reader.cpl_start)
                         arg_select = stdin[last_reader.cpl_start..last_reader.cpl_end];
 
-                    last_completions_tab = last_completions_all.ECompletionMatches(arg_select).ToArray();
+                    last_completions_tab = last_completions_all.ECompletionMatches(arg_select).OrderBy(x => x.Length).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
                 }
             }
             else
@@ -59,8 +59,9 @@ namespace _COBALT_
                 tab_i = 0;
             else
             {
-                tab_i = (ushort)(++tab_i % last_completions_tab.Length);
+                tab_i %= last_completions_tab.Length;
                 string completion = last_completions_tab[tab_i];
+                ++tab_i;
 
                 StringBuilder sb = new();
 
@@ -81,14 +82,14 @@ namespace _COBALT_
                 alt_i = 0;
             else
             {
-                alt_i += (ushort)(key switch
+                alt_i += key switch
                 {
                     KeyCode.UpArrow => -1,
                     KeyCode.DownArrow => 1,
                     _ => 0,
-                });
+                };
 
-                alt_i %= (ushort)last_completions_all.Length;
+                alt_i %= last_completions_all.Length;
 
                 string completion = last_completions_all[alt_i];
 
