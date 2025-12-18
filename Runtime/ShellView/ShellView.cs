@@ -1,6 +1,7 @@
 using _ARK_;
 using _COBRA_;
 using _UTIL_;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ namespace _COBALT_
 {
     public sealed partial class ShellView : MonoBehaviour
     {
+        public static readonly HashSet<ShellView> instances = new();
+
         public SguiTerminal terminal;
         public ShellField stdout_field, stdin_field;
         public TextMeshProUGUI tmp_progress;
@@ -27,6 +30,12 @@ namespace _COBALT_
         public Shell shell;
 
         //----------------------------------------------------------------------------------------------------------
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStatics()
+        {
+            instances.Clear();
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
@@ -54,6 +63,8 @@ namespace _COBALT_
             shell = null;
 
             stdin_field.onSelect.AddListener(OnSelectStdin);
+
+            instances.Add(this);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -119,6 +130,7 @@ namespace _COBALT_
             shell?.Dispose();
             shell = null;
             IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
+            instances.Remove(this);
         }
     }
 }
