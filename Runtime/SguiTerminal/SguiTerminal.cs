@@ -75,10 +75,11 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnTakeFocus()
+        protected override void OnFocus(in bool has_focus)
         {
-            base.OnTakeFocus();
-            NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(2, shellView.stdin_field.Select));
+            base.OnFocus(has_focus);
+            if (has_focus)
+                NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(2, shellView.stdin_field.Select));
         }
     }
 }
