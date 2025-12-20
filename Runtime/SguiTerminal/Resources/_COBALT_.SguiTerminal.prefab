@@ -183,6 +183,11 @@ PrefabInstance:
       propertyPath: traductions.english
       value: Terminal
       objectReference: {fileID: 0}
+    - target: {fileID: 7164477143110899342, guid: 4919d5e9b2082144ba72c94703740d4b,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.9490196
+      objectReference: {fileID: 0}
     - target: {fileID: 7847935345013814596, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -294,6 +299,7 @@ MonoBehaviour:
   button_fullscreen: {fileID: 0}
   resizer_dragzone: {fileID: 0}
   resizer_visual: {fileID: 0}
+  rt_unselected: {fileID: 0}
   shellView: {fileID: 0}
 --- !u!1001 &3719341448295712967
 PrefabInstance:
