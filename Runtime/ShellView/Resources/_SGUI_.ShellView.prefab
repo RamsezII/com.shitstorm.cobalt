@@ -788,6 +788,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: std_out
       objectReference: {fileID: 0}
+    - target: {fileID: 4920628502021513813, guid: adc1f4da1f973fc45a53a39532e88d0d,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8254824117242486895, guid: adc1f4da1f973fc45a53a39532e88d0d,
         type: 3}
       propertyPath: m_ReadOnly
