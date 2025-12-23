@@ -1,6 +1,7 @@
 ﻿using _ARK_;
 using _SGUI_;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,6 +41,41 @@ namespace _COBALT_
                     button.InstantiateSoftware();
                 }
             );
+
+            SguiExplorerView.onContextClick_file += (SguiContextClick_List list, FileInfo file) =>
+            {
+                var button = list.AddButton();
+                button.trad.SetTrads(new()
+                {
+                    french = "Éxécuter dans un terminal",
+                    english = "Execute a terminal",
+                });
+            };
+
+            SguiExplorerView.onContextClick_directory += (SguiContextClick_List list, DirectoryInfo dir) =>
+            {
+                {
+                    var button = list.AddButton();
+                    button.trad.SetTrads(new()
+                    {
+                        french = $"Ouvrir ce dossier dans",
+                        english = $"Open this directory in",
+                    });
+
+                    button.SetupSublist(sublist =>
+                    {
+                        {
+                            var button = sublist.AddButton();
+                            button.trad.SetTrad("Shitpad");
+                        }
+
+                        {
+                            var button = sublist.AddButton();
+                            button.trad.SetTrad("Shitcodium");
+                        }
+                    });
+                }
+            };
         }
 
         //--------------------------------------------------------------------------------------------------------------

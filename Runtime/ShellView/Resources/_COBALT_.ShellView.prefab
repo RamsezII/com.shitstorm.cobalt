@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 348875417831953156}
   - component: {fileID: 4959816572791399133}
   m_Layer: 5
-  m_Name: _SGUI_.ShellView
+  m_Name: _COBALT_.ShellView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
