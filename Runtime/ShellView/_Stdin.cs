@@ -52,7 +52,7 @@ namespace _COBALT_
             ResizeStdin();
         }
 
-        void ResizeStdin()
+        internal void ResizeStdin()
         {
             Rect prect = scrollview.viewport.rect;
 

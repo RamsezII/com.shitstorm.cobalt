@@ -237,6 +237,7 @@ MonoBehaviour:
     comments: {r: 0.3333333, g: 0.4196079, b: 0.1843137, a: 1}
     command_separators: {r: 1, g: 0.9333334, b: 0.5490196, a: 1}
     keywords: {r: 1, g: 0, b: 1, a: 1}
+    types: {r: 1, g: 0.854902, b: 0.7254902, a: 1}
     bracket_0: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     bracket_1: {r: 0.4, g: 0.2, b: 0.6, a: 1}
     bracket_2: {r: 0, g: 0, b: 0.5019608, a: 1}

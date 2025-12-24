@@ -117,5 +117,11 @@ namespace _COBALT_
             if (has_focus)
                 NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(2, shellView.stdin_field.Select));
         }
+
+        public override void OnResized()
+        {
+            base.OnResized();
+            shellView.ResizeStdin();
+        }
     }
 }
