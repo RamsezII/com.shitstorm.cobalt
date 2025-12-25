@@ -5,6 +5,9 @@ namespace _COBALT_
 {
     public partial class SguiCodium : SguiWindow1
     {
+        public ScriptView scriptview;
+        public ShellView shellview;
+        public SguiExplorerView explorerview;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -22,7 +25,13 @@ namespace _COBALT_
 
         protected override void OnAwake()
         {
+            scriptview = GetComponentInChildren<ScriptView>(true);
+            shellview = GetComponentInChildren<ShellView>(true);
+            explorerview = GetComponentInChildren<SguiExplorerView>(true);
+
             base.OnAwake();
+
+            trad_title.SetTrad("ShitCodium");
         }
     }
 }
