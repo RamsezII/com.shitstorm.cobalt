@@ -1,9 +1,7 @@
 using _ARK_;
+using _COBRA_;
 using _SGUI_;
 using _UTIL_;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -16,18 +14,6 @@ namespace _COBALT_
         public TMP_InputField input_field;
         public TextMeshProUGUI input_lint, input_error;
         public LintTheme lint_theme = LintTheme.theme_light;
-
-        Action<ScriptView> on_stdin_linter;
-
-        public static readonly Dictionary<string, Action<ScriptView>> on_stdin_linters = new(StringComparer.OrdinalIgnoreCase);
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStatics()
-        {
-            on_stdin_linters.Clear();
-        }
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -65,35 +51,6 @@ namespace _COBALT_
 
             input_field.onValueChanged.AddListener(OnChange);
             input_field.onValidateInput += ValidateChar;
-
-            if (on_stdin_linters.Count == 0)
-                return;
-
-            if (on_stdin_linter == null)
-            {
-                var custom = SguiWindow.InstantiateWindow<SguiCustom>();
-                custom.trad_title.SetTrads(new()
-                {
-                    french = "Choisir linter",
-                    english = "Choose linter",
-                });
-
-                var dropdown = custom.AddButton<SguiCustom_Dropdown>();
-                dropdown._dropdown.ClearOptions();
-
-                dropdown._dropdown.AddOptions(on_stdin_linters.Keys.ToList());
-
-                custom.onFunc_confirm += () =>
-                {
-                    string name = dropdown._dropdown.GetSelectedValue();
-                    if (on_stdin_linters.TryGetValue(name, out on_stdin_linter))
-                        return true;
-                    SguiWindow.ShowAlert(SguiDialogs.Error, out _, new("choose a valid linter"));
-                    return false;
-                };
-
-                window.onOblivion += custom.Oblivionize;
-            }
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -123,10 +80,21 @@ namespace _COBALT_
 
         protected virtual void OnChange(string text)
         {
-            if (on_stdin_linter != null)
-                on_stdin_linter(this);
-            else
-                input_lint.text = text.SetColor(Color.black);
+            Shell shell = new BoaShell();
+
+            CodeReader reader = new(
+                sig_flags: SIG_FLAGS.CHANGE | SIG_FLAGS.LINT,
+                workdir: shell.workdir._value,
+                lint_theme: lint_theme,
+                strict_syntax: false,
+                text: text,
+                script_path: null,
+                cursor_i: input_field.caretPosition
+            );
+
+            shell.OnReader(reader);
+
+            input_lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + reader.GetLintResult());
         }
     }
 }
