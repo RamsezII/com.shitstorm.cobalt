@@ -34,7 +34,7 @@ namespace _COBALT_
                     _logs.Dequeue();
 
                 _logs.Enqueue(new(str, lint));
-                Debug.Log($"{this}\n{lint}", this);
+                Debug.Log($"{shell.status._value.prefixe.Lint}{lint}", this);
 
                 foreach (LintedString log in _logs)
                 {

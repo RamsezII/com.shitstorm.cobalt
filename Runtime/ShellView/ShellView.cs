@@ -95,7 +95,13 @@ namespace _COBALT_
             shell = new BoaShell();
             shell.Init();
 
-            shell.on_output += AddLine;
+            shell.stdout += AddLine;
+            shell.stderr += (data, lint) =>
+            {
+                string text = data is string s ? s : data.ToString();
+                lint ??= text.SetColor(Color.yellow);
+                AddLine(text, lint);
+            };
 
             shell.status.AddListener(status =>
             {
