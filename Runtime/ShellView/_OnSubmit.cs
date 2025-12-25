@@ -5,9 +5,15 @@ namespace _COBALT_
 {
     partial class ShellView
     {
+        public void ExecuteLine(in string line)
+        {
+            stdin_field.text = $"{shell.status._value.prefixe.Text}{line}".ForceCharacterWrap();
+            OnSubmit();
+        }
+
         void OnSubmit()
         {
-            if (GetStdin(out string stdin, out int cursor))
+            if (GetStdin(out string stdin, out _))
             {
                 AddLine(stdin_field.text, stdin_field.lint.text);
 
@@ -17,8 +23,7 @@ namespace _COBALT_
                     lint_theme: lint_theme,
                     strict_syntax: false,
                     text: stdin,
-                    script_path: null,
-                    cursor_i: cursor
+                    script_path: null
                 );
 
                 shell.OnReader(reader_check);
@@ -37,8 +42,7 @@ namespace _COBALT_
                     lint_theme: lint_theme,
                     strict_syntax: false,
                     text: stdin,
-                    script_path: null,
-                    cursor_i: cursor
+                    script_path: null
                 );
 
                 shell.OnReader(reader_submit);

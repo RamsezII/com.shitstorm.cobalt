@@ -50,6 +50,16 @@ namespace _COBALT_
                     french = "Éxécuter dans un terminal",
                     english = "Execute a terminal",
                 });
+
+                button.button.onClick.AddListener(() =>
+                {
+                    SguiTerminal terminal = (SguiTerminal)OSView.instance.softwaresButtons[typeof(SguiTerminal)].InstantiateSoftware();
+                    NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(3, () =>
+                    {
+                        string line = $"run_script \"{file.FullName.NormalizePath()}\"";
+                        terminal.shellView.ExecuteLine(line);
+                    }));
+                });
             };
 
             SguiExplorerView.onContextClick_directory += (SguiContextClick_List list, DirectoryInfo dir) =>
