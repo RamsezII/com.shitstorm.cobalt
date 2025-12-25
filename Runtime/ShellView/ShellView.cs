@@ -1,5 +1,6 @@
 using _ARK_;
 using _COBRA_;
+using _SGUI_;
 using _UTIL_;
 using System.Collections.Generic;
 using TMPro;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public sealed partial class ShellView : MonoBehaviour
+    public sealed partial class ShellView : MonoBehaviour, SguiDragManager.IAcceptDraggable<string>
     {
         public static readonly HashSet<ShellView> instances = new();
 
@@ -121,6 +122,23 @@ namespace _COBALT_
 
             ResetStdin();
             RefreshStdout();
+        }
+
+        //----------------------------------------------------------------------------------------------------------
+
+        void SguiDragManager.IAcceptDraggable<string>.AcceptDraggable(in SguiDragManager.IDraggable<string> draggable)
+        {
+            if (shell.status._value.code == CMD_STATUS.WAIT_FOR_STDIN)
+            {
+                string stdin = stdin_field.text;
+                string insert = $"\"{draggable.DragData}\"".ForceCharacterWrap();
+                stdin = stdin[..stdin_field.caretPosition] + insert + stdin[stdin_field.caretPosition..];
+                stdin_field.text = stdin;
+                stdin_field.caretPosition += insert.Length;
+            }
+
+            terminal.TakeFocus();
+            stdin_field.Select();
         }
 
         //----------------------------------------------------------------------------------------------------------
