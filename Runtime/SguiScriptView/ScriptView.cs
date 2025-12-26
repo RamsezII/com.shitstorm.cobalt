@@ -80,7 +80,7 @@ namespace _COBALT_
 
         protected virtual void OnChange(string text)
         {
-            Shell shell = new BoaShell();
+            Shell shell = new BoaShell("script_view");
 
             CodeReader reader = new(
                 sig_flags: SIG_FLAGS.CHANGE | SIG_FLAGS.LINT,

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public sealed partial class ShellView : MonoBehaviour, SguiDragManager.IAcceptDraggable<string>
+    public sealed partial class ShellView : MonoBehaviour, SguiDragManager.IAcceptDraggable
     {
         public static readonly HashSet<ShellView> instances = new();
 
@@ -92,8 +92,8 @@ namespace _COBALT_
             stdin_field.onSelect.AddListener(OnSelectStdin);
             stdin_field.onDeselect.AddListener(OnDeselectStdin);
 
-            shell = new BoaShell();
-            shell.Init();
+            shell = new BoaShell("shell_view");
+            shell.ToggleTick(true);
 
             shell.stdout += AddLine;
             shell.stderr += (data, lint) =>
@@ -132,8 +132,11 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        void SguiDragManager.IAcceptDraggable<string>.AcceptDraggable(in SguiDragManager.IDraggable<string> draggable)
+        bool SguiDragManager.IAcceptDraggable.TryAcceptDraggable(in SguiDragManager.IDraggable draggable, in bool onDrop)
         {
+            if (!onDrop)
+                return true;
+
             if (shell.status._value.code == CMD_STATUS.WAIT_FOR_STDIN)
             {
                 string stdin = stdin_field.text;
@@ -145,6 +148,8 @@ namespace _COBALT_
 
             terminal.TakeFocus();
             stdin_field.Select();
+
+            return true;
         }
 
         //----------------------------------------------------------------------------------------------------------
