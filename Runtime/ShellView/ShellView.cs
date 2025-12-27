@@ -13,6 +13,7 @@ namespace _COBALT_
     {
         public static readonly HashSet<ShellView> instances = new();
 
+        public SguiWindow window;
         public SguiTerminal terminal;
         public ShellField stdout_field, stdin_field;
         public TextMeshProUGUI tmp_progress;
@@ -48,6 +49,7 @@ namespace _COBALT_
 
         private void Awake()
         {
+            window = GetComponentInParent<SguiWindow>(true);
             terminal = GetComponentInParent<SguiTerminal>(true);
 
             stdout_field = transform.Find("scrollview/viewport/content/std_out").GetComponent<ShellField>();
@@ -105,11 +107,12 @@ namespace _COBALT_
 
             shell.status.AddListener(status =>
             {
+                string title = status.code == CMD_STATUS.WAIT_FOR_STDIN
+                    ? shell.GetType().Name
+                    : $"{shell.GetType().Name}:{status.code}";
+
                 if (terminal != null)
-                    if (status.code == CMD_STATUS.WAIT_FOR_STDIN)
-                        terminal.trad_title.SetTrad(shell.GetType().Name);
-                    else
-                        terminal.trad_title.SetTrad($"{shell.GetType().Name}:{status.code}");
+                    terminal.trad_title.SetTrad(title);
 
                 switch (status.code)
                 {
@@ -146,7 +149,7 @@ namespace _COBALT_
                 stdin_field.caretPosition += insert.Length;
             }
 
-            terminal.TakeFocus();
+            window.TakeFocus();
             stdin_field.Select();
 
             return true;

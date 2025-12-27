@@ -4,13 +4,15 @@ using _SGUI_;
 using _UTIL_;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _COBALT_
 {
     public partial class ScriptView : MonoBehaviour
     {
         public SguiWindow window;
-
+        public SguiTabController tabController;
+        public ScrollRect scrollview;
         public TMP_InputField input_field;
         public TextMeshProUGUI input_lint, input_error;
         public LintTheme lint_theme = LintTheme.theme_light;
@@ -32,16 +34,18 @@ namespace _COBALT_
 
         private void Awake()
         {
-            window = GetComponentInParent<SguiWindow>();
+            window = GetComponentInParent<SguiWindow>(true);
+            tabController = GetComponentInParent<SguiTabController>(true);
 
-            input_field = transform.Find("scroll_view/viewport/content/input-field").GetComponent<TMP_InputField>();
-            input_lint = transform.Find("scroll_view/viewport/content/input-field/area/lint").GetComponent<TextMeshProUGUI>();
-            input_error = transform.Find("scroll_view/viewport/content/input-field/area/error").GetComponent<TextMeshProUGUI>();
+            scrollview = GetComponentInChildren<ScrollRect>(true);
+
+            input_field = scrollview.content.Find("input-field").GetComponent<TMP_InputField>();
+            input_lint = scrollview.content.Find("input-field/area/lint").GetComponent<TextMeshProUGUI>();
+            input_error = scrollview.content.Find("input-field/area/error").GetComponent<TextMeshProUGUI>();
 
             input_field.text = string.Empty;
             input_lint.text = string.Empty;
         }
-
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -94,7 +98,7 @@ namespace _COBALT_
 
             shell.OnReader(reader);
 
-            input_lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + reader.GetLintResult());
+            input_lint.text = Util.ForceCharacterWrap(reader.GetLintResult());
         }
     }
 }
