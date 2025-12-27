@@ -13,10 +13,10 @@ namespace _COBALT_
 
         void OnSubmit()
         {
+            AddLine(stdin_field.text, stdin_field.lint.text);
+
             if (GetStdin(out string stdin, out _))
             {
-                AddLine(stdin_field.text, stdin_field.lint.text);
-
                 CodeReader reader_check = new(
                     sig_flags: SIG_FLAGS.CHECK,
                     workdir: shell.workdir._value,

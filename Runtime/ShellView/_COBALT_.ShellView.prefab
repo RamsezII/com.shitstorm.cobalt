@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27d01e924b8d9e03b807c1926881ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: shitstorm._SGUI_::_SGUI_.ShellView
+  window: {fileID: 0}
   terminal: {fileID: 0}
   stdout_field: {fileID: 0}
   stdin_field: {fileID: 0}

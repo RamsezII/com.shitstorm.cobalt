@@ -47,7 +47,17 @@ namespace _COBALT_
                 }
             }
             else
-                ResetStdin();
+            {
+                string pref = shell.status._value.prefixe.Lint;
+                try
+                {
+                    stdin_field.lint.text = Util.ForceCharacterWrap(pref + stdin_field.text[pref.Length..]);
+                }
+                catch
+                {
+                    stdin_field.lint.text = stdin_field.text;
+                }
+            }
 
             ResizeStdin();
         }
