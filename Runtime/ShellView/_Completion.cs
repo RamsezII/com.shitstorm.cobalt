@@ -48,10 +48,10 @@ namespace _COBALT_
             }
             else
             {
-                string pref = shell.status._value.prefixe.Lint;
+                LintedString pref = shell.status._value.prefixe;
                 try
                 {
-                    stdin_field.lint.text = Util.ForceCharacterWrap(pref + stdin_field.text[pref.Length..]);
+                    stdin_field.lint.text = Util.ForceCharacterWrap(pref.Lint + stdin_field.text[pref.Text.Length..]);
                 }
                 catch
                 {
