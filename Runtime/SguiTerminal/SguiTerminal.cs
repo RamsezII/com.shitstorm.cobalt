@@ -1,5 +1,6 @@
 ﻿using _ARK_;
 using _SGUI_;
+using _SGUI_.context_click;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace _COBALT_
                 }
             );
 
-            SguiExplorerView.onContextClick_file += (SguiContextClick_List list, FileInfo file) =>
+            SguiExplorerView.onContextClick_file += (ContextList list, FileInfo file) =>
             {
                 var button = list.AddButton();
                 button.trad.SetTrads(new()
@@ -62,7 +63,7 @@ namespace _COBALT_
                 });
             };
 
-            SguiExplorerView.onContextClick_directory += (SguiContextClick_List list, DirectoryInfo dir) =>
+            SguiExplorerView.onContextClick_directory += (ContextList list, DirectoryInfo dir) =>
             {
                 {
                     var button = list.AddButton();
