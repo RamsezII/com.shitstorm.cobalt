@@ -108,6 +108,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2742296056699221216, guid: 4919d5e9b2082144ba72c94703740d4b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 2742296056699221216, guid: 4919d5e9b2082144ba72c94703740d4b,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 4407497900984462543, guid: 4919d5e9b2082144ba72c94703740d4b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -293,12 +303,9 @@ MonoBehaviour:
   ui_hue_start: 0
   ui_hue_current: 0
   ui_alpha: 0
-  prefab_hierarchy_folder: {fileID: 0}
-  prefab_hierarchy_file: {fileID: 0}
   button_hide: {fileID: 0}
   button_fullscreen: {fileID: 0}
   resizer_dragzone: {fileID: 0}
-  resizer_visual: {fileID: 0}
   rt_unselected: {fileID: 0}
   shellView: {fileID: 0}
 --- !u!1001 &3719341448295712967
@@ -422,6 +429,11 @@ PrefabInstance:
     - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980,
+        type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

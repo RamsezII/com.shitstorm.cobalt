@@ -55,7 +55,7 @@ namespace _COBALT_
                 button.button.onClick.AddListener(() =>
                 {
                     SguiTerminal terminal = (SguiTerminal)OSView.instance.softwaresButtons[typeof(SguiTerminal)].InstantiateSoftware();
-                    NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(3, () =>
+                    NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(3, "execute in a terminal", terminal, () =>
                     {
                         string line = $"run_script \"{file.FullName.NormalizePath()}\"";
                         terminal.shellView.ExecuteLine(line);
@@ -126,7 +126,7 @@ namespace _COBALT_
         {
             base.OnFocus(has_focus);
             if (has_focus)
-                NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(2, shellView.stdin_field.Select));
+                NUCLEOR.instance.sequencer_parallel.AddRoutine(Util.EWaitForFrames(2, "select stdinfield on focus", this, shellView.stdin_field.Select));
         }
 
         public override void OnResized()
