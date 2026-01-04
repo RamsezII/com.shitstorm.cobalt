@@ -7,7 +7,7 @@ namespace _COBALT_
         void InitHeader_File()
         {
             var button_file = AddHeaderButton();
-            button_file.transform.SetSiblingIndex(1);
+            button_file.transform.SetSiblingIndex(0);
 
             button_file.trad.SetTrads(new()
             {
@@ -21,8 +21,8 @@ namespace _COBALT_
                     var button = list.AddButton();
                     button.trad.SetTrads(new()
                     {
-                        french = "Nouveau Fichier",
-                        english = "New File",
+                        french = "Nouveau fichier",
+                        english = "New file",
                     });
                 }
 
@@ -30,8 +30,8 @@ namespace _COBALT_
                     var button = list.AddButton();
                     button.trad.SetTrads(new()
                     {
-                        french = "Ouvrir Fichier",
-                        english = "Open File",
+                        french = "Ouvrir fichier",
+                        english = "Open file",
                     });
                 }
 
@@ -39,8 +39,8 @@ namespace _COBALT_
                     var button = list.AddButton();
                     button.trad.SetTrads(new()
                     {
-                        french = "Ouvrir Dossier",
-                        english = "Open Folder",
+                        french = "Ouvrir dossier",
+                        english = "Open folder",
                     });
                 }
 
@@ -57,8 +57,8 @@ namespace _COBALT_
                     var button = list.AddButton();
                     button.trad.SetTrads(new()
                     {
-                        french = "Sauvegarder Sous",
-                        english = "Save As",
+                        french = "Sauvegarder sous",
+                        english = "Save as",
                     });
 
                     button.SetupSublist(sublist =>
@@ -67,7 +67,7 @@ namespace _COBALT_
                             var button = sublist.AddButton();
                             button.trad.SetTrads(new()
                             {
-                                french = "Autre Format",
+                                french = "Autre format",
                                 english = "Other format",
                             });
                         }
