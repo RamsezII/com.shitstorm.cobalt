@@ -7,7 +7,6 @@ namespace _COBALT_
 {
     public partial class SguiNotepad : SguiWindow1
     {
-        internal HeaderDropdown dropdown_files;
         public ScriptView script_view;
         [SerializeField] protected TextMeshProUGUI footer_tmp;
         [SerializeField] protected string file_path;
@@ -53,12 +52,17 @@ namespace _COBALT_
             script_view = GetComponentInChildren<ScriptView>();
             footer_tmp = transform.Find("rT/footer/text").GetComponent<TextMeshProUGUI>();
 
-            dropdown_files = transform.Find("rT/buttons/layout/button_Files").GetComponent<HeaderDropdown>();
-            dropdown_files.onItemClick += OnClick_FilesDropdown;
-
             base.OnAwake();
 
             trad_title.SetTrad("Shitpad");
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Start()
+        {
+            base.Start();
+            InitHeader_File();
         }
 
         //--------------------------------------------------------------------------------------------------------------
