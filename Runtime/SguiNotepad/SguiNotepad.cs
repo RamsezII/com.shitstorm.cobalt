@@ -40,7 +40,7 @@ namespace _COBALT_
                     instance = null;
                     return $"can not find file '{file_path}'\n";
                 }
-            instance = Util.InstantiateOrCreate<SguiNotepad>(SguiGlobal.instance.rt_windows2);
+            instance = Util.InstantiateOrCreate<SguiNotepad>(parent: SguiGlobal.instance.rt_windows2);
             instance.Init_file(file_path);
             return null;
         }
