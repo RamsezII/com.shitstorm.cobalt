@@ -18,8 +18,7 @@ namespace _COBALT_
             button_file.onContextList += (ContextList list) =>
             {
                 {
-                    var button = list.AddButton();
-                    button.trad.SetTrads(new()
+                    var button = list.AddButton(new()
                     {
                         french = "Nouveau fichier",
                         english = "New file",
@@ -27,8 +26,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton();
-                    button.trad.SetTrads(new()
+                    var button = list.AddButton(new()
                     {
                         french = "Ouvrir fichier",
                         english = "Open file",
@@ -36,8 +34,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton();
-                    button.trad.SetTrads(new()
+                    var button = list.AddButton(new()
                     {
                         french = "Ouvrir dossier",
                         english = "Open folder",
@@ -45,8 +42,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton();
-                    button.trad.SetTrads(new()
+                    var button = list.AddButton(new()
                     {
                         french = "Sauvegarder",
                         english = "Save",
@@ -54,8 +50,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton();
-                    button.trad.SetTrads(new()
+                    var button = list.AddButton(new()
                     {
                         french = "Sauvegarder sous",
                         english = "Save as",
@@ -64,8 +59,7 @@ namespace _COBALT_
                     button.SetupSublist(sublist =>
                     {
                         {
-                            var button = sublist.AddButton();
-                            button.trad.SetTrads(new()
+                            var button = sublist.AddButton(new()
                             {
                                 french = "Autre format",
                                 english = "Other format",
