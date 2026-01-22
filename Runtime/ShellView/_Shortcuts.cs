@@ -11,7 +11,6 @@ namespace _COBALT_
             if (false)
                 ArkShortcuts.AddShortcut(
                     shortcutName: "cobalt_newline",
-                    nameof_button: "enter",
                     action: static () =>
                     {
                         foreach (var shellview in instances)
@@ -21,7 +20,8 @@ namespace _COBALT_
                                 break;
                             }
                     },
-                    shift: true
+                    shift: true,
+                    bindings: "enter"
                 );
         }
     }

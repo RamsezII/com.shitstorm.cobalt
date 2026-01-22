@@ -11,7 +11,6 @@ namespace _COBALT_
         {
             ArkShortcuts.AddShortcut(
                 shortcutName: "save_script",
-                nameof_button: "s",
                 action: static () =>
                 {
                     if (EventSystem.current.currentSelectedGameObject == null)
@@ -22,7 +21,8 @@ namespace _COBALT_
                     if (instance != null)
                         instance.SaveCurrentFile();
                 },
-                control: true
+                control: true,
+                bindings: "s"
             );
         }
     }

@@ -29,7 +29,6 @@ namespace _COBALT_
 
             ArkShortcuts.AddShortcut<Keyboard>(
                 shortcutName: typeof(SguiTerminal).FullName,
-                nameof_button: "o",
                 action: () =>
                 {
                     foreach (var inst in instances._collection)
@@ -40,7 +39,8 @@ namespace _COBALT_
                             return;
                         }
                     button.InstantiateSoftware();
-                }
+                },
+                bindings: "o"
             );
 
             SguiExplorerView.onContextClick_file += (ContextList list, FileInfo file) =>
