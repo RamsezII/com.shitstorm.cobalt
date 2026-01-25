@@ -6,14 +6,12 @@ namespace _COBALT_
     {
         void InitHeader_File()
         {
-            var button_file = AddHeaderButton();
-            button_file.transform.SetSiblingIndex(0);
-
-            button_file.trad.SetTrads(new()
+            var button_file = AddHeaderButton(new()
             {
                 french = "Fichier",
                 english = "File",
             });
+            button_file.transform.SetSiblingIndex(0);
 
             button_file.onContextList += (ContextList list) =>
             {
