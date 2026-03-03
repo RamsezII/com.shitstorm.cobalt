@@ -55,7 +55,7 @@ namespace _COBALT_
         {
             if (value.HasSpaces())
             {
-                LoggerOverlay.Log($"HAS SPACES (value: [[ {value} ]] [[ {stdin_field.text} ]])", this);
+                SguiLoggerOverlay.Log($"HAS SPACES (value: [[ {value} ]] [[ {stdin_field.text} ]])", this);
                 stdin_field.text = Util.ForceCharacterWrap(value);
                 return;
             }

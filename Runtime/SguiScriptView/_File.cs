@@ -35,7 +35,7 @@ namespace _COBALT_
 
         void SaveCurrentFile()
         {
-            LoggerOverlay.Log($"SAVE! {this}", this, timer: 5);
+            SguiLoggerOverlay.Log($"SAVE! {this}", this, timer: 5);
         }
     }
 }
