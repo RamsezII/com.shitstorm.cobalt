@@ -22,7 +22,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            ArkMachine.AddListener(() =>
+            ArkMachine.AddOnReloadUserFiles(() =>
             {
                 LoadSettings(true);
                 NUCLEOR.delegates.OnApplicationUnfocus += () => SaveSettings(false);

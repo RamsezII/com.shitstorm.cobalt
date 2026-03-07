@@ -20,7 +20,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        static void InitShellHistory() => ArkMachine.AddListener(() =>
+        static void InitShellHistory() => ArkMachine.AddOnReloadUserFiles(() =>
         {
             static void WriteHistory(in bool log)
             {
