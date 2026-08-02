@@ -7,7 +7,7 @@ namespace _COBALT_
     partial class ScriptView
     {
         const int MAX_FILE_SIZE = 1024;
-        public readonly ValueHandler<FileInfo> file_path = new();
+        public readonly ValueNotifier<FileInfo> file_path = new();
 
         //--------------------------------------------------------------------------------------------------------------
 

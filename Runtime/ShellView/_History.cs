@@ -20,7 +20,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        static void InitShellHistory() => ArkMachine.AddOnReloadUserFiles(() =>
+        static void InitShellHistory()
         {
             static void WriteHistory(in bool log)
             {
@@ -38,10 +38,14 @@ namespace _COBALT_
                     history.AddRange(saved_history.lines[..Mathf.Min(history_max, saved_history.lines.Length)]);
             }
 
-            ReadHistory(true);
+            ArkMachine.AddOnReloadUserFiles(() =>
+            {
+                ReadHistory(false);
+            });
+
             NUCLEOR.delegates.OnApplicationFocus += () => ReadHistory(false);
             NUCLEOR.delegates.OnApplicationUnfocus += () => WriteHistory(false);
-        });
+        }
 
         void AddToHistory(in string line)
         {

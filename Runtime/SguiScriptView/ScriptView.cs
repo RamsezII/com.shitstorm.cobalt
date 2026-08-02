@@ -24,7 +24,7 @@ namespace _COBALT_
         {
             ArkMachine.AddOnReloadUserFiles(() =>
             {
-                LoadSettings(true);
+                LoadSettings(false);
                 NUCLEOR.delegates.OnApplicationUnfocus += () => SaveSettings(false);
                 NUCLEOR.delegates.OnApplicationFocus += () => LoadSettings(false);
             });
