@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-    public partial class SguiNotepad : SguiWindow1
+    public partial class SguiNotepad : SguiSoftware
     {
         public ScriptView script_view;
         [SerializeField] protected TextMeshProUGUI footer_tmp;

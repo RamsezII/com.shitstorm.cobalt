@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-    public partial class SguiCodium : SguiWindow1
+    public partial class SguiCodium : SguiSoftware
     {
         public ScriptView scriptview;
         public ShellView shellView;

@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace _COBALT_
 {
-    public sealed partial class SguiTerminal : SguiWindow1
+    public sealed partial class SguiTerminal : SguiSoftware
     {
         static readonly List<SguiTerminal> selected_stack = new();
 
