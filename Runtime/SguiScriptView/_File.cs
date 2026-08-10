@@ -24,7 +24,7 @@ namespace _COBALT_
                     input_field.text = File.ReadAllText(file.FullName);
                 else
                 {
-                    SguiCustom sgui = SguiWindow.InstantiateWindow<SguiCustom>();
+                    SguiCustom sgui = SguiWindow.CreatePrompt();
                     var alert = sgui.AddButton<SguiCustom_Alert>();
                     alert.SetText(new($"{GetType().FullName} : file to big ({file.Length.LogDataSize()})\n{file_path.ToSubLog()}"));
                 }
