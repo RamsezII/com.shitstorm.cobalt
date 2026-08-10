@@ -54,7 +54,7 @@ namespace _COBALT_
 
             base.OnAwake();
 
-            trad_title.SetTrad("Shitpad");
+            trad_title.SetText("Shitpad");
         }
 
         //--------------------------------------------------------------------------------------------------------------

@@ -112,7 +112,7 @@ namespace _COBALT_
                     : $"{shell.GetType().Name}:{status.code}";
 
                 if (terminal != null)
-                    terminal.trad_title.SetTrad(title);
+                    terminal.trad_title.SetText(title);
 
                 switch (status.code)
                 {

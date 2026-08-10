@@ -38,7 +38,7 @@ namespace _COBALT_
 
             base.OnAwake();
 
-            trad_title.SetTrad("ShitCodium");
+            trad_title.SetText("ShitCodium");
 
             empty_tab = tabController.AddTab();
             empty_tab.text.text = "Untitled";
