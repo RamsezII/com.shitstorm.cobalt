@@ -51,7 +51,7 @@ namespace _COBALT_
                     english = "Execute a terminal",
                 });
 
-                button.button.onClick.AddListener(() =>
+                button._button.onClick.AddListener(() =>
                 {
                     SguiTerminal terminal = (SguiTerminal)OSView.instance.softwaresButtons[typeof(SguiTerminal)].InstantiateSoftware();
                     NUCLEOR.instance.sequencer_multi.AddRoutine(Util.EWaitForFrames(3, "execute in a terminal", terminal, () =>
