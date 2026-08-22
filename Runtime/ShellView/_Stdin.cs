@@ -9,10 +9,14 @@ namespace _COBALT_
     {
         void OnSelectStdin(string text)
         {
-            IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
+            if (IMGUI_global.instance != null)
+                IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
 
             NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () =>
             {
+                if (this == null || shell == null)
+                    return;
+
                 int min_pos = shell.status._value.prefixe.Text.Length;
                 if (stdin_field.caretPosition < min_pos)
                     stdin_field.caretPosition = min_pos;
@@ -21,7 +25,8 @@ namespace _COBALT_
 
         void OnDeselectStdin(string arg0)
         {
-            IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
+            if (IMGUI_global.instance != null)
+                IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
         }
 
         bool GetStdin(out string stdin, out int cursor_i)
@@ -83,7 +88,7 @@ namespace _COBALT_
             else
                 current = prefixe + current[prefixe.Length..];
 
-            if (!string.Equals(current, stdout_field.text, StringComparison.Ordinal))
+            if (!string.Equals(current, stdin_field.text, StringComparison.Ordinal))
                 stdin_field.text = current;
 
             if (stdin_field.caretPosition < prefixe.Length)

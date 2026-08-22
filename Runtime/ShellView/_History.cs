@@ -20,44 +20,48 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
+        static void WriteHistory()
+        {
+            var saved_history = new History
+            {
+                lines = history.ToArray()
+            };
+            saved_history.SaveStaticJSon(false);
+        }
+
+        static void ReadHistory()
+        {
+            history.Clear();
+            if (StaticJSon.ReadStaticJSon(out History saved_history, true, false) && saved_history?.lines != null)
+            {
+                int first = Mathf.Max(0, saved_history.lines.Length - history_max);
+                history.AddRange(saved_history.lines[first..]);
+            }
+        }
+
         static void InitShellHistory()
         {
-            static void WriteHistory(in bool log)
-            {
-                var saved_history = new History
-                {
-                    lines = history.ToArray()
-                };
-                saved_history.SaveStaticJSon(log);
-            }
+            ArkMachine.AddOnReloadUserFiles(ReadHistory);
 
-            static void ReadHistory(in bool log)
-            {
-                history.Clear();
-                if (StaticJSon.ReadStaticJSon(out History saved_history, true, log))
-                    history.AddRange(saved_history.lines[..Mathf.Min(history_max, saved_history.lines.Length)]);
-            }
+            NUCLEOR.delegates.OnApplicationFocus -= ReadHistory;
+            NUCLEOR.delegates.OnApplicationFocus += ReadHistory;
 
-            ArkMachine.AddOnReloadUserFiles(() =>
-            {
-                ReadHistory(false);
-            });
-
-            NUCLEOR.delegates.OnApplicationFocus += () => ReadHistory(false);
-            NUCLEOR.delegates.OnApplicationUnfocus += () => WriteHistory(false);
+            NUCLEOR.delegates.OnApplicationUnfocus -= WriteHistory;
+            NUCLEOR.delegates.OnApplicationUnfocus += WriteHistory;
         }
 
         void AddToHistory(in string line)
         {
             if (history.Contains(line))
                 history.Remove(line);
-            else if (history.Count >= history_max - 1)
+            else if (history.Count >= history_max)
                 history.RemoveAt(0);
 
             history.Add(line);
 
-            foreach (ShellView shell_view in FindObjectsByType<ShellView>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-                shell_view.ResetHistoryNav();
+            foreach (ShellView shell_view in instances)
+                if (shell_view != null)
+                    shell_view.ResetHistoryNav();
         }
 
         void ResetHistoryNav() => history_index = history.Count;

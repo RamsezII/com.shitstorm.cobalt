@@ -50,7 +50,7 @@ namespace _COBALT_
                 if (reader_submit.sig_error != null)
                 {
                     reader_submit.LocalizeError();
-                    Debug.LogError(reader_check.sig_error);
+                    Debug.LogError(reader_submit.sig_error);
                     AddLine(reader_submit.sig_long_error, reader_submit.sig_long_error.SetColor(Colors.orange_red));
                     return;
                 }

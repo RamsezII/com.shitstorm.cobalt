@@ -20,6 +20,9 @@ namespace _COBALT_
                             case KeyCode.A:
                                 NUCLEOR.delegates.LateUpdate_onEndOfFrame_once += () =>
                                 {
+                                    if (this == null || shell == null)
+                                        return;
+
                                     stdin_field.caretPosition = stdin_field.text.Length;
                                     stdin_field.selectionAnchorPosition = shell.status._value.prefixe.Text.Length;
                                 };

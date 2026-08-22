@@ -1,6 +1,8 @@
 ﻿using _SGUI_;
 using _UTIL_;
+using System;
 using System.IO;
+using UnityEngine;
 
 namespace _COBALT_
 {
@@ -15,18 +17,29 @@ namespace _COBALT_
         {
             file_path.AddListener(file =>
             {
-                if (file == null || !file.Exists)
+                try
                 {
-                    input_field.text = string.Empty;
-                    input_lint.text = string.Empty;
+                    file?.Refresh();
+
+                    if (file == null || !file.Exists)
+                    {
+                        input_field.text = string.Empty;
+                        input_lint.text = string.Empty;
+                        input_error.text = string.Empty;
+                    }
+                    else if (file.Length <= MAX_FILE_SIZE)
+                        input_field.text = File.ReadAllText(file.FullName);
+                    else
+                    {
+                        SguiCustom sgui = SguiWindow.CreatePrompt();
+                        var alert = sgui.AddButton<SguiCustom_Alert>();
+                        alert.SetText(new($"{GetType().FullName} : file too big ({file.Length.LogDataSize()})\n{file_path.ToSubLog()}"));
+                    }
                 }
-                else if (file.Length <= MAX_FILE_SIZE)
-                    input_field.text = File.ReadAllText(file.FullName);
-                else
+                catch (Exception exception)
                 {
-                    SguiCustom sgui = SguiWindow.CreatePrompt();
-                    var alert = sgui.AddButton<SguiCustom_Alert>();
-                    alert.SetText(new($"{GetType().FullName} : file to big ({file.Length.LogDataSize()})\n{file_path.ToSubLog()}"));
+                    input_error.text = exception.Message;
+                    Debug.LogException(exception, this);
                 }
             });
         }
@@ -35,7 +48,24 @@ namespace _COBALT_
 
         void SaveCurrentFile()
         {
-            SguiLoggerOverlay.Log($"SAVE! {this}", this, timer: 5);
+            FileInfo file = file_path._value;
+            if (file == null)
+            {
+                SguiLoggerOverlay.Log($"No file selected for {this}", this, timer: 5);
+                return;
+            }
+
+            try
+            {
+                File.WriteAllText(file.FullName, input_field.text);
+                file.Refresh();
+                SguiLoggerOverlay.Log($"Saved '{file.FullName}'", this, timer: 5);
+            }
+            catch (Exception exception)
+            {
+                input_error.text = exception.Message;
+                Debug.LogException(exception, this);
+            }
         }
     }
 }

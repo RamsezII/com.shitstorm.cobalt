@@ -65,8 +65,6 @@ namespace _COBALT_
             shell?.Dispose();
             shell = null;
 
-            stdin_field.onSelect.AddListener(OnSelectStdin);
-
             instances.Add(this);
         }
 
@@ -74,14 +72,20 @@ namespace _COBALT_
 
         private void OnEnable()
         {
-            IMGUI_global.instance.clipboard_users.AddElement(OnClipboardOperation);
-            IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
+            if (IMGUI_global.instance != null)
+            {
+                IMGUI_global.instance.clipboard_users.AddElement(OnClipboardOperation);
+                IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
+            }
         }
 
         private void OnDisable()
         {
-            IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
-            IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
+            if (IMGUI_global.instance != null)
+            {
+                IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
+                IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
+            }
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -98,36 +102,8 @@ namespace _COBALT_
             shell.ToggleTick(true);
 
             shell.stdout += AddLine;
-            shell.stderr += (data, lint) =>
-            {
-                string text = data is string s ? s : data.ToString();
-                lint ??= text.SetColor(Color.yellow);
-                AddLine(text, lint);
-            };
-
-            shell.status.AddListener(status =>
-            {
-                string title = status.code == CMD_STATUS.WAIT_FOR_STDIN
-                    ? shell.GetType().Name
-                    : $"{shell.GetType().Name}:{status.code}";
-
-                if (terminal != null)
-                    terminal.trad_title.SetText(title);
-
-                switch (status.code)
-                {
-                    case CMD_STATUS.WAIT_FOR_STDIN:
-                        ResetStdin();
-                        break;
-
-                    case CMD_STATUS.BLOCKED:
-                        ResetStdin();
-                        break;
-
-                    case CMD_STATUS.NETWORKING:
-                        break;
-                }
-            });
+            shell.stderr += OnShellStderr;
+            shell.status.AddListener(OnShellStatus);
 
             ResetStdin();
             RefreshStdout();
@@ -157,11 +133,55 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
+        void OnShellStderr(object data, string lint)
+        {
+            string text = data is string value ? value : data?.ToString() ?? "null";
+            lint ??= text.SetColor(Color.yellow);
+            AddLine(text, lint);
+        }
+
+        void OnShellStatus(ExecutionStatus status)
+        {
+            string title = status.code == CMD_STATUS.WAIT_FOR_STDIN
+                ? shell.GetType().Name
+                : $"{shell.GetType().Name}:{status.code}";
+
+            if (terminal != null)
+                terminal.trad_title.SetText(title);
+
+            switch (status.code)
+            {
+                case CMD_STATUS.WAIT_FOR_STDIN:
+                case CMD_STATUS.BLOCKED:
+                    ResetStdin();
+                    break;
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------------------
+
         private void OnDestroy()
         {
-            shell?.Dispose();
-            shell = null;
-            IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
+            stdin_field.onValidateInput -= OnValidateStdin_char;
+            stdin_field.onValueChanged.RemoveListener(OnStdinChanged);
+            stdin_field.onSelect.RemoveListener(OnSelectStdin);
+            stdin_field.onDeselect.RemoveListener(OnDeselectStdin);
+
+            if (shell != null)
+            {
+                shell.stdout -= AddLine;
+                shell.stderr -= OnShellStderr;
+                shell.status.RemoveListener(OnShellStatus);
+                shell.Dispose();
+                shell = null;
+            }
+
+            if (IMGUI_global.instance != null)
+            {
+                IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
+                IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
+            }
+
             instances.Remove(this);
         }
     }

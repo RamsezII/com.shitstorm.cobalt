@@ -22,13 +22,17 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            ArkMachine.AddOnReloadUserFiles(() =>
-            {
-                LoadSettings(false);
-                NUCLEOR.delegates.OnApplicationUnfocus += () => SaveSettings(false);
-                NUCLEOR.delegates.OnApplicationFocus += () => LoadSettings(false);
-            });
+            ArkMachine.AddOnReloadUserFiles(ReloadSettings);
+
+            NUCLEOR.delegates.OnApplicationUnfocus -= SaveSettings;
+            NUCLEOR.delegates.OnApplicationUnfocus += SaveSettings;
+
+            NUCLEOR.delegates.OnApplicationFocus -= ReloadSettings;
+            NUCLEOR.delegates.OnApplicationFocus += ReloadSettings;
         }
+
+        static void ReloadSettings() => LoadSettings(false);
+        static void SaveSettings() => SaveSettings(false);
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -55,6 +59,14 @@ namespace _COBALT_
 
             input_field.onValueChanged.AddListener(OnChange);
             input_field.onValidateInput += ValidateChar;
+        }
+
+        private void OnDestroy()
+        {
+            input_field.onValueChanged.RemoveListener(OnChange);
+            input_field.onValidateInput -= ValidateChar;
+            file_path.Reset();
+            file_path.Dispose();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -84,7 +96,7 @@ namespace _COBALT_
 
         protected virtual void OnChange(string text)
         {
-            Shell shell = new BoaShell("script_view");
+            using BoaShell shell = new("script_view");
 
             CodeReader reader = new(
                 sig_flags: SIG_FLAGS.CHANGE | SIG_FLAGS.LINT,
@@ -99,6 +111,14 @@ namespace _COBALT_
             shell.OnReader(reader);
 
             input_lint.text = Util.ForceCharacterWrap(reader.GetLintResult());
+
+            if (reader.sig_error == null)
+                input_error.text = string.Empty;
+            else
+            {
+                reader.LocalizeError();
+                input_error.text = Util.ForceCharacterWrap(reader.sig_long_error);
+            }
         }
     }
 }

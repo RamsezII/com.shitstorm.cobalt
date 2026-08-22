@@ -31,7 +31,10 @@ namespace _COBALT_
 
                 shell.OnReader(last_reader);
 
-                last_completions_all = last_reader.completions_v.OrderBy(x => x.Length).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                last_completions_all = last_reader.completions_v
+                    .OrderBy(x => x.Length)
+                    .ThenBy(x => x, StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
 
                 stdin_field.lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + last_reader.GetLintResult());
 
@@ -43,7 +46,11 @@ namespace _COBALT_
                     if (last_reader.cpl_end > last_reader.cpl_start)
                         arg_select = stdin[last_reader.cpl_start..last_reader.cpl_end];
 
-                    last_completions_tab = last_completions_all.ECompletionMatches(arg_select).OrderBy(x => x.Length).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray();
+                    last_completions_tab = last_completions_all
+                        .ECompletionMatches(arg_select)
+                        .OrderBy(x => x.Length)
+                        .ThenBy(x => x, StringComparer.OrdinalIgnoreCase)
+                        .ToArray();
                 }
             }
             else
@@ -100,6 +107,8 @@ namespace _COBALT_
                 };
 
                 alt_i %= last_completions_all.Length;
+                if (alt_i < 0)
+                    alt_i += last_completions_all.Length;
 
                 string completion = last_completions_all[alt_i];
 
@@ -118,6 +127,9 @@ namespace _COBALT_
 
         void OnAlt_left_right(in KeyCode key)
         {
+            if (last_reader == null)
+                return;
+
             string completion = key switch
             {
                 KeyCode.LeftArrow => last_reader.completion_l,
