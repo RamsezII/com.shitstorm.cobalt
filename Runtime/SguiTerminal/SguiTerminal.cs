@@ -118,7 +118,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnFocus(in bool has_focus)
+        protected override void OnFocus(bool has_focus)
         {
             base.OnFocus(has_focus);
             if (has_focus)

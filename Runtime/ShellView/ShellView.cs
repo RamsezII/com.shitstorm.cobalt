@@ -77,6 +77,7 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.AddElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
             }
+            window.hasFocus.AddListener(OnFocus);
         }
 
         private void OnDisable()
@@ -86,6 +87,7 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
             }
+            window.hasFocus.RemoveListener(OnFocus);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -131,6 +133,11 @@ namespace _COBALT_
             return true;
         }
 
+        void OnFocus(bool hasFocus)
+        {
+            UsageManager.ToggleUser(this, hasFocus, UsageGroups.Typing | UsageGroups.GameMouse);
+        }
+
         //----------------------------------------------------------------------------------------------------------
 
         void OnShellStderr(object data, string lint)
@@ -162,6 +169,8 @@ namespace _COBALT_
 
         private void OnDestroy()
         {
+            NUCLEOR.delegates.LateUpdate_onEndOfFrame_once -= RefreshStdout_direct;
+
             stdin_field.onValidateInput -= OnValidateStdin_char;
             stdin_field.onValueChanged.RemoveListener(OnStdinChanged);
             stdin_field.onSelect.RemoveListener(OnSelectStdin);

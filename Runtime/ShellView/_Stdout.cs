@@ -1,4 +1,5 @@
-﻿using _COBRA_;
+﻿using _ARK_;
+using _COBRA_;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -8,10 +9,10 @@ namespace _COBALT_
     partial class ShellView
     {
         readonly Queue<LintedString> _logs = new();
-
-        string stdout_text, stdout_lint;
+        int logs_character_count;
 
         const byte max_lines = 100;
+        const int max_buffer_characters = 32 * 1024;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -24,18 +25,33 @@ namespace _COBALT_
 
             lint ??= str;
 
+            LintedString new_log = new(str, lint);
+
+            lock (_logs)
+            {
+                _logs.Enqueue(new_log);
+                logs_character_count += GetCharacterCost(new_log);
+
+                while (_logs.Count > 1 && (_logs.Count > max_lines || logs_character_count > max_buffer_characters))
+                    logs_character_count -= GetCharacterCost(_logs.Dequeue());
+
+                Debug.Log($"{shell.status._value.prefixe.Lint}{lint}", this);
+            }
+
+            RefreshStdout();
+        }
+
+        static int GetCharacterCost(in LintedString log) => log.Text.Length + log.Lint.Length + 2;
+
+        void RefreshStdout() => Util.AddActionOnce(ref NUCLEOR.delegates.LateUpdate_onEndOfFrame_once, RefreshStdout_direct);
+        void RefreshStdout_direct()
+        {
             StringBuilder
                 sb_text = new(),
                 sb_lint = new();
 
             lock (_logs)
             {
-                while (_logs.Count >= max_lines)
-                    _logs.Dequeue();
-
-                _logs.Enqueue(new(str, lint));
-                Debug.Log($"{shell.status._value.prefixe.Lint}{lint}", this);
-
                 foreach (LintedString log in _logs)
                 {
                     sb_text.AppendLine(log.Text);
@@ -43,16 +59,8 @@ namespace _COBALT_
                 }
             }
 
-            stdout_text = sb_text.ToString();
-            stdout_lint = sb_lint.ToString();
-
-            RefreshStdout();
-        }
-
-        void RefreshStdout()
-        {
-            stdout_field.text = stdout_text;
-            stdout_field.lint.text = stdout_lint;
+            stdout_field.text = sb_text.ToString();
+            stdout_field.lint.text = sb_lint.ToString();
 
             stdout_h = stdout_field.textComponent.GetInvisibleHeight();
             stdout_field.rT.sizeDelta = new Vector2(0, stdout_h);
