@@ -87,10 +87,10 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnAwake()
+        protected override void OnInitialize()
         {
             shellView = GetComponentInChildren<ShellView>(true);
-            base.OnAwake();
+            base.OnInitialize();
         }
 
         //--------------------------------------------------------------------------------------------------------------

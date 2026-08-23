@@ -62,12 +62,12 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnAwake()
+        protected override void OnInitialize()
         {
             script_view = GetComponentInChildren<ScriptView>();
             footer_tmp = transform.Find("rT/footer/text").GetComponent<TextMeshProUGUI>();
 
-            base.OnAwake();
+            base.OnInitialize();
 
             trad_title.SetText("Shitpad");
         }

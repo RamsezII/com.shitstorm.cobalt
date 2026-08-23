@@ -29,14 +29,21 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnAwake()
+        protected override void OnInitialize()
         {
             tabController = GetComponentInChildren<SguiTabController>(true);
             shellView = GetComponentInChildren<ShellView>(true);
             scriptview = GetComponentInChildren<ScriptView>(true);
             explorerview = GetComponentInChildren<SguiExplorerView>(true);
 
-            base.OnAwake();
+            base.OnInitialize();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void Start()
+        {
+            base.Start();
 
             trad_title.SetText("ShitCodium");
 
