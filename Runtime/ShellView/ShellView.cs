@@ -77,7 +77,7 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.AddElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
             }
-            window.hasFocus.AddListener(OnFocus);
+            window.isFocused.AddListener(OnFocus);
         }
 
         private void OnDisable()
@@ -87,7 +87,7 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
             }
-            window.hasFocus.RemoveListener(OnFocus);
+            window.isFocused.RemoveListener(OnFocus);
         }
 
         //----------------------------------------------------------------------------------------------------------
