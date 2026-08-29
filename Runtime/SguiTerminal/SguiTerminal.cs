@@ -45,7 +45,7 @@ namespace _COBALT_
 
             SguiExplorerView.onContextClick_file += (ContextList list, FileInfo file) =>
             {
-                var button = list.AddButton(new()
+                var button = list.AddButton_trad(new()
                 {
                     french = "Éxécuter dans un terminal",
                     english = "Execute a terminal",
@@ -65,7 +65,7 @@ namespace _COBALT_
             SguiExplorerView.onContextClick_directory += (ContextList list, DirectoryInfo dir) =>
             {
                 {
-                    var button = list.AddButton(new()
+                    var button = list.AddButton_trad(new()
                     {
                         french = $"Ouvrir ce dossier dans",
                         english = $"Open this directory in",
@@ -74,11 +74,11 @@ namespace _COBALT_
                     button.SetupSublist(sublist =>
                     {
                         {
-                            var button = sublist.AddButton_label("Shitpad");
+                            var button = sublist.AddButton_string("Shitpad");
                         }
 
                         {
-                            var button = sublist.AddButton_label("Shitcodium");
+                            var button = sublist.AddButton_string("Shitcodium");
                         }
                     });
                 }

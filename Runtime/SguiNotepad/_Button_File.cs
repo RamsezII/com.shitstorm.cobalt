@@ -16,7 +16,7 @@ namespace _COBALT_
             button_file.onContextList += (ContextList list) =>
             {
                 {
-                    var button = list.AddButton(new()
+                    var button = list.AddButton_trad(new()
                     {
                         french = "Nouveau fichier",
                         english = "New file",
@@ -24,7 +24,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton(new()
+                    var button = list.AddButton_trad(new()
                     {
                         french = "Ouvrir fichier",
                         english = "Open file",
@@ -32,7 +32,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton(new()
+                    var button = list.AddButton_trad(new()
                     {
                         french = "Ouvrir dossier",
                         english = "Open folder",
@@ -40,7 +40,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton(new()
+                    var button = list.AddButton_trad(new()
                     {
                         french = "Sauvegarder",
                         english = "Save",
@@ -48,7 +48,7 @@ namespace _COBALT_
                 }
 
                 {
-                    var button = list.AddButton(new()
+                    var button = list.AddButton_trad(new()
                     {
                         french = "Sauvegarder sous",
                         english = "Save as",
@@ -57,7 +57,7 @@ namespace _COBALT_
                     button.SetupSublist(sublist =>
                     {
                         {
-                            var button = sublist.AddButton(new()
+                            var button = sublist.AddButton_trad(new()
                             {
                                 french = "Autre format",
                                 english = "Other format",
