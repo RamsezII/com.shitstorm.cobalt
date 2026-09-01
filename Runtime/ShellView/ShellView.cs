@@ -135,7 +135,7 @@ namespace _COBALT_
 
         void OnFocus(bool hasFocus)
         {
-            UsageManager.ToggleUser(this, hasFocus, UsageGroups.Typing, UsageGroups.GameMouse);
+            UsageManager.ToggleUser(this, hasFocus, UsageGroups.Typing, UsageGroups.TrueMouse);
         }
 
         //----------------------------------------------------------------------------------------------------------
