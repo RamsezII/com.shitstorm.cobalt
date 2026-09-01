@@ -118,9 +118,9 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnFocus(bool has_focus)
+        protected override void OnToggleFocus(bool has_focus)
         {
-            base.OnFocus(has_focus);
+            base.OnToggleFocus(has_focus);
             if (has_focus)
                 NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(2, "select stdinfield on focus", this, shellView.stdin_field.Select));
         }
