@@ -41,7 +41,7 @@ namespace _COBALT_
 
         static void InitShellHistory()
         {
-            ArkMachine.AddOnReloadUserFiles(ReadHistory);
+            NUCLEOR.AddOnReloadUserFiles(ReadHistory);
 
             NUCLEOR.delegates.OnApplicationFocus -= ReadHistory;
             NUCLEOR.delegates.OnApplicationFocus += ReadHistory;
