@@ -16,7 +16,7 @@ namespace _COBALT_
         public TextMeshProUGUI input_lint, input_error;
         public LintTheme lint_theme = LintTheme.theme_light;
 
-        [NJEdit]
+        [NJField]
         public bool
              use_intellisense = true,
              space_confirms_completion = false;
