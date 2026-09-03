@@ -41,7 +41,7 @@ namespace _COBALT_
 
         static void InitShellHistory()
         {
-            NUCLEOR.AddOnReloadUserFiles(ReadHistory);
+            NUCLEOR.instance.AddOnReloadUserFiles(ReadHistory);
 
             NUCLEOR.delegates.OnApplicationFocus -= ReadHistory;
             NUCLEOR.delegates.OnApplicationFocus += ReadHistory;

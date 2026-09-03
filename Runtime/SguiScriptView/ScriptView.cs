@@ -22,7 +22,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            NUCLEOR.AddOnReloadUserFiles(ReloadSettings);
+            NUCLEOR.instance.AddOnReloadUserFiles(ReloadSettings);
 
             NUCLEOR.delegates.OnApplicationUnfocus -= SaveSettings;
             NUCLEOR.delegates.OnApplicationUnfocus += SaveSettings;
