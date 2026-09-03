@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public sealed partial class ShellView : MonoBehaviour, SguiDragManager.IAcceptDraggable
+    public sealed partial class ShellView : ArkComponent1, SguiDragManager.IAcceptDraggable
     {
         public static readonly HashSet<ShellView> instances = new();
 
@@ -39,15 +39,9 @@ namespace _COBALT_
             instances.Clear();
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        static void OnAfterSceneLoad()
-        {
-            InitShellHistory();
-        }
-
         //----------------------------------------------------------------------------------------------------------
 
-        private void Awake()
+        private void Awfake()
         {
             window = GetComponentInParent<SguiWindow>(true);
             terminal = GetComponentInParent<SguiTerminal>(true);
@@ -66,12 +60,16 @@ namespace _COBALT_
             shell = null;
 
             instances.Add(this);
+
+            base.Awake();
         }
 
         //----------------------------------------------------------------------------------------------------------
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             if (IMGUI_global.instance != null)
             {
                 IMGUI_global.instance.clipboard_users.AddElement(OnClipboardOperation);
@@ -80,20 +78,25 @@ namespace _COBALT_
             window.isFocused.AddListener(OnFocus);
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+
             if (IMGUI_global.instance != null)
             {
                 IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
             }
+
             window.isFocused.RemoveListener(OnFocus);
         }
 
         //----------------------------------------------------------------------------------------------------------
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             stdout_field.rT.anchoredPosition = new Vector2(0, -offset_top_h);
             stdin_field.onValidateInput += OnValidateStdin_char;
             stdin_field.onValueChanged.AddListener(OnStdinChanged);
@@ -167,8 +170,10 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             NUCLEOR.delegates.LateUpdate_onEndOfFrame_once -= RefreshStdout_direct;
 
             stdin_field.onValidateInput -= OnValidateStdin_char;

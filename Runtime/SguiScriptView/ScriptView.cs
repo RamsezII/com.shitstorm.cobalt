@@ -3,12 +3,11 @@ using _COBRA_;
 using _SGUI_;
 using _UTIL_;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public partial class ScriptView : MonoBehaviour
+    public partial class ScriptView : ArkComponent1, IHomeTexts
     {
         public SguiWindow window;
         public SguiTabController tabController;
@@ -17,26 +16,14 @@ namespace _COBALT_
         public TextMeshProUGUI input_lint, input_error;
         public LintTheme lint_theme = LintTheme.theme_light;
 
-        //--------------------------------------------------------------------------------------------------------------
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        static void OnAfterSceneLoad()
-        {
-            NUCLEOR.instance.AddOnReloadUserFiles(ReloadSettings);
-
-            NUCLEOR.delegates.OnApplicationUnfocus -= SaveSettings;
-            NUCLEOR.delegates.OnApplicationUnfocus += SaveSettings;
-
-            NUCLEOR.delegates.OnApplicationFocus -= ReloadSettings;
-            NUCLEOR.delegates.OnApplicationFocus += ReloadSettings;
-        }
-
-        static void ReloadSettings() => LoadSettings(false);
-        static void SaveSettings() => SaveSettings(false);
+        [NJEdit]
+        public bool
+             use_intellisense = true,
+             space_confirms_completion = false;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        private void Awake()
+        protected override void Awake()
         {
             window = GetComponentInParent<SguiWindow>(true);
             tabController = GetComponentInParent<SguiTabController>(true);
@@ -49,24 +36,20 @@ namespace _COBALT_
 
             input_field.text = string.Empty;
             input_lint.text = string.Empty;
+
+            base.Awake();
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             StartFileLoading();
 
             input_field.onValueChanged.AddListener(OnChange);
             input_field.onValidateInput += ValidateChar;
-        }
-
-        private void OnDestroy()
-        {
-            input_field.onValueChanged.RemoveListener(OnChange);
-            input_field.onValidateInput -= ValidateChar;
-            file_path.Reset();
-            file_path.Dispose();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -76,7 +59,7 @@ namespace _COBALT_
             if (SguiCompletor.instance.toggle.Value)
                 switch (addedChar)
                 {
-                    case ' ' when settings != null && settings.space_confirms_completion:
+                    case ' ' when space_confirms_completion:
                     case '\n':
                     case '\t':
                         {
@@ -119,6 +102,19 @@ namespace _COBALT_
                 reader.LocalizeError();
                 input_error.text = Util.ForceCharacterWrap(reader.sig_long_error);
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            input_field.onValueChanged.RemoveListener(OnChange);
+            input_field.onValidateInput -= ValidateChar;
+
+            file_path.Reset();
+            file_path.Dispose();
         }
     }
 }
