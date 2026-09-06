@@ -27,7 +27,7 @@ namespace _COBALT_
         {
             var button = OSView.instance.AddSoftwareButton<SguiTerminal>(new("Terminal"));
 
-            ArkShortcuts.AddShortcut<Keyboard>(
+            ArkShortcuts.AddShortcut_keyboard(
                 shortcutName: typeof(SguiTerminal).FullName,
                 action: () =>
                 {
@@ -40,7 +40,7 @@ namespace _COBALT_
                         }
                     button.InstantiateSoftware();
                 },
-                bindings: "o"
+                bindings: Key.O
             );
 
             SguiExplorerView.onContextClick_file += (ContextList list, FileInfo file) =>

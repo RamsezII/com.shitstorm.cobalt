@@ -9,7 +9,7 @@ namespace _COBALT_
         static void InitShortcuts()
         {
             if (false)
-                ArkShortcuts.AddShortcut(
+                ArkShortcuts.AddShortcut_keyboard(
                     shortcutName: "cobalt_newline",
                     action: static () =>
                     {
@@ -21,7 +21,7 @@ namespace _COBALT_
                             }
                     },
                     shift: true,
-                    bindings: "enter"
+                    bindings: UnityEngine.InputSystem.Key.Enter
                 );
         }
     }

@@ -41,7 +41,7 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        private void Awfake()
+        protected override void Awake()
         {
             window = GetComponentInParent<SguiWindow>(true);
             terminal = GetComponentInParent<SguiTerminal>(true);

@@ -9,7 +9,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void AssignShortcuts()
         {
-            ArkShortcuts.AddShortcut(
+            ArkShortcuts.AddShortcut_keyboard(
                 shortcutName: "save_script",
                 action: static () =>
                 {
@@ -22,7 +22,7 @@ namespace _COBALT_
                         instance.SaveCurrentFile();
                 },
                 control: true,
-                bindings: "s"
+                bindings: UnityEngine.InputSystem.Key.S
             );
         }
     }
