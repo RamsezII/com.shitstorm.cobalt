@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public partial class ScriptView : ArkComponent1, IHomeTexts
+    public partial class ScriptView : ArkComponent2
     {
         public SguiWindow window;
         public SguiTabController tabController;
@@ -16,7 +16,7 @@ namespace _COBALT_
         public TextMeshProUGUI input_lint, input_error;
         public LintTheme lint_theme = LintTheme.theme_light;
 
-        [NJField]
+        [UField]
         public bool
              use_intellisense = true,
              space_confirms_completion = false;

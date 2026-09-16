@@ -1,13 +1,11 @@
-﻿using _ARK_;
-using _UTIL_;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace _COBALT_
 {
-    partial class ShellView : IHomeTexts
+    partial class ShellView
     {
-        [NJField] readonly List<string> history = new(history_max);
+        [UField(editable: false)] readonly List<string> history = new(history_max);
 
         const byte history_max = 50;
         [SerializeField] int history_index = -1;

@@ -9,9 +9,9 @@ using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public sealed partial class ShellView : ArkComponent1, SguiDragManager.IAcceptDraggable
+    public sealed partial class ShellView : ArkComponent2, SguiDragManager.IAcceptDraggable
     {
-        public static readonly HashSet<ShellView> instances = new();
+        public static new readonly HashSet<ShellView> instances = new();
 
         public SguiWindow window;
         public SguiTerminal terminal;
