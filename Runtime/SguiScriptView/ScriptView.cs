@@ -113,8 +113,7 @@ namespace _COBALT_
             input_field.onValueChanged.RemoveListener(OnChange);
             input_field.onValidateInput -= ValidateChar;
 
-            file_path.Reset();
-            file_path.Dispose();
+            file_path.Clear();
         }
     }
 }
