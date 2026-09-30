@@ -1,4 +1,5 @@
 using _SGUI_;
+using _SGUI_.composer;
 using _SGUI_.tab_control;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-    public partial class SguiCodium : SguiSoftware
+    public partial class SguiCodium : SguiFrame
     {
         public ScriptView scriptview;
         public ShellView shellView;
@@ -29,14 +30,14 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnInitialize()
+        protected override void Awake()
         {
             tabController = GetComponentInChildren<SguiTabController>(true);
             shellView = GetComponentInChildren<ShellView>(true);
             scriptview = GetComponentInChildren<ScriptView>(true);
             explorerview = GetComponentInChildren<SguiExplorerView>(true);
 
-            base.OnInitialize();
+            base.Awake();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -44,8 +45,6 @@ namespace _COBALT_
         protected override void Start()
         {
             base.Start();
-
-            trad_title.SetText("ShitCodium");
 
             empty_tab = tabController.AddTab();
             empty_tab.text.text = "Untitled";

@@ -7,7 +7,7 @@ namespace _COBALT_
     {
         bool OnImguiInputs(Event e)
         {
-            if (!stdin_field.isFocused)
+            if (window == null || !window.isFocused._value || !stdin_field.isFocused)
                 return false;
 
             if (e.isKey)

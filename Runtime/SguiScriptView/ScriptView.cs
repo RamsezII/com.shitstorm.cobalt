@@ -9,7 +9,7 @@ namespace _COBALT_
 {
     public partial class ScriptView : ArkComponent2
     {
-        public SguiWindow window;
+        public _SGUI_.composer.SguiFrame window;
         public SguiTabController tabController;
         public ScrollRect scrollview;
         public TMP_InputField input_field;
@@ -25,7 +25,7 @@ namespace _COBALT_
 
         protected override void Awake()
         {
-            window = GetComponentInParent<SguiWindow>(true);
+            window = GetComponentInParent<_SGUI_.composer.SguiFrame>(true);
             tabController = GetComponentInParent<SguiTabController>(true);
 
             scrollview = GetComponentInChildren<ScrollRect>(true);

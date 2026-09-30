@@ -13,7 +13,7 @@ namespace _COBALT_
     {
         public static new readonly HashSet<ShellView> instances = new();
 
-        public SguiWindow window;
+        public _SGUI_.composer.SguiFrame window;
         public SguiTerminal terminal;
         public ShellField stdout_field, stdin_field;
         public TextMeshProUGUI tmp_progress;
@@ -43,7 +43,7 @@ namespace _COBALT_
 
         protected override void Awake()
         {
-            window = GetComponentInParent<SguiWindow>(true);
+            window = GetComponentInParent<_SGUI_.composer.SguiFrame>(true);
             terminal = GetComponentInParent<SguiTerminal>(true);
 
             stdout_field = transform.Find("scrollview/viewport/content/std_out").GetComponent<ShellField>();
@@ -156,8 +156,7 @@ namespace _COBALT_
                 ? shell.GetType().Name
                 : $"{shell.GetType().Name}:{status.code}";
 
-            if (terminal != null)
-                terminal.trad_title.SetText(title);
+            SguiLoggerOverlay.Log($"change title to shell status: \"{title}\"", this);
 
             switch (status.code)
             {

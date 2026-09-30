@@ -7,6 +7,7 @@ namespace _COBALT_
     {
         bool OnClipboardOperation(Event e, IMGUI_global.ClipboardOperations operation)
         {
+            if (window == null || !window.isFocused._value) return false;
             var field = stdin_field.isFocused ? stdin_field : stdout_field.isFocused ? stdout_field : null;
             if (field == null)
                 return false;

@@ -1,4 +1,5 @@
 ﻿using _ARK_;
+using _SGUI_.composer;
 using _SGUI_;
 using _SGUI_.context_click;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using UnityEngine.InputSystem;
 
 namespace _COBALT_
 {
-    public sealed partial class SguiTerminal : SguiSoftware
+    public sealed partial class SguiTerminal : SguiFrame
     {
         static readonly List<SguiTerminal> selected_stack = new();
 
@@ -87,10 +88,11 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnInitialize()
+        protected override void Awake()
         {
             shellView = GetComponentInChildren<ShellView>(true);
-            base.OnInitialize();
+
+            base.Awake();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -110,19 +112,16 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Start()
-        {
-            base.Start();
-            shellView.stdin_field.Select();
-        }
-
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void OnToggleFocus(bool has_focus)
         {
             base.OnToggleFocus(has_focus);
             if (has_focus)
-                NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(2, "select stdinfield on focus", this, shellView.stdin_field.Select));
+                NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(2, "select stdinfield on focus", this, () =>
+                {
+                    if (this != null && isFocused._value) shellView.stdin_field.Select();
+                }));
         }
 
         public override void OnResized()

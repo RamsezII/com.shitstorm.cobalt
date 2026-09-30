@@ -1,4 +1,5 @@
-﻿using _SGUI_;
+using _SGUI_;
+using _SGUI_.composer;
 using System;
 using System.IO;
 using TMPro;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace _COBALT_
 {
-    public partial class SguiNotepad : SguiSoftware
+    public partial class SguiNotepad : SguiFrame
     {
         public ScriptView script_view;
         [SerializeField] protected TextMeshProUGUI footer_tmp;
@@ -62,22 +63,12 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void OnInitialize()
+        protected override void Awake()
         {
-            script_view = GetComponentInChildren<ScriptView>();
+            script_view = GetComponentInChildren<ScriptView>(true);
             footer_tmp = transform.Find("rT/footer/text").GetComponent<TextMeshProUGUI>();
 
-            base.OnInitialize();
-
-            trad_title.SetText("Shitpad");
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void Start()
-        {
-            base.Start();
-            InitHeader_File();
+            base.Awake();
         }
 
         //--------------------------------------------------------------------------------------------------------------
