@@ -4,6 +4,7 @@ using _SGUI_;
 using _UTIL_;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ namespace _COBALT_
 {
     public sealed partial class ShellView : ArkComponent2, SguiDragManager.IAcceptDraggable
     {
-        public static new readonly HashSet<ShellView> instances = new();
+        [AutoStaticsCleanup] public static readonly HashSet<ShellView> instances = new();
 
         public _SGUI_.composer.SguiFrame window;
         public SguiTerminal terminal;
@@ -30,14 +31,6 @@ namespace _COBALT_
 
         public LintTheme lint_theme = LintTheme.theme_dark;
         public Shell shell;
-
-        //----------------------------------------------------------------------------------------------------------
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStatics()
-        {
-            instances.Clear();
-        }
 
         //----------------------------------------------------------------------------------------------------------
 

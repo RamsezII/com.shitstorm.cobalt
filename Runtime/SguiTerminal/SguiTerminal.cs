@@ -6,22 +6,17 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Scripting.LifecycleManagement;
 
 namespace _COBALT_
 {
     public sealed partial class SguiTerminal : SguiFrame
     {
-        static readonly List<SguiTerminal> selected_stack = new();
+        [AutoStaticsCleanup] static readonly List<SguiTerminal> selected_stack = new();
 
         public ShellView shellView;
 
         //--------------------------------------------------------------------------------------------------------------
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStatics()
-        {
-            selected_stack.Clear();
-        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
