@@ -63,14 +63,14 @@ namespace _COBALT_
 
             float stdin_h = stdin_field.textComponent.GetInvisibleHeight();
 
-            float bottom_height = content_rT.anchoredPosition.y - stdout_h - stdin_h - offset_bottom_h + prect.height;
+            float bottom_height = scrollview.content.anchoredPosition.y - stdout_h - stdin_h - offset_bottom_h + prect.height;
             stdin_h = Mathf.Max(stdin_h, prect.height);
 
             stdin_field.rT.sizeDelta = new(0, stdin_h);
-            content_rT.sizeDelta = new(0, stdout_h + stdin_h);
+            scrollview.content.sizeDelta = new(0, stdout_h + stdin_h);
 
             if (bottom_height < 0)
-                content_rT.anchoredPosition += new Vector2(0, -bottom_height);
+                scrollview.content.anchoredPosition += new Vector2(0, -bottom_height);
         }
 
         bool CheckPrefixe()

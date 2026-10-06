@@ -10,8 +10,6 @@ namespace _COBALT_
     public partial class SguiCodium : SguiFrame
     {
         public ScriptView scriptview;
-        public ShellView shellView;
-        public SguiExplorerView explorerview;
         SguiTabController tabController;
         public readonly Dictionary<SguiTabButton, FileInfo> tabs__files = new();
         [SerializeField] SguiTabButton empty_tab;
@@ -30,14 +28,13 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        protected override void OnInitialize()
         {
             tabController = GetComponentInChildren<SguiTabController>(true);
-            shellView = GetComponentInChildren<ShellView>(true);
             scriptview = GetComponentInChildren<ScriptView>(true);
-            explorerview = GetComponentInChildren<SguiExplorerView>(true);
 
-            base.Awake();
+            base.OnInitialize();
+            foreach (var shellView in GetComponentsInChildren<ShellView>(true)) shellView.Initialize();
         }
 
         //--------------------------------------------------------------------------------------------------------------

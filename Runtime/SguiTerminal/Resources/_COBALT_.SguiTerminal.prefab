@@ -90,7 +90,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &101225958569262276
 RectTransform:
   m_ObjectHideFlags: 0
@@ -138,17 +138,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: shitstorm._SGUI_::_SGUI_.SguiTerminal
   _destroyed: 0
-  rt: {fileID: 0}
-  rt_body: {fileID: 0}
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
-  trad_title: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 3f4a748f38fa18749bb45913b7e139d8, type: 3}
+  sgui_name:
+    english: 
+    french: 
   sgui_description:
     english: 
     french: 
   oblivionized: 0
-  shellView: {fileID: 0}
+  os_button: {fileID: 0}
+  shellView: {fileID: 8595418622810008090}
 --- !u!1001 &3719341448295712967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -251,11 +252,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7765845797716367641, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
       propertyPath: m_AnchorMin.y
@@ -271,3 +272,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 348875417831953156, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
   m_PrefabInstance: {fileID: 3719341448295712967}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8595418622810008090 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4959816572791399133, guid: da6dd484f5bbbbd6aaffbd6b5eb2a980, type: 3}
+  m_PrefabInstance: {fileID: 3719341448295712967}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27d01e924b8d9e03b807c1926881ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: shitstorm._SGUI_::_SGUI_.ShellView

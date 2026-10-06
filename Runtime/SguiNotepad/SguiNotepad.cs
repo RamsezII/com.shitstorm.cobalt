@@ -53,22 +53,12 @@ namespace _COBALT_
             {
                 if (instance != null)
                 {
-                    UnityEngine.Object.Destroy(instance.gameObject);
+                    Destroy(instance.gameObject);
                     instance = null;
                 }
 
                 return $"could not open '{file_path}': {exception.Message}\n";
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void Awake()
-        {
-            script_view = GetComponentInChildren<ScriptView>(true);
-            footer_tmp = transform.Find("rT/footer/text").GetComponent<TextMeshProUGUI>();
-
-            base.Awake();
         }
 
         //--------------------------------------------------------------------------------------------------------------

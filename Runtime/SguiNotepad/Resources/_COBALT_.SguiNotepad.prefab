@@ -243,17 +243,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyed: 0
-  rt: {fileID: 0}
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
-  trad_title: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 1beb16d2df01a934e9e8363ceb3570aa, type: 3}
+  sgui_name:
+    english: 
+    french: 
   sgui_description:
     english: 
     french: 
   oblivionized: 0
-  script_view: {fileID: 0}
-  footer_tmp: {fileID: 0}
+  os_button: {fileID: 0}
+  script_view: {fileID: 6287902166279149126}
+  footer_tmp: {fileID: 5284496854070571934}
   file_path: 
 --- !u!1 &7128090996546473618
 GameObject:
@@ -586,6 +588,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9164ca4e561e87d4086411513cb86b07, type: 3}
+--- !u!114 &6287902166279149126 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1891575216134005512, guid: 9164ca4e561e87d4086411513cb86b07, type: 3}
+  m_PrefabInstance: {fileID: 5549318849417180494}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91cdc0a7f91257d439bca01777a3e357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: shitstorm._SGUI_::_SGUI_.ScriptView
 --- !u!224 &6540270305395591795 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1711527456915078973, guid: 9164ca4e561e87d4086411513cb86b07, type: 3}

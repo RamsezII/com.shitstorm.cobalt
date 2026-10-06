@@ -60,34 +60,32 @@ namespace _COBALT_
 
             SguiExplorerView.onContextClick_directory += (ContextList list, DirectoryInfo dir) =>
             {
+                var button = list.AddButton_trad(new()
                 {
-                    var button = list.AddButton_trad(new()
-                    {
-                        french = $"Ouvrir ce dossier dans",
-                        english = $"Open this directory in",
-                    });
+                    french = $"Ouvrir ce dossier dans",
+                    english = $"Open this directory in",
+                });
 
-                    button.SetupSublist(sublist =>
+                button.SetupSublist(sublist =>
+                {
                     {
-                        {
-                            var button = sublist.AddButton_string("Shitpad");
-                        }
+                        var button = sublist.AddButton_string("Shitpad");
+                    }
 
-                        {
-                            var button = sublist.AddButton_string("Shitcodium");
-                        }
-                    });
-                }
+                    {
+                        var button = sublist.AddButton_string("Shitcodium");
+                    }
+                });
             };
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        protected override void OnInitialize()
         {
-            shellView = GetComponentInChildren<ShellView>(true);
+            base.OnInitialize();
 
-            base.Awake();
+            shellView.Initialize();
         }
 
         //--------------------------------------------------------------------------------------------------------------

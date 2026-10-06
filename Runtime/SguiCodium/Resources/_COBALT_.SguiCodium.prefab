@@ -64,16 +64,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: shitstorm._COBALT_::_COBALT_.SguiCodium
   _destroyed: 0
-  rt: {fileID: 0}
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
-  trad_title: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 1f467e44153683149927ffacfbf5e030, type: 3}
+  sgui_name:
+    english: 
+    french: 
   sgui_description:
     english: 
     french: 
   oblivionized: 0
-  scriptview: {fileID: 0}
+  os_button: {fileID: 0}
+  scriptview: {fileID: 2908352598088512874}
   shellView: {fileID: 0}
   explorerview: {fileID: 0}
   empty_tab: {fileID: 0}
@@ -215,3 +217,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1711527456915078973, guid: 9164ca4e561e87d4086411513cb86b07, type: 3}
   m_PrefabInstance: {fileID: 3610957695533700706}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2908352598088512874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1891575216134005512, guid: 9164ca4e561e87d4086411513cb86b07, type: 3}
+  m_PrefabInstance: {fileID: 3610957695533700706}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91cdc0a7f91257d439bca01777a3e357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: shitstorm._SGUI_::_SGUI_.ScriptView

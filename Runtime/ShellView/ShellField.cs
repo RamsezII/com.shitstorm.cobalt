@@ -13,13 +13,11 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        internal void Initialize()
         {
-            scrollview = GetComponentInParent<ScrollRect>();
+            scrollview = GetComponentInParent<ScrollRect>(true);
             rT = (RectTransform)transform;
             lint = transform.Find("area/lint").GetComponent<TextMeshProUGUI>();
-
-            base.Awake();
         }
 
         //----------------------------------------------------------------------------------------------------------

@@ -19,8 +19,6 @@ namespace _COBALT_
         public ShellField stdout_field, stdin_field;
         public TextMeshProUGUI tmp_progress;
         public ScrollRect scrollview;
-        public RectTransform content_rT;
-        public Scrollbar scrollbar;
 
         [SerializeField] float stdin_h, stdout_h;
         [SerializeField] bool flag_history;
@@ -31,30 +29,24 @@ namespace _COBALT_
 
         public LintTheme lint_theme = LintTheme.theme_dark;
         public Shell shell;
+        bool initialized;
 
         //----------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        internal void Initialize()
         {
+            if (initialized) return;
+            initialized = true;
             window = GetComponentInParent<_SGUI_.composer.SguiFrame>(true);
             terminal = GetComponentInParent<SguiTerminal>(true);
-
-            stdout_field = transform.Find("scrollview/viewport/content/std_out").GetComponent<ShellField>();
-            tmp_progress = stdout_field.transform.Find("std_progress").GetComponent<TextMeshProUGUI>();
-            stdin_field = tmp_progress.transform.Find("std_in").GetComponent<ShellField>();
-
-            scrollview = transform.Find("scrollview").GetComponent<ScrollRect>();
-
-            content_rT = (RectTransform)transform.Find("scrollview/viewport/content");
-
-            scrollbar = transform.Find("scrollview/scrollbar").GetComponent<Scrollbar>();
 
             shell?.Dispose();
             shell = null;
 
             instances.Add(this);
 
-            base.Awake();
+            stdout_field.Initialize();
+            stdin_field.Initialize();
         }
 
         //----------------------------------------------------------------------------------------------------------
