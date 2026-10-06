@@ -76,8 +76,6 @@ MonoBehaviour:
   oblivionized: 0
   os_button: {fileID: 0}
   scriptview: {fileID: 2908352598088512874}
-  shellView: {fileID: 0}
-  explorerview: {fileID: 0}
   empty_tab: {fileID: 0}
 --- !u!1001 &3610957695533700706
 PrefabInstance:

@@ -103,22 +103,23 @@ namespace _COBALT_
 
         bool SguiDragManager.IAcceptDraggable.TryAcceptDraggable(in SguiDragManager.IDraggable draggable, in bool onDrop)
         {
-            if (!onDrop)
-                return true;
-
             if (shell.status._value.code == CMD_STATUS.WAIT_FOR_STDIN)
-            {
-                string stdin = stdin_field.text;
-                string insert = $"\"{draggable.DragData}\"".ForceCharacterWrap();
-                stdin = stdin[..stdin_field.caretPosition] + insert + stdin[stdin_field.caretPosition..];
-                stdin_field.text = stdin;
-                stdin_field.caretPosition += insert.Length;
-            }
+                switch (draggable.DragData)
+                {
+                    case string str:
+                        if (onDrop)
+                        {
+                            window.TakeFocus();
+                            stdin_field.Select();
 
-            window.TakeFocus();
-            stdin_field.Select();
+                            string insert = str.ForceCharacterWrap();
+                            stdin_field.text = stdin_field.text[..stdin_field.caretPosition] + insert + stdin_field.text[stdin_field.caretPosition..];
+                            stdin_field.caretPosition += insert.Length;
+                        }
+                        return true;
+                }
 
-            return true;
+            return false;
         }
 
         void OnFocus(bool hasFocus)
