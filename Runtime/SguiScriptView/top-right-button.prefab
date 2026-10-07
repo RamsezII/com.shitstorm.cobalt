@@ -336,7 +336,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 15, y: 0, z: 20, w: 0}
+  m_margin: {x: 10, y: 0, z: 15, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -405,8 +405,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0, b: 0, a: 0.6509804}
-    m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0.8}
-    m_PressedColor: {r: 0, g: 0, b: 0, a: 0.9019608}
+    m_HighlightedColor: {r: 0.35, g: 0.35, b: 0.35, a: 0.6509804}
+    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.6509804}
     m_SelectedColor: {r: 1, g: 0, b: 1, a: 1}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.2}
     m_ColorMultiplier: 1

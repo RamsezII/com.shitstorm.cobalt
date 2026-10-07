@@ -1,6 +1,5 @@
 ﻿using _ARK_;
 using _COBALT_.scriptview;
-using _SGUI_.context_click;
 using UnityEngine;
 
 namespace _COBALT_
@@ -11,39 +10,9 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void InitTopRightButtons()
+        void AwakeTopRightButtons()
         {
             prefab_topRightButton.gameObject.SetActive(false);
-
-            AddTopRightButton(new()
-            {
-                french = "Thème",
-                english = "Theme",
-            }).onList += (ContextList list) =>
-            {
-                SguiLoggerOverlay.Log($"test", this, timer: 5);
-                var button_light = list.AddButton_trad(new()
-                {
-                    french = "Clair",
-                    english = "Light",
-                });
-
-                var button_dark = list.AddButton_trad(new()
-                {
-                    french = "Sombre",
-                    english = "Dark",
-                });
-            };
-
-            AddTopRightButton(new()
-            {
-                french = "Interpréteur",
-                english = "Interpreter",
-            }).onList += (ContextList list) =>
-            {
-                foreach (var (ext, interpreter) in CodeInterpreter.instances)
-                    list.AddButton_string(ext);
-            };
         }
 
         //--------------------------------------------------------------------------------------------------------------
