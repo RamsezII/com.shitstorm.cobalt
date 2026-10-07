@@ -16,18 +16,6 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        static void OnAfterSceneLoad()
-        {
-            OSView.instance.AddSoftwareButton<SguiCodium>(new()
-            {
-                french = $"Éditeur de code",
-                english = $"Code editor",
-            });
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
         protected override void OnInitialize()
         {
             tabController = GetComponentInChildren<SguiTabController>(true);

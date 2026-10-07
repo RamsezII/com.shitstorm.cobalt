@@ -1,16 +1,15 @@
 using _ARK_;
-using _COBRA_;
 using _SGUI_;
+using _SGUI_.composer;
 using _UTIL_;
+using System.Linq;
 using TMPro;
 using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public partial class ScriptView : ArkComponent2
+    public sealed partial class ScriptView : SguiFrame
     {
-        public _SGUI_.composer.SguiFrame window;
-        public SguiTabController tabController;
         public ScrollRect scrollview;
         public TMP_InputField input_field;
         public TextMeshProUGUI input_lint, input_error;
@@ -21,13 +20,12 @@ namespace _COBALT_
              use_intellisense = true,
              space_confirms_completion = false;
 
+        readonly ValueNotifier<CodeInterpreter> current_interpreter = new();
+
         //--------------------------------------------------------------------------------------------------------------
 
         protected override void Awake()
         {
-            window = GetComponentInParent<_SGUI_.composer.SguiFrame>(true);
-            tabController = GetComponentInParent<SguiTabController>(true);
-
             scrollview = GetComponentInChildren<ScrollRect>(true);
 
             input_field = scrollview.content.Find("input-field").GetComponent<TMP_InputField>();
@@ -48,72 +46,41 @@ namespace _COBALT_
 
             StartFileLoading();
 
-            input_field.onValueChanged.AddListener(OnChange);
-            input_field.onValidateInput += ValidateChar;
-        }
+            current_interpreter.Value = CodeInterpreter.instances.First().Value;
 
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected virtual char ValidateChar(string text, int charIndex, char addedChar)
-        {
-            if (SguiCompletor.instance.toggle.Value)
-                switch (addedChar)
-                {
-                    case ' ' when space_confirms_completion:
-                    case '\n':
-                    case '\t':
-                        {
-                            string completion = SguiCompletor.instance.GetSelectedValue();
-                            if (!string.IsNullOrWhiteSpace(completion))
-                            {
-                                text = text[..SguiCompletor.instance.compl_start] + completion + text[SguiCompletor.instance.compl_end..];
-                                input_field.text = text;
-                                input_field.caretPosition = SguiCompletor.instance.compl_start + completion.Length;
-                            }
-                            SguiCompletor.instance.ResetIntellisense();
-                        }
-                        return '\0';
-                }
-            return addedChar;
-        }
-
-        protected virtual void OnChange(string text)
-        {
-            using BoaShell shell = new("script_view");
-
-            CodeReader reader = new(
-                sig_flags: SIG_FLAGS.CHANGE | SIG_FLAGS.LINT,
-                workdir: shell.workdir._value,
-                lint_theme: lint_theme,
-                strict_syntax: false,
-                text: text,
-                script_path: null,
-                cursor_i: input_field.caretPosition
-            );
-
-            shell.OnReader(reader);
-
-            input_lint.text = Util.ForceCharacterWrap(reader.GetLintResult());
-
-            if (reader.sig_error == null)
-                input_error.text = string.Empty;
-            else
+            input_field.onValueChanged.AddListener(text =>
             {
-                reader.LocalizeError();
-                input_error.text = Util.ForceCharacterWrap(reader.sig_long_error);
-            }
-        }
+                if (current_interpreter.HasNot)
+                    input_lint.text = text;
+                else
+                {
+                    current_interpreter._value.linter(text, input_field.caretPosition, lint_theme, out var lint_text, out var error);
+                    input_lint.text = error ?? lint_text;
+                }
+            });
 
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            input_field.onValueChanged.RemoveListener(OnChange);
-            input_field.onValidateInput -= ValidateChar;
-
-            file_path.Clear();
+            input_field.onValidateInput += (text, charIndex, addedChar) =>
+            {
+                if (SguiCompletor.instance.toggle.Value)
+                    switch (addedChar)
+                    {
+                        case ' ' when space_confirms_completion:
+                        case '\n':
+                        case '\t':
+                            {
+                                string completion = SguiCompletor.instance.GetSelectedValue();
+                                if (!string.IsNullOrWhiteSpace(completion))
+                                {
+                                    text = text[..SguiCompletor.instance.compl_start] + completion + text[SguiCompletor.instance.compl_end..];
+                                    input_field.text = text;
+                                    input_field.caretPosition = SguiCompletor.instance.compl_start + completion.Length;
+                                }
+                                SguiCompletor.instance.ResetIntellisense();
+                            }
+                            return '\0';
+                    }
+                return addedChar;
+            };
         }
     }
 }

@@ -1,3 +1,4 @@
+%UNITY 7.0
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1 &7150992910232729747
@@ -68,11 +69,11 @@ MonoBehaviour:
   raycaster: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 1f467e44153683149927ffacfbf5e030, type: 3}
   sgui_name:
-    english: 
-    french: 
+    english: SguiCodium
+    french: SguiCodium
   sgui_description:
-    english: 
-    french: 
+    english: Code editor
+    french: "\xC9diteur de code"
   oblivionized: 0
   os_button: {fileID: 0}
   scriptview: {fileID: 2908352598088512874}

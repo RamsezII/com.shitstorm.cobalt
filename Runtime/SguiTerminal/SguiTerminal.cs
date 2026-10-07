@@ -21,23 +21,22 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
-            var button = OSView.instance.AddSoftwareButton<SguiTerminal>(new("Terminal"));
-
-            ArkShortcuts.AddShortcut_keyboard(
-                shortcutName: typeof(SguiTerminal).FullName,
-                action: () =>
-                {
-                    foreach (var inst in instances._collection)
-                        if (inst is SguiTerminal term)
-                        {
-                            OSView.instance.ToggleSelf(true);
-                            term.TakeFocus();
-                            return;
-                        }
-                    button.InstantiateSoftware();
-                },
-                bindings: Key.O
-            );
+            if (OSView.instance.softwaresButtons.TryGetValue(typeof(SguiTerminal), out var software_button))
+                ArkShortcuts.AddShortcut_keyboard(
+                    shortcutName: typeof(SguiTerminal).FullName,
+                    action: () =>
+                    {
+                        foreach (var inst in instances._collection)
+                            if (inst is SguiTerminal term)
+                            {
+                                OSView.instance.ToggleSelf(true);
+                                term.TakeFocus();
+                                return;
+                            }
+                        software_button.InstantiateSoftware();
+                    },
+                    bindings: Key.O
+                );
 
             SguiExplorerView.onContextClick_file += (ContextList list, FileInfo file) =>
             {
