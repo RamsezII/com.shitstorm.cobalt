@@ -36,6 +36,8 @@ namespace _COBALT_
             input_lint.text = string.Empty;
 
             base.Awake();
+
+            InitTopRightButtons();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -55,7 +57,17 @@ namespace _COBALT_
                 else
                 {
                     current_interpreter._value.linter(text, input_field.caretPosition, lint_theme, out var lint_text, out var error);
-                    input_lint.text = error ?? lint_text;
+                    input_lint.text = lint_text;
+                    if (!string.IsNullOrWhiteSpace(error))
+                    {
+                        input_error.gameObject.SetActive(true);
+                        input_error.text = $"{new string(' ', text.Length)}{error}";
+                    }
+                    else
+                    {
+                        input_error.text = string.Empty;
+                        input_error.gameObject.SetActive(false);
+                    }
                 }
             });
 
