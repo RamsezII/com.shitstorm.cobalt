@@ -22,7 +22,7 @@ namespace _COBALT_
         private void OnValidate()
         {
             if (didStart)
-                AutoRefreshInputField();
+                RefreshInputField();
         }
 
         //--------------------------------------------------------------------------------------------------------------

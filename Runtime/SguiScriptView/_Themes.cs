@@ -53,7 +53,7 @@ namespace _COBALT_
                     });
                 }
 
-                AutoRefreshInputField();
+                RefreshInputField();
             });
         }
     }

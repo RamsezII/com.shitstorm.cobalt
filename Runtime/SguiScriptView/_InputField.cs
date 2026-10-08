@@ -1,4 +1,5 @@
-﻿using _SGUI_;
+﻿using _ARK_;
+using _SGUI_;
 
 namespace _COBALT_
 {
@@ -15,9 +16,12 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void AutoRefreshInputField() => OnValueChanged(input_field.text);
-        void OnValueChanged(string text)
+        void OnValueChanged(string text) => RefreshInputField();
+        void RefreshInputField() => Util.AddActionOnce(ref NUCLEOR.delegates.LateUpdate_onEndOfFrame_once, RefreshInputField_now);
+        void RefreshInputField_now()
         {
+            string text = input_field.text;
+
             if (current_theme.Has)
             {
                 graphic_background.color = current_theme._value.background;

@@ -13,25 +13,9 @@ namespace _COBALT_
 
         void InitInterpreters()
         {
-            var button = AddTopRightButton(default);
+            var button_interpreter = AddTopRightButton(default);
 
-            current_interpreter.AddListener(value =>
-            {
-                if (current_interpreter.HasNot)
-                    button.trad_label.SetTraductions(new()
-                    {
-                        french = "Interpréteur",
-                        english = "Interpreter",
-                    });
-                else
-                    button.trad_label.SetTraductions(new()
-                    {
-                        french = $"Interpréteur : {value.name.Bold()}",
-                        english = $"Interpreter: {value.name.Bold()}",
-                    });
-            });
-
-            button.onList += (ContextList list) =>
+            button_interpreter.onList += (ContextList list) =>
             {
                 foreach (var interpreter in CodeInterpreter.instances)
                 {
@@ -39,12 +23,34 @@ namespace _COBALT_
                     button._button.onClick.AddListener(() =>
                     {
                         current_interpreter.Value = interpreter;
-                        AutoRefreshInputField();
+                        RefreshInputField();
                     });
                 }
             };
 
+            var button_execution = AddTopRightButton(new() { french = "Lancer", english = "Run", });
+
+            button_execution.button.onClick.AddListener(() => current_interpreter._value.execution(input_field.text));
+
             current_interpreter.Value = CodeInterpreter.instances.First();
+
+            current_interpreter.AddListener(value =>
+            {
+                button_execution.gameObject.SetActive(current_interpreter.Has && current_interpreter._value.execution != null);
+
+                if (current_interpreter.HasNot)
+                    button_interpreter.trad_label.SetTraductions(new()
+                    {
+                        french = "Interpréteur",
+                        english = "Interpreter",
+                    });
+                else
+                    button_interpreter.trad_label.SetTraductions(new()
+                    {
+                        french = $"Interpréteur : {value.name.Bold()}",
+                        english = $"Interpreter: {value.name.Bold()}",
+                    });
+            });
         }
     }
 }
