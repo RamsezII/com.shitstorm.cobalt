@@ -24,8 +24,8 @@ namespace _COBALT_
                     if (file == null || !file.Exists)
                     {
                         input_field.text = string.Empty;
-                        input_lint.text = string.Empty;
-                        input_error.text = string.Empty;
+                        text_lint.text = string.Empty;
+                        text_error.text = string.Empty;
                     }
                     else if (file.Length <= MAX_FILE_SIZE)
                         input_field.text = File.ReadAllText(file.FullName);
@@ -38,7 +38,7 @@ namespace _COBALT_
                 }
                 catch (Exception exception)
                 {
-                    input_error.text = exception.Message;
+                    text_error.text = exception.Message;
                     Debug.LogException(exception, this);
                 }
             });
@@ -63,7 +63,7 @@ namespace _COBALT_
             }
             catch (Exception exception)
             {
-                input_error.text = exception.Message;
+                text_error.text = exception.Message;
                 Debug.LogException(exception, this);
             }
         }

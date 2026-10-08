@@ -22,23 +22,24 @@ namespace _COBALT_
             {
                 graphic_background.color = current_theme._value.background;
                 input_field.caretColor = current_theme._value.cursor;
+                text_placeholder.color = current_theme._value.placeholder;
             }
 
             if (current_interpreter.HasNot)
-                input_lint.text = text;
+                text_lint.text = text;
             else
             {
                 current_interpreter._value.linter(text, input_field.caretPosition, current_theme._value, out var lint_text, out var error);
-                input_lint.text = lint_text;
+                text_lint.text = lint_text;
                 if (!string.IsNullOrWhiteSpace(error))
                 {
-                    input_error.gameObject.SetActive(true);
-                    input_error.text = $"{new string(' ', text.Length)}{error}";
+                    text_error.gameObject.SetActive(true);
+                    text_error.text = $"{new string(' ', text.Length)}{error}";
                 }
                 else
                 {
-                    input_error.text = string.Empty;
-                    input_error.gameObject.SetActive(false);
+                    text_error.text = string.Empty;
+                    text_error.gameObject.SetActive(false);
                 }
             }
         }

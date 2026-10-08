@@ -10,7 +10,7 @@ namespace _COBALT_
     {
         [SerializeField] ScrollRect scrollview;
         [SerializeField] TMP_InputField input_field;
-        [SerializeField] TextMeshProUGUI input_lint, input_error;
+        [SerializeField] TMP_Text text_placeholder, text_lint, text_error;
 
         [SerializeField, UField]
         bool
@@ -34,7 +34,7 @@ namespace _COBALT_
 #endif
 
             input_field.text = string.Empty;
-            input_lint.text = string.Empty;
+            text_lint.text = string.Empty;
 
             base.Awake();
 

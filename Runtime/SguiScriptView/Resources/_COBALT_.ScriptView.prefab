@@ -939,8 +939,9 @@ MonoBehaviour:
   os_button: {fileID: 0}
   scrollview: {fileID: 7264722495185433943}
   input_field: {fileID: 2389575072185186204}
-  input_lint: {fileID: 3610717782601349220}
-  input_error: {fileID: 1249086732223691416}
+  text_placeholder: {fileID: 74183549857686014}
+  text_lint: {fileID: 3610717782601349220}
+  text_error: {fileID: 1249086732223691416}
   use_intellisense: 1
   space_confirms_completion: 0
   graphic_background: {fileID: 1729621536986477576}
@@ -949,6 +950,7 @@ MonoBehaviour:
       english: Light
       french: Clair
     background: {r: 1, g: 1, b: 0.95, a: 0.8509804}
+    placeholder: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     buttons: {r: 0, g: 0, b: 0, a: 1}
     cursor: {r: 0, g: 0, b: 0, a: 1}
     argument: {r: 1, g: 0.07843138, b: 0.5764706, a: 1}
@@ -977,6 +979,9 @@ MonoBehaviour:
     constants: {r: 0, g: 0.7490196, b: 1, a: 1}
     strings: {r: 1, g: 0.6470588, b: 0, a: 1}
     quotes: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    hidden: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+    info: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    warning: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     error: {r: 1, g: 0, b: 0, a: 1}
     fallback_default: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     fallback_color: {r: 0.9, g: 0.9, b: 0.9, a: 1}
@@ -985,6 +990,7 @@ MonoBehaviour:
       english: Dark
       french: Sombre
     background: {r: 0, g: 0, b: 0, a: 0.8509804}
+    placeholder: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     buttons: {r: 0, g: 0, b: 0, a: 1}
     cursor: {r: 0, g: 0, b: 0, a: 1}
     argument: {r: 1, g: 0.07843138, b: 0.5764706, a: 1}
@@ -1013,6 +1019,9 @@ MonoBehaviour:
     constants: {r: 0, g: 0.7490196, b: 1, a: 1}
     strings: {r: 1, g: 0.6470588, b: 0, a: 1}
     quotes: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    hidden: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+    info: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    warning: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     error: {r: 1, g: 0, b: 0, a: 1}
     fallback_default: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     fallback_color: {r: 0.9, g: 0.9, b: 0.9, a: 1}
@@ -1381,7 +1390,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 2785050879
-  m_fontColor: {r: 0.85, g: 0.4266667, b: 0, a: 0.6}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1424,7 +1433,7 @@ MonoBehaviour:
   m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 1
   checkPaddingRequired: 0
-  m_isRichText: 0
+  m_isRichText: 1
   m_EmojiFallbackSupport: 1
   m_EnableAdvancedText: 0
   m_parseCtrlCharacters: 1
