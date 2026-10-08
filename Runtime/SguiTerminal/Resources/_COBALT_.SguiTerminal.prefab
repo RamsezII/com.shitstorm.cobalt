@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: shitstorm._SGUI_::_SGUI_.SguiTerminal
   _destroyed: 0
+  ark_id: 183
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 3f4a748f38fa18749bb45913b7e139d8, type: 3}
