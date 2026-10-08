@@ -30,7 +30,7 @@ namespace _COBALT_
         protected override void Awake()
         {
 #if UNITY_EDITOR
-            ArkUI.instance._REFERENCES.Add(gameObject);
+            ArkUI._VisibleInEditor.Add(gameObject);
 #endif
 
             input_field.text = string.Empty;
@@ -52,5 +52,15 @@ namespace _COBALT_
             StartFileLoading();
             StartInputField();
         }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+#if UNITY_EDITOR
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            ArkUI._VisibleInEditor.Remove(gameObject);
+        }
+#endif
     }
 }
