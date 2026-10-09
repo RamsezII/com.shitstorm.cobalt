@@ -3,16 +3,19 @@ using _SGUI_;
 using _SGUI_.context_click;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _COBALT_.scriptview
 {
-    internal sealed partial class TopRightButton : MonoBehaviour, SguiContextList.IUser_LeftClick
+    internal sealed partial class TopRightButton : MonoBehaviour, SguiContextList.IUser
     {
         public Button button;
         public Traductable trad_label;
         public Action<ContextList> onList;
-        void SguiContextList.IUser.OnSguiContextClick(ContextList list) => onList?.Invoke(list);
+        bool SguiContextList.IUser.AcceptsLeftClick => false;
+        bool SguiContextList.IUser.AcceptsRightClick => true;
+        void SguiContextList.IUser.OnSguiContextClick(PointerEventData eventData, ContextList list) => onList?.Invoke(list);
 
         //--------------------------------------------------------------------------------------------------------------
 

@@ -3,7 +3,9 @@ using _COBRA_;
 using _SGUI_;
 using _SGUI_.composer;
 using _SGUI_.context_click;
+using _UTIL_;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
@@ -29,6 +31,7 @@ namespace _COBALT_
 
         public LintTheme lint_theme = LintTheme.theme_dark;
         public Shell shell;
+        public readonly ValueNotifier<CodeInterpreter> interpreter = new();
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -43,6 +46,8 @@ namespace _COBALT_
 
             stdout_field.Initialize();
             stdin_field.Initialize();
+
+            interpreter.Value = CodeInterpreter.instances.FirstOrDefault();
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -94,11 +99,11 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override void OnTabContextList(in ContextList list)
+        public override void OnTabContextList(in PointerEventData eventData, in ContextList list)
         {
-            base.OnTabContextList(list);
+            base.OnTabContextList(eventData, list);
 
-            list.AddLine();
+            list.AddLine_IfAny();
 
             var button_interpreters = list.AddButton_trad(new()
             {
@@ -109,7 +114,12 @@ namespace _COBALT_
             button_interpreters.SetupSublist(sublist =>
             {
                 foreach (var interpreter in CodeInterpreter.instances)
-                    sublist.AddButton_string(interpreter.name);
+                {
+                    var button = sublist.AddButton_string(interpreter.name);
+                    if (interpreter == this.interpreter._value)
+                        sublist.SelectButton(button);
+                    button._button.onClick.AddListener(() => this.interpreter.Value = interpreter);
+                }
             });
         }
 
