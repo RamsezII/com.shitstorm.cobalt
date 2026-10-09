@@ -21,11 +21,11 @@ namespace _COBALT_
 
                 button._button.onClick.AddListener(() =>
                 {
-                    SguiTerminal terminal = (SguiTerminal)OSView.instance.softwaresButtons[typeof(SguiTerminal)].InstantiateSoftware();
+                    ShellView terminal = (ShellView)OSView.instance.softwaresButtons[typeof(ShellView)].InstantiateSoftware();
                     NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(3, "execute in a terminal", terminal, () =>
                     {
                         string line = $"run_script \"{file.FullName.NormalizePath()}\"";
-                        terminal.shellView.ExecuteLine(line);
+                        terminal.ExecuteLine(line);
                     }));
                 });
             };

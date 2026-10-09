@@ -1,6 +1,7 @@
 using _ARK_;
 using _COBRA_;
 using _SGUI_;
+using _SGUI_.composer;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
@@ -10,12 +11,10 @@ using UnityEngine.UI;
 
 namespace _COBALT_
 {
-    public sealed partial class ShellView : ArkComponent2, SguiDragManager.IAcceptDraggable
+    public sealed partial class ShellView : SguiFrame, SguiDragManager.IAcceptDraggable
     {
-        [AutoStaticsCleanup] public static readonly HashSet<ShellView> instances = new();
+        [AutoStaticsCleanup] public new static readonly HashSet<ShellView> instances = new();
 
-        public _SGUI_.composer.SguiFrame window;
-        public SguiTerminal terminal;
         public ShellField stdout_field, stdin_field;
         public TextMeshProUGUI tmp_progress;
         public ScrollRect scrollview;
@@ -29,16 +28,12 @@ namespace _COBALT_
 
         public LintTheme lint_theme = LintTheme.theme_dark;
         public Shell shell;
-        bool initialized;
 
         //----------------------------------------------------------------------------------------------------------
 
-        internal void Initialize()
+        protected override void OnInitialize()
         {
-            if (initialized) return;
-            initialized = true;
-            window = GetComponentInParent<_SGUI_.composer.SguiFrame>(true);
-            terminal = GetComponentInParent<SguiTerminal>(true);
+            base.OnInitialize();
 
             shell?.Dispose();
             shell = null;
@@ -60,7 +55,6 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.AddElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.AddElement(OnImguiInputs);
             }
-            window.isFocused.AddListener(OnFocus);
         }
 
         protected override void OnDisable()
@@ -72,8 +66,6 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
             }
-
-            window.isFocused.RemoveListener(OnFocus);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -109,7 +101,7 @@ namespace _COBALT_
                     case string str:
                         if (onDrop)
                         {
-                            window.TakeFocus();
+                            TakeFocus();
                             stdin_field.Select();
 
                             string insert = str.ForceCharacterWrap();
@@ -122,9 +114,21 @@ namespace _COBALT_
             return false;
         }
 
-        void OnFocus(bool hasFocus)
+        protected override void OnToggleFocus(bool hasFocus)
         {
+            base.OnToggleFocus(hasFocus);
             UsageManager.ToggleUser(this, hasFocus, UsageGroups.Typing, UsageGroups.TrueMouse);
+            if (hasFocus)
+                NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(2, "select stdinfield on focus", this, () =>
+                {
+                    if (this != null && isFocused._value) stdin_field.Select();
+                }));
+        }
+
+        public override void OnResized()
+        {
+            base.OnResized();
+            ResizeStdin();
         }
 
         //----------------------------------------------------------------------------------------------------------
