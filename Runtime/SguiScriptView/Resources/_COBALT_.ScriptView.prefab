@@ -930,9 +930,6 @@ MonoBehaviour:
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 1beb16d2df01a934e9e8363ceb3570aa, type: 3}
-  sgui_name:
-    english: Script editor
-    french: "\xC9diteur de script"
   sgui_description:
     english: Edit and run scripts
     french: "\xC9dition et execution de scripts"
@@ -993,7 +990,7 @@ MonoBehaviour:
     background: {r: 0, g: 0, b: 0, a: 0.8509804}
     placeholder: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     buttons: {r: 0, g: 0, b: 0, a: 1}
-    cursor: {r: 0, g: 0, b: 0, a: 1}
+    cursor: {r: 1, g: 1, b: 1, a: 1}
     argument: {r: 1, g: 0.07843138, b: 0.5764706, a: 1}
     argument_coma: {r: 1, g: 0.7137255, b: 0.7568628, a: 1}
     point: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

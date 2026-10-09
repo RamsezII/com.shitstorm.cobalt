@@ -13,8 +13,8 @@ namespace _COBALT_.scriptview
         public Button button;
         public Traductable trad_label;
         public Action<ContextList> onList;
-        bool SguiContextList.IUser.AcceptsLeftClick => false;
-        bool SguiContextList.IUser.AcceptsRightClick => true;
+        bool SguiContextList.IUser.AcceptsLeftClick => true;
+        bool SguiContextList.IUser.AcceptsRightClick => false;
         void SguiContextList.IUser.OnSguiContextClick(PointerEventData eventData, ContextList list) => onList?.Invoke(list);
 
         //--------------------------------------------------------------------------------------------------------------
