@@ -2,6 +2,7 @@ using _ARK_;
 using _COBRA_;
 using _SGUI_;
 using _SGUI_.composer;
+using _SGUI_.context_click;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
@@ -92,6 +93,25 @@ namespace _COBALT_
         }
 
         //----------------------------------------------------------------------------------------------------------
+
+        public override void OnTabContextList(in ContextList list)
+        {
+            base.OnTabContextList(list);
+
+            list.AddLine();
+
+            var button_interpreters = list.AddButton_trad(new()
+            {
+                french = "Interpréteur",
+                english = "Interpreter",
+            });
+
+            button_interpreters.SetupSublist(sublist =>
+            {
+                foreach (var interpreter in CodeInterpreter.instances)
+                    sublist.AddButton_string(interpreter.name);
+            });
+        }
 
         bool SguiDragManager.IAcceptDraggable.TryAcceptDraggable(in PointerEventData eventData, in SguiDragManager.IDraggable draggable, in bool onDrop)
         {
