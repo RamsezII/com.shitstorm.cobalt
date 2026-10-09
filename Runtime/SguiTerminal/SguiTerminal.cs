@@ -1,9 +1,7 @@
 ﻿using _ARK_;
 using _SGUI_.composer;
 using _SGUI_;
-using _SGUI_.context_click;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Scripting.LifecycleManagement;
@@ -37,45 +35,6 @@ namespace _COBALT_
                     },
                     bindings: Key.O
                 );
-
-            SguiExplorerView.onContextClick_file += (ContextList list, FileInfo file) =>
-            {
-                var button = list.AddButton_trad(new()
-                {
-                    french = "Éxécuter dans un terminal",
-                    english = "Execute a terminal",
-                });
-
-                button._button.onClick.AddListener(() =>
-                {
-                    SguiTerminal terminal = (SguiTerminal)OSView.instance.softwaresButtons[typeof(SguiTerminal)].InstantiateSoftware();
-                    NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(3, "execute in a terminal", terminal, () =>
-                    {
-                        string line = $"run_script \"{file.FullName.NormalizePath()}\"";
-                        terminal.shellView.ExecuteLine(line);
-                    }));
-                });
-            };
-
-            SguiExplorerView.onContextClick_directory += (ContextList list, DirectoryInfo dir) =>
-            {
-                var button = list.AddButton_trad(new()
-                {
-                    french = $"Ouvrir ce dossier dans",
-                    english = $"Open this directory in",
-                });
-
-                button.SetupSublist(sublist =>
-                {
-                    {
-                        var button = sublist.AddButton_string("Shitpad");
-                    }
-
-                    {
-                        var button = sublist.AddButton_string("Shitcodium");
-                    }
-                });
-            };
         }
 
         //--------------------------------------------------------------------------------------------------------------
