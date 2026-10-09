@@ -1,11 +1,11 @@
 using _ARK_;
 using _COBRA_;
 using _SGUI_;
-using _UTIL_;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _COBALT_
@@ -101,7 +101,7 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        bool SguiDragManager.IAcceptDraggable.TryAcceptDraggable(in SguiDragManager.IDraggable draggable, in bool onDrop)
+        bool SguiDragManager.IAcceptDraggable.TryAcceptDraggable(in PointerEventData eventData, in SguiDragManager.IDraggable draggable, in bool onDrop)
         {
             if (shell.status._value.code == CMD_STATUS.WAIT_FOR_STDIN)
                 switch (draggable.DragData)
