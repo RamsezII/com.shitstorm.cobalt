@@ -44,11 +44,11 @@ namespace _COBALT_
                 builder.Append(text[cursor..start]);
                 Color color = token.Type switch
                 {
-                    TokenType.Command => lint_theme.functions,
-                    TokenType.Option => lint_theme.options,
-                    TokenType.Argument => lint_theme.argument,
-                    TokenType.Directive => lint_theme.flags,
-                    _ => lint_theme.command_separators,
+                    TokenType.Command => lint_theme._value.functions,
+                    TokenType.Option => lint_theme._value.options,
+                    TokenType.Argument => lint_theme._value.argument,
+                    TokenType.Directive => lint_theme._value.flags,
+                    _ => lint_theme._value.command_separators,
                 };
                 cursor = start + token.Value.Length;
                 builder.Append(text[start..cursor].SetColor(color));

@@ -10,6 +10,7 @@ namespace _COBALT_
     {
         [SerializeField] Graphic graphic_background;
 
+        [SerializeField] LintThemeCollection lint_themes;
         [SerializeField] LintTheme initial_theme;
 
         readonly ValueNotifier<LintTheme> current_theme = new();
@@ -26,7 +27,7 @@ namespace _COBALT_
 
             button_theme.onList += (ContextList list) =>
             {
-                foreach (var theme in LintTheme.themes.Values)
+                foreach (var theme in lint_themes.themes)
                     list.AddButton_trad(theme.name)._button.onClick.AddListener(() => current_theme.Value = theme);
             };
 
@@ -51,7 +52,7 @@ namespace _COBALT_
                 RefreshInputField();
             });
 
-            current_theme.Value = initial_theme != null ? initial_theme : LintTheme.theme_light;
+            current_theme.Value = initial_theme != null ? initial_theme : lint_themes.theme_light;
         }
     }
 }

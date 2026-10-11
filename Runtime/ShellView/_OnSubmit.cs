@@ -32,7 +32,7 @@ namespace _COBALT_
                 {
                     output_writer.Flush();
                     error_writer.Flush();
-                    AddLine(exception.Message, exception.Message.SetColor(lint_theme.error));
+                    AddLine(exception.Message, exception.Message.SetColor(lint_theme._value.error));
                     Debug.LogException(exception, this);
                 }
             }

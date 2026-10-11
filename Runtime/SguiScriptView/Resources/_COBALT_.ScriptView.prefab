@@ -943,6 +943,7 @@ MonoBehaviour:
   use_intellisense: 1
   space_confirms_completion: 0
   graphic_background: {fileID: 1729621536986477576}
+  lint_themes: {fileID: 11400000, guid: 12d2bbab6d439344a9f91e56c83c9e08, type: 2}
   initial_theme: {fileID: 11400000, guid: c132f254ccdd48179cf300019d53d3b1, type: 2}
   prefab_topRightButton: {fileID: 4836106011987512031}
 --- !u!1 &5046050967434102952

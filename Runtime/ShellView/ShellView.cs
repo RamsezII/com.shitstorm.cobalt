@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using _SGUI_.context_click;
+using _UTIL_;
 
 namespace _COBALT_
 {
@@ -27,7 +28,6 @@ namespace _COBALT_
             offset_top_h = 2,
             offset_bottom_h = 5;
 
-        public LintTheme lint_theme;
         [System.NonSerialized] public Shell shell;
         ShellWriter output_writer, error_writer;
         string prefixe_text = string.Empty, prefixe_lint = string.Empty;
@@ -40,8 +40,23 @@ namespace _COBALT_
 
             instances.Add(this);
 
+            lint_theme.Value = lint_themes.theme_dark;
+
             stdout_field.Initialize();
             stdin_field.Initialize();
+
+            output_writer = new ShellWriter(text => AddLine(text));
+            error_writer = new ShellWriter(text => AddLine(text, text.SetColor(lint_theme._value.error)));
+            shell = new Shell("Commandes du jeu", output_writer, error_writer) { WorkingDirectory = NUCLEOR.DFHome.FullName };
+
+            stdout_field.rT.anchoredPosition = new Vector2(0, -offset_top_h);
+            stdin_field.onValidateInput += OnValidateStdin_char;
+            stdin_field.onValueChanged.AddListener(OnStdinChanged);
+            stdin_field.onSelect.AddListener(OnSelectStdin);
+            stdin_field.onDeselect.AddListener(OnDeselectStdin);
+
+            ResetStdin();
+            RefreshStdout();
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -66,28 +81,6 @@ namespace _COBALT_
                 IMGUI_global.instance.clipboard_users.RemoveElement(OnClipboardOperation);
                 IMGUI_global.instance.inputs_users.RemoveElement(OnImguiInputs);
             }
-        }
-
-        //----------------------------------------------------------------------------------------------------------
-
-        protected override void Start()
-        {
-            base.Start();
-
-            if (lint_theme == null)
-                lint_theme = LintTheme.theme_dark;
-            output_writer = new ShellWriter(text => AddLine(text));
-            error_writer = new ShellWriter(text => AddLine(text, text.SetColor(lint_theme.error)));
-            shell = new Shell("Commandes du jeu", output_writer, error_writer) { WorkingDirectory = NUCLEOR.DFHome.FullName };
-
-            stdout_field.rT.anchoredPosition = new Vector2(0, -offset_top_h);
-            stdin_field.onValidateInput += OnValidateStdin_char;
-            stdin_field.onValueChanged.AddListener(OnStdinChanged);
-            stdin_field.onSelect.AddListener(OnSelectStdin);
-            stdin_field.onDeselect.AddListener(OnDeselectStdin);
-
-            ResetStdin();
-            RefreshStdout();
         }
 
         //----------------------------------------------------------------------------------------------------------
