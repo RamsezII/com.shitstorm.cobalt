@@ -1,5 +1,4 @@
 ﻿using _ARK_;
-using _COBRA_;
 using System;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace _COBALT_
                 if (this == null || shell == null)
                     return;
 
-                int min_pos = shell.status._value.prefixe.Text.Length;
+                int min_pos = prefixe_text.Length;
                 if (stdin_field.caretPosition < min_pos)
                     stdin_field.caretPosition = min_pos;
             };
@@ -31,18 +30,26 @@ namespace _COBALT_
 
         bool GetStdin(out string stdin, out int cursor_i)
         {
-            int pref_len = shell.status._value.prefixe.Text.Length;
+            int pref_len = Math.Min(prefixe_text.Length, stdin_field.text.Length);
             stdin = stdin_field.text[pref_len..];
-            cursor_i = stdin_field.caretPosition - pref_len;
+            cursor_i = Mathf.Clamp(stdin_field.caretPosition - pref_len, 0, stdin.Length);
             Util.RemoveCharacterWrap(ref stdin);
             return !string.IsNullOrWhiteSpace(stdin);
         }
 
         void ResetStdin()
         {
-            LintedString prefixe = shell.status._value.prefixe;
-            string pref_text = prefixe.Text;
-            string pref_lint = prefixe.Lint;
+            string user = NUCLEOR.instance.user_name._value;
+            string workdir = shell?.WorkingDirectory ?? NUCLEOR.DFHome.FullName;
+            prefixe_text = $"{user}:{workdir}$ ";
+            prefixe_lint = $"{user.SetColor("#73CC26")}:{workdir.SetColor("#73B2D9")}$ ";
+            string pref_text = prefixe_text;
+            string pref_lint = prefixe_lint;
+            applying_completion = completion_active = false;
+            last_completion = default;
+            stdin_field.interactable = shell != null && !shell.IsExecuting;
+            if (tmp_progress != null)
+                tmp_progress.text = shell != null && shell.IsExecuting ? "…" : string.Empty;
 
             Util.ForceCharacterWrap(ref pref_text);
             Util.ForceCharacterWrap(ref pref_lint);
@@ -76,7 +83,7 @@ namespace _COBALT_
         bool CheckPrefixe()
         {
             string current = stdin_field.text;
-            string prefixe = shell.status._value.prefixe.Text;
+            string prefixe = prefixe_text;
 
             Util.ForceCharacterWrap(ref prefixe);
 

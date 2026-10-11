@@ -1,4 +1,4 @@
-﻿using _COBRA_;
+﻿using System;
 using UnityEngine;
 
 namespace _COBALT_
@@ -7,55 +7,45 @@ namespace _COBALT_
     {
         public void ExecuteLine(in string line)
         {
-            stdin_field.text = $"{shell.status._value.prefixe.Text}{line}".ForceCharacterWrap();
+            if (shell == null || shell.IsExecuting)
+                return;
+
+            stdin_field.text = Util.ForceCharacterWrap(prefixe_text + line);
             OnSubmit();
         }
 
         void OnSubmit()
         {
+            if (shell == null || shell.IsExecuting || !GetStdin(out string stdin, out _))
+                return;
+
             AddLine(stdin_field.text, stdin_field.lint.text);
-
-            if (GetStdin(out string stdin, out _))
+            try
             {
-                CodeReader reader_check = new(
-                    sig_flags: SIG_FLAGS.CHECK,
-                    workdir: shell.workdir._value,
-                    lint_theme: lint_theme,
-                    strict_syntax: false,
-                    text: stdin,
-                    script_path: null
-                );
-
-                shell.OnReader(reader_check);
-
-                if (reader_check.sig_error != null)
+                int exitCode = shell.Execute(stdin);
+                if (this != null && exitCode == 0)
+                    AddToHistory(stdin);
+            }
+            catch (Exception exception)
+            {
+                if (this != null)
                 {
-                    reader_check.LocalizeError();
-                    Debug.LogWarning(reader_check.sig_error);
-                    AddLine(reader_check.sig_long_error, reader_check.sig_long_error.SetColor(Colors.orange));
-                    return;
+                    output_writer.Flush();
+                    error_writer.Flush();
+                    AddLine(exception.Message, exception.Message.SetColor(lint_theme.error));
+                    Debug.LogException(exception, this);
                 }
-
-                CodeReader reader_submit = new(
-                    sig_flags: SIG_FLAGS.SUBMIT,
-                    workdir: shell.workdir._value,
-                    lint_theme: lint_theme,
-                    strict_syntax: false,
-                    text: stdin,
-                    script_path: null
-                );
-
-                shell.OnReader(reader_submit);
-
-                if (reader_submit.sig_error != null)
+            }
+            finally
+            {
+                if (this != null)
                 {
-                    reader_submit.LocalizeError();
-                    Debug.LogError(reader_submit.sig_error);
-                    AddLine(reader_submit.sig_long_error, reader_submit.sig_long_error.SetColor(Colors.orange_red));
-                    return;
+                    output_writer.Flush();
+                    error_writer.Flush();
+                    ResetStdin();
+                    if (isFocused._value)
+                        stdin_field.Select();
                 }
-
-                AddToHistory(reader_submit.text);
             }
         }
     }

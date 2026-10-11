@@ -10,10 +10,7 @@ namespace _COBALT_
     {
         [SerializeField] Graphic graphic_background;
 
-        public LintTheme[] lint_themes = {
-            LintTheme.theme_light,
-            LintTheme.theme_dark,
-        };
+        [SerializeField] LintTheme initial_theme;
 
         readonly ValueNotifier<LintTheme> current_theme = new();
 
@@ -21,8 +18,6 @@ namespace _COBALT_
 
         void InitThemes()
         {
-            current_theme.Value = lint_themes[0];
-
             var button_theme = AddTopRightButton(new()
             {
                 french = "Thème",
@@ -31,7 +26,7 @@ namespace _COBALT_
 
             button_theme.onList += (ContextList list) =>
             {
-                foreach (var theme in lint_themes)
+                foreach (var theme in LintTheme.themes.Values)
                     list.AddButton_trad(theme.name)._button.onClick.AddListener(() => current_theme.Value = theme);
             };
 
@@ -55,6 +50,8 @@ namespace _COBALT_
 
                 RefreshInputField();
             });
+
+            current_theme.Value = initial_theme != null ? initial_theme : LintTheme.theme_light;
         }
     }
 }

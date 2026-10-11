@@ -7,7 +7,7 @@ namespace _COBALT_
     {
         bool OnImguiInputs(Event e)
         {
-            if (!isFocused._value || !stdin_field.isFocused)
+            if (!isFocused._value || !stdin_field.isFocused || shell == null || shell.IsExecuting)
                 return false;
 
             if (e.isKey)
@@ -24,7 +24,7 @@ namespace _COBALT_
                                         return;
 
                                     stdin_field.caretPosition = stdin_field.text.Length;
-                                    stdin_field.selectionAnchorPosition = shell.status._value.prefixe.Text.Length;
+                                    stdin_field.selectionAnchorPosition = prefixe_text.Length;
                                 };
                                 return true;
                         }
@@ -64,7 +64,7 @@ namespace _COBALT_
                                     if (TryNavHistory(nav, out string value))
                                     {
                                         flag_history = true;
-                                        stdin_field.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Text + value);
+                                        stdin_field.text = Util.ForceCharacterWrap(prefixe_text + value);
                                         stdin_field.caretPosition = stdin_field.text.Length;
                                     }
 

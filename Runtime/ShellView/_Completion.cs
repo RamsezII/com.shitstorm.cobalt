@@ -1,6 +1,7 @@
-﻿using _COBRA_;
+﻿using _CMD_;
 using System;
-using System.Linq;
+using System.CommandLine;
+using System.CommandLine.Parsing;
 using System.Text;
 using UnityEngine;
 
@@ -8,148 +9,91 @@ namespace _COBALT_
 {
     partial class ShellView
     {
-        [SerializeField] CodeReader last_reader;
-        [SerializeField] string[] last_completions_tab, last_completions_all;
-        [SerializeField] int last_tab;
-        [SerializeField] int tab_i, alt_i;
+        CompletionResult last_completion;
+        int completion_i, completion_cursor;
+        bool applying_completion, completion_active;
 
         //----------------------------------------------------------------------------------------------------------
 
         void OnChange()
         {
-            if (GetStdin(out string stdin, out int cursor))
+            GetStdin(out string stdin, out _);
+            if (!applying_completion)
             {
-                last_reader = new(
-                    sig_flags: SIG_FLAGS.CHANGE | SIG_FLAGS.LINT,
-                    workdir: shell.workdir._value,
-                    lint_theme: lint_theme,
-                    strict_syntax: false,
-                    text: stdin,
-                    script_path: null,
-                    cursor_i: cursor
-                );
-
-                shell.OnReader(last_reader);
-
-                last_completions_all = last_reader.completions_v
-                    .OrderBy(x => x.Length)
-                    .ThenBy(x => x, StringComparer.OrdinalIgnoreCase)
-                    .ToArray();
-
-                stdin_field.lint.text = Util.ForceCharacterWrap(shell.status._value.prefixe.Lint + last_reader.GetLintResult());
-
-                if (Time.frameCount > last_tab)
-                {
-                    tab_i = 0;
-
-                    string arg_select = string.Empty;
-                    if (last_reader.cpl_end > last_reader.cpl_start)
-                        arg_select = stdin[last_reader.cpl_start..last_reader.cpl_end];
-
-                    last_completions_tab = last_completions_all
-                        .ECompletionMatches(arg_select)
-                        .OrderBy(x => x.Length)
-                        .ThenBy(x => x, StringComparer.OrdinalIgnoreCase)
-                        .ToArray();
-                }
-            }
-            else
-            {
-                LintedString pref = shell.status._value.prefixe;
-                try
-                {
-                    stdin_field.lint.text = Util.ForceCharacterWrap(pref.Lint + stdin_field.text[pref.Text.Length..]);
-                }
-                catch
-                {
-                    stdin_field.lint.text = stdin_field.text;
-                }
+                completion_active = false;
             }
 
+            stdin_field.lint.text = Util.ForceCharacterWrap(prefixe_lint + GetCommandLint(stdin, shell.Parse(stdin)));
             ResizeStdin();
         }
 
-        void OnTab()
+        string GetCommandLint(string text, ParseResult parse)
         {
-            last_tab = Time.frameCount;
-            if (last_completions_tab == null || last_completions_tab.Length == 0)
-                tab_i = 0;
-            else
+            StringBuilder builder = new();
+            int cursor = 0;
+
+            foreach (var token in parse.Tokens)
             {
-                tab_i %= last_completions_tab.Length;
-                string completion = last_completions_tab[tab_i];
-                ++tab_i;
+                if (string.IsNullOrEmpty(token.Value))
+                    continue;
 
-                StringBuilder sb = new();
+                int start = text.IndexOf(token.Value, cursor, StringComparison.Ordinal);
+                if (start < 0)
+                    continue;
 
-                sb.Append(shell.status._value.prefixe.Text);
-                sb.Append(last_reader.text[..last_reader.cpl_start]);
-                sb.Append(completion);
-                sb.Append(last_reader.text[last_reader.cpl_end..]);
-
-                stdin_field.text = Util.ForceCharacterWrap(sb.ToString());
-
-                stdin_field.caretPosition = shell.status._value.prefixe.Text.Length + last_reader.cpl_start + completion.Length;
-            }
-        }
-
-        void OnAlt_up_down(in KeyCode key)
-        {
-            if (last_completions_all == null || last_completions_all.Length == 0)
-                alt_i = 0;
-            else
-            {
-                alt_i += key switch
+                builder.Append(text[cursor..start]);
+                Color color = token.Type switch
                 {
-                    KeyCode.UpArrow => -1,
-                    KeyCode.DownArrow => 1,
-                    _ => 0,
+                    TokenType.Command => lint_theme.functions,
+                    TokenType.Option => lint_theme.options,
+                    TokenType.Argument => lint_theme.argument,
+                    TokenType.Directive => lint_theme.flags,
+                    _ => lint_theme.command_separators,
                 };
-
-                alt_i %= last_completions_all.Length;
-                if (alt_i < 0)
-                    alt_i += last_completions_all.Length;
-
-                string completion = last_completions_all[alt_i];
-
-                StringBuilder sb = new();
-
-                sb.Append(shell.status._value.prefixe.Text);
-                sb.Append(last_reader.text[..last_reader.cpl_start]);
-                sb.Append(completion);
-                sb.Append(last_reader.text[last_reader.cpl_end..]);
-
-                stdin_field.text = Util.ForceCharacterWrap(sb.ToString());
-
-                stdin_field.caretPosition = shell.status._value.prefixe.Text.Length + last_reader.cpl_start + completion.Length;
+                cursor = start + token.Value.Length;
+                builder.Append(text[start..cursor].SetColor(color));
             }
+
+            builder.Append(text[cursor..]);
+            return builder.ToString();
         }
 
-        void OnAlt_left_right(in KeyCode key)
+        void OnTab() => CycleCompletion(1);
+
+        void OnAlt_up_down(in KeyCode key) => CycleCompletion(key == KeyCode.UpArrow ? -1 : 1);
+
+        void OnAlt_left_right(in KeyCode key) => CycleCompletion(key == KeyCode.LeftArrow ? -1 : 1);
+
+        void CycleCompletion(int direction)
         {
-            if (last_reader == null)
+            if (shell == null || shell.IsExecuting)
                 return;
 
-            string completion = key switch
+            GetStdin(out string stdin, out int cursor);
+            if (!completion_active || cursor != completion_cursor)
             {
-                KeyCode.LeftArrow => last_reader.completion_l,
-                KeyCode.RightArrow => last_reader.completion_r,
-                _ => null,
-            };
+                last_completion = shell.Complete(stdin, cursor);
+                completion_i = direction > 0 ? -1 : 0;
+            }
 
-            if (completion == null)
+            string[] suggestions = last_completion.Suggestions;
+            if (suggestions == null || suggestions.Length == 0)
                 return;
 
-            StringBuilder sb = new();
-
-            sb.Append(shell.status._value.prefixe.Text);
-            sb.Append(last_reader.text[..last_reader.cpl_start]);
-            sb.Append(completion);
-            sb.Append(last_reader.text[last_reader.cpl_end..]);
-
-            stdin_field.text = Util.ForceCharacterWrap(sb.ToString());
-
-            stdin_field.caretPosition = shell.status._value.prefixe.Text.Length + last_reader.cpl_start + completion.Length;
+            completion_i = (completion_i + direction + suggestions.Length) % suggestions.Length;
+            string completion = suggestions[completion_i];
+            applying_completion = true;
+            try
+            {
+                stdin_field.text = Util.ForceCharacterWrap(prefixe_text + last_completion.Text[..last_completion.Start] + completion + last_completion.Text[last_completion.End..]);
+                completion_cursor = last_completion.Start + completion.Length;
+                stdin_field.caretPosition = prefixe_text.Length + completion_cursor;
+                completion_active = true;
+            }
+            finally
+            {
+                applying_completion = false;
+            }
         }
     }
 }

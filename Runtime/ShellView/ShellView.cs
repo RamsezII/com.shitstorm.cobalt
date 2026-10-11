@@ -1,16 +1,14 @@
 using _ARK_;
-using _COBRA_;
+using _CMD_;
 using _SGUI_;
 using _SGUI_.composer;
-using _SGUI_.context_click;
-using _UTIL_;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using _SGUI_.context_click;
 
 namespace _COBALT_
 {
@@ -29,9 +27,10 @@ namespace _COBALT_
             offset_top_h = 2,
             offset_bottom_h = 5;
 
-        public LintTheme lint_theme = LintTheme.theme_dark;
-        public Shell shell;
-        public readonly ValueNotifier<CodeInterpreter> interpreter = new();
+        public LintTheme lint_theme;
+        [System.NonSerialized] public Shell shell;
+        ShellWriter output_writer, error_writer;
+        string prefixe_text = string.Empty, prefixe_lint = string.Empty;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -39,15 +38,10 @@ namespace _COBALT_
         {
             base.OnInitialize();
 
-            shell?.Dispose();
-            shell = null;
-
             instances.Add(this);
 
             stdout_field.Initialize();
             stdin_field.Initialize();
-
-            interpreter.Value = CodeInterpreter.instances.FirstOrDefault();
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -80,18 +74,17 @@ namespace _COBALT_
         {
             base.Start();
 
+            if (lint_theme == null)
+                lint_theme = LintTheme.theme_dark;
+            output_writer = new ShellWriter(text => AddLine(text));
+            error_writer = new ShellWriter(text => AddLine(text, text.SetColor(lint_theme.error)));
+            shell = new Shell("Commandes du jeu", output_writer, error_writer) { WorkingDirectory = NUCLEOR.DFHome.FullName };
+
             stdout_field.rT.anchoredPosition = new Vector2(0, -offset_top_h);
             stdin_field.onValidateInput += OnValidateStdin_char;
             stdin_field.onValueChanged.AddListener(OnStdinChanged);
             stdin_field.onSelect.AddListener(OnSelectStdin);
             stdin_field.onDeselect.AddListener(OnDeselectStdin);
-
-            shell = new BoaShell("shell_view");
-            shell.ToggleTick(true);
-
-            shell.stdout += AddLine;
-            shell.stderr += OnShellStderr;
-            shell.status.AddListener(OnShellStatus);
 
             ResetStdin();
             RefreshStdout();
@@ -99,33 +92,9 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override void OnTabContextList(in PointerEventData eventData, in ContextList list)
-        {
-            base.OnTabContextList(eventData, list);
-
-            list.AddLine_IfAny();
-
-            var button_interpreters = list.AddButton_trad(new()
-            {
-                french = "Interpréteur",
-                english = "Interpreter",
-            });
-
-            button_interpreters.SetupSublist(sublist =>
-            {
-                foreach (var interpreter in CodeInterpreter.instances)
-                {
-                    var button = sublist.AddButton_string(interpreter.name);
-                    if (interpreter == this.interpreter._value)
-                        sublist.SelectButton(button);
-                    button._button.onClick.AddListener(() => this.interpreter.Value = interpreter);
-                }
-            });
-        }
-
         bool SguiDragManager.IAcceptDraggable.TryAcceptDraggable(in PointerEventData eventData, in SguiDragManager.IDraggable draggable, in bool onDrop)
         {
-            if (shell.status._value.code == CMD_STATUS.WAIT_FOR_STDIN)
+            if (shell != null && !shell.IsExecuting)
                 switch (draggable.DragData)
                 {
                     case string str:
@@ -142,6 +111,14 @@ namespace _COBALT_
                 }
 
             return false;
+        }
+
+        public override void OnTabContextList(in PointerEventData eventData, in ContextList list)
+        {
+            base.OnTabContextList(eventData, list);
+
+            list.AddLine_IfAny();
+            InitThemesButton(list);
         }
 
         protected override void OnToggleFocus(bool hasFocus)
@@ -163,32 +140,6 @@ namespace _COBALT_
 
         //----------------------------------------------------------------------------------------------------------
 
-        void OnShellStderr(object data, string lint)
-        {
-            string text = data is string value ? value : data?.ToString() ?? "null";
-            lint ??= text.SetColor(Color.yellow);
-            AddLine(text, lint);
-        }
-
-        void OnShellStatus(ExecutionStatus status)
-        {
-            string title = status.code == CMD_STATUS.WAIT_FOR_STDIN
-                ? shell.GetType().Name
-                : $"{shell.GetType().Name}:{status.code}";
-
-            SguiLoggerOverlay.Log($"change title to shell status: \"{title}\"", this);
-
-            switch (status.code)
-            {
-                case CMD_STATUS.WAIT_FOR_STDIN:
-                case CMD_STATUS.BLOCKED:
-                    ResetStdin();
-                    break;
-            }
-        }
-
-        //----------------------------------------------------------------------------------------------------------
-
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -200,14 +151,9 @@ namespace _COBALT_
             stdin_field.onSelect.RemoveListener(OnSelectStdin);
             stdin_field.onDeselect.RemoveListener(OnDeselectStdin);
 
-            if (shell != null)
-            {
-                shell.stdout -= AddLine;
-                shell.stderr -= OnShellStderr;
-                shell.status.RemoveListener(OnShellStatus);
-                shell.Dispose();
-                shell = null;
-            }
+            output_writer?.Dispose();
+            error_writer?.Dispose();
+            shell = null;
 
             if (IMGUI_global.instance != null)
             {
