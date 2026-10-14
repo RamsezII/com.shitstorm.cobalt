@@ -1,4 +1,5 @@
 using _ARK_;
+using _SGUI_;
 using _SGUI_.composer;
 using TMPro;
 using UnityEngine;
@@ -18,6 +19,16 @@ namespace _COBALT_
              space_confirms_completion = false;
 
         //--------------------------------------------------------------------------------------------------------------
+
+        public override SguiFrame OpenInNewComposer(SguiComposer composer)
+        {
+            var explorer = composer.AddSplitView();
+            var shell = composer.SplitView(explorer, axis: 0, ratio: 0.25f);
+            var editor = composer.SplitView(shell, axis: 1, ratio: 0.3f);
+            explorer.AddTab((SguiFrame)Util.LoadResourceByType(typeof(SguiExplorerWindow)));
+            shell.AddTab((SguiFrame)Util.LoadResourceByType(typeof(ShellView)));
+            return editor.AddTab(this);
+        }
 
         private void OnValidate()
         {
