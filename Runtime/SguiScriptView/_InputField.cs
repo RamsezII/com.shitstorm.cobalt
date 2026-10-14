@@ -29,22 +29,18 @@ namespace _COBALT_
                 text_placeholder.color = current_theme._value.placeholder;
             }
 
-            if (current_interpreter.HasNot)
-                text_lint.text = text;
+            _BOA_.Shell.Lint(text, current_theme._value, out var lint_text, out var error);
+            text_lint.text = lint_text;
+
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                text_error.gameObject.SetActive(true);
+                text_error.text = $"{new string(' ', text.Length)}{error}";
+            }
             else
             {
-                current_interpreter._value.linter(text, input_field.caretPosition, current_theme._value, out var lint_text, out var error);
-                text_lint.text = lint_text;
-                if (!string.IsNullOrWhiteSpace(error))
-                {
-                    text_error.gameObject.SetActive(true);
-                    text_error.text = $"{new string(' ', text.Length)}{error}";
-                }
-                else
-                {
-                    text_error.text = string.Empty;
-                    text_error.gameObject.SetActive(false);
-                }
+                text_error.text = string.Empty;
+                text_error.gameObject.SetActive(false);
             }
         }
 

@@ -39,7 +39,7 @@ namespace _COBALT_
             base.Awake();
 
             AwakeTopRightButtons();
-            InitInterpreters();
+            InitExecutionButton();
             InitThemes();
         }
 
