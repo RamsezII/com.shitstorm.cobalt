@@ -39,25 +39,29 @@ namespace _COBALT_
             };
         }
 
-        internal void LoadFile(in FileInfo file)
+        internal bool LoadFile(in FileInfo file)
         {
-            this.file = file;
+            file.Refresh();
+            if (!file.Exists)
+                throw new FileNotFoundException("Script file not found.", file.FullName);
 
-            input_field.text = string.Empty;
+            if (file.Length > MAX_FILE_SIZE)
+            {
+                SguiCustom sgui = SguiCustom.CreatePrompt();
+                var alert = sgui.AddButton<SguiCustom_Alert>();
+                alert.SetText(new($"{GetType().FullName} : file too big ({file.Length.LogDataSize()})\n{file.FullName.ToSubLog()}"));
+                return false;
+            }
+
+            string content = File.ReadAllText(file.FullName);
+            this.file = file;
+            input_field.SetTextWithoutNotify(content);
             text_lint.text = string.Empty;
             text_error.text = string.Empty;
-
-            file.Refresh();
-
-            if (file.Exists)
-                if (file.Length <= MAX_FILE_SIZE)
-                    input_field.text = File.ReadAllText(file.FullName);
-                else
-                {
-                    SguiCustom sgui = SguiCustom.CreatePrompt();
-                    var alert = sgui.AddButton<SguiCustom_Alert>();
-                    alert.SetText(new($"{GetType().FullName} : file too big ({file.Length.LogDataSize()})\n{file.FullName.ToSubLog()}"));
-                }
+            dirty = false;
+            RefreshTitle();
+            RefreshInputField();
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------------------
