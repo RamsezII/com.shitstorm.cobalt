@@ -1,4 +1,5 @@
 ﻿using _SGUI_;
+using _SGUI_.context_click;
 using _UTIL_;
 using System;
 using System.IO;
@@ -9,49 +10,62 @@ namespace _COBALT_
     partial class ScriptView
     {
         const int MAX_FILE_SIZE = 1024;
-        public readonly ValueNotifier<FileInfo> file_path = new();
+        internal FileInfo file;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void StartFileLoading()
+        void InitFileButton()
         {
-            file_path.AddListener(file =>
+            var button_file = AddTopRightButton(new()
             {
-                try
-                {
-                    file?.Refresh();
-
-                    if (file == null || !file.Exists)
-                    {
-                        input_field.text = string.Empty;
-                        text_lint.text = string.Empty;
-                        text_error.text = string.Empty;
-                    }
-                    else if (file.Length <= MAX_FILE_SIZE)
-                        input_field.text = File.ReadAllText(file.FullName);
-                    else
-                    {
-                        SguiCustom sgui = SguiCustom.CreatePrompt();
-                        var alert = sgui.AddButton<SguiCustom_Alert>();
-                        alert.SetText(new($"{GetType().FullName} : file too big ({file.Length.LogDataSize()})\n{file_path.ToSubLog()}"));
-                    }
-                }
-                catch (Exception exception)
-                {
-                    text_error.text = exception.Message;
-                    Debug.LogException(exception, this);
-                }
+                french = "Fichier",
+                english = "File",
             });
+
+            button_file.onList += (ContextList list) =>
+            {
+                var button_save = list.AddButton_trad(new() { french = "Sauvegarder", english = "Save", });
+                button_save.label_right.SetText("Ctrl+S");
+                button_save._button.onClick.AddListener(SaveCurrentFile);
+
+                var button_saveAs = list.AddButton_trad(new() { french = "Sauvegarder sous", english = "Save as", });
+                button_saveAs.label_right.SetTraductions(new() { french = "Ctrl+Maj+S", english = "Ctrl+Shift+S", });
+                button_saveAs._button.onClick.AddListener(SaveAs);
+            };
+        }
+
+        internal void LoadFile(in FileInfo file)
+        {
+            this.file = file;
+
+            input_field.text = string.Empty;
+            text_lint.text = string.Empty;
+            text_error.text = string.Empty;
+
+            file.Refresh();
+
+            if (file.Exists)
+                if (file.Length <= MAX_FILE_SIZE)
+                    input_field.text = File.ReadAllText(file.FullName);
+                else
+                {
+                    SguiCustom sgui = SguiCustom.CreatePrompt();
+                    var alert = sgui.AddButton<SguiCustom_Alert>();
+                    alert.SetText(new($"{GetType().FullName} : file too big ({file.Length.LogDataSize()})\n{file.FullName.ToSubLog()}"));
+                }
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
+        void SaveAs()
+        {
+        }
+
         void SaveCurrentFile()
         {
-            FileInfo file = file_path._value;
             if (file == null)
             {
-                SguiLoggerOverlay.Log($"No file selected for {this}", this, timer: 5);
+                SguiLoggerOverlay.Log($"No file selected for {this}", this, logLevel: SguiLogLevel.Warning);
                 return;
             }
 
@@ -59,7 +73,7 @@ namespace _COBALT_
             {
                 File.WriteAllText(file.FullName, input_field.text);
                 file.Refresh();
-                SguiLoggerOverlay.Log($"Saved '{file.FullName}'", this, timer: 5);
+                SguiLoggerOverlay.Log($"Saved '{file.FullName}'", this, logLevel: SguiLogLevel.Sublog);
             }
             catch (Exception exception)
             {

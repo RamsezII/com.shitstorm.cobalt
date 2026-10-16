@@ -38,8 +38,10 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        protected override void Awake()
+        protected override void OnInitialize()
         {
+            base.OnInitialize();
+
 #if UNITY_EDITOR
             ArkUI._VisibleInEditor.Add(gameObject);
 #endif
@@ -47,21 +49,12 @@ namespace _COBALT_
             input_field.text = string.Empty;
             text_lint.text = string.Empty;
 
-            base.Awake();
-
-            AwakeTopRightButtons();
-            InitExecutionButton();
+            InitTopRightButtons();
+            InitInputField();
+            InitFileButton();
             InitThemes();
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        protected override void Start()
-        {
-            base.Start();
-
-            StartFileLoading();
-            StartInputField();
+            InitExecutionButton();
+            InitState();
         }
 
         //--------------------------------------------------------------------------------------------------------------

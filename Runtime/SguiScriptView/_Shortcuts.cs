@@ -10,7 +10,7 @@ namespace _COBALT_
         static void AssignShortcuts()
         {
             ArkShortcuts.AddShortcut_keyboard(
-                shortcutName: "save_script",
+                shortcutName: "save",
                 action: static () =>
                 {
                     if (EventSystem.current.currentSelectedGameObject == null)
@@ -22,6 +22,23 @@ namespace _COBALT_
                         instance.SaveCurrentFile();
                 },
                 control: true,
+                bindings: UnityEngine.InputSystem.Key.S
+            );
+
+            ArkShortcuts.AddShortcut_keyboard(
+                shortcutName: "save_as",
+                action: static () =>
+                {
+                    if (EventSystem.current.currentSelectedGameObject == null)
+                        return;
+
+                    ScriptView instance = EventSystem.current.currentSelectedGameObject.GetComponentInParent<ScriptView>();
+
+                    if (instance != null)
+                        instance.SaveAs();
+                },
+                control: true,
+                shift: true,
                 bindings: UnityEngine.InputSystem.Key.S
             );
         }

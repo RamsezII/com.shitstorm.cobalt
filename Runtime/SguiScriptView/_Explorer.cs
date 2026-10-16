@@ -17,6 +17,10 @@ namespace _COBALT_
                     french = $"Éditer ce script",
                     english = $"Edit script",
                 });
+                button._button.onClick.AddListener(() =>
+                {
+                    SguiLoggerOverlay.Log($"open script");
+                });
             };
         }
     }

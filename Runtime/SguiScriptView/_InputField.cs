@@ -8,7 +8,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void StartInputField()
+        void InitInputField()
         {
             input_field.onValueChanged.AddListener(OnValueChanged);
             input_field.onValidateInput += OnValidateInput;

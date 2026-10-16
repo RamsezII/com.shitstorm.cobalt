@@ -10,7 +10,7 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void AwakeTopRightButtons()
+        void InitTopRightButtons()
         {
             prefab_topRightButton.gameObject.SetActive(false);
         }
