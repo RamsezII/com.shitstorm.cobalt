@@ -16,7 +16,16 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void OnValueChanged(string text) => RefreshInputField();
+        void OnValueChanged(string text)
+        {
+            if (!dirty)
+            {
+                dirty = true;
+                RefreshTitle();
+            }
+            RefreshInputField();
+        }
+
         void RefreshInputField() => Util.AddActionOnce(ref NUCLEOR.delegates.LateUpdate_onEndOfFrame_once, RefreshInputField_now);
         void RefreshInputField_now()
         {

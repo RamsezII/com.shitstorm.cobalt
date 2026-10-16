@@ -1,6 +1,7 @@
 using _ARK_;
 using _SGUI_;
 using _SGUI_.composer;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,12 +23,19 @@ namespace _COBALT_
 
         public override SguiFrame OpenInNewComposer(SguiComposer composer)
         {
-            var explorer = composer.AddSplitView();
-            var shell = composer.SplitView(explorer, axis: 0, ratio: 0.25f);
-            var editor = composer.SplitView(shell, axis: 1, ratio: 0.3f);
-            explorer.AddTab((SguiFrame)Util.LoadResourceByType(typeof(SguiExplorerWindow)));
-            shell.AddTab((SguiFrame)Util.LoadResourceByType(typeof(ShellView)));
-            return editor.AddTab(this);
+            var split_explorer = composer.AddSplitView();
+            var split_shell = composer.SplitView(split_explorer, axis: SguiComposer.SplitAxis.Horizontal, ratio: 0.25f);
+            var split_editor = composer.SplitView(split_shell, axis: SguiComposer.SplitAxis.Vertical, ratio: 0.3f);
+
+            var explorer = split_explorer.AddTab(Util.LoadResourceByType<SguiExplorerWindow>());
+            var shell = split_shell.AddTab(Util.LoadResourceByType<ShellView>());
+
+            var dscripts = GetScriptsDir();
+            explorer.view.opened_folders.Add(dscripts.FullName);
+            explorer.view.selected_fsi.Value = dscripts;
+            explorer.view.RebuildHierarchy();
+
+            return split_editor.AddTab(this);
         }
 
         private void OnValidate()
@@ -54,7 +62,8 @@ namespace _COBALT_
             InitFileButton();
             InitThemes();
             InitExecutionButton();
-            InitState();
+
+            RefreshTitle();
         }
 
         //--------------------------------------------------------------------------------------------------------------

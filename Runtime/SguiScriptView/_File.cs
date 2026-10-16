@@ -1,4 +1,5 @@
-﻿using _SGUI_;
+﻿using _ARK_;
+using _SGUI_;
 using _SGUI_.context_click;
 using _UTIL_;
 using System;
@@ -11,6 +12,7 @@ namespace _COBALT_
     {
         const int MAX_FILE_SIZE = 1024;
         internal FileInfo file;
+        public static DirectoryInfo GetScriptsDir() => Path.Combine(NUCLEOR.DFHome.FullName, "scripts").ForceDir();
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -24,9 +26,12 @@ namespace _COBALT_
 
             button_file.onList += (ContextList list) =>
             {
-                var button_save = list.AddButton_trad(new() { french = "Sauvegarder", english = "Save", });
-                button_save.label_right.SetText("Ctrl+S");
-                button_save._button.onClick.AddListener(SaveCurrentFile);
+                if (file != null)
+                {
+                    var button_save = list.AddButton_trad(new() { french = "Sauvegarder", english = "Save", });
+                    button_save.label_right.SetText("Ctrl+S");
+                    button_save._button.onClick.AddListener(SaveCurrentFile);
+                }
 
                 var button_saveAs = list.AddButton_trad(new() { french = "Sauvegarder sous", english = "Save as", });
                 button_saveAs.label_right.SetTraductions(new() { french = "Ctrl+Maj+S", english = "Ctrl+Shift+S", });
@@ -59,6 +64,14 @@ namespace _COBALT_
 
         void SaveAs()
         {
+            if (file == null)
+            {
+                SguiLoggerOverlay.Log($"No file selected for {this}", this, logLevel: SguiLogLevel.Warning);
+                return;
+            }
+
+            dirty = false;
+            RefreshTitle();
         }
 
         void SaveCurrentFile()
@@ -74,6 +87,8 @@ namespace _COBALT_
                 File.WriteAllText(file.FullName, input_field.text);
                 file.Refresh();
                 SguiLoggerOverlay.Log($"Saved '{file.FullName}'", this, logLevel: SguiLogLevel.Sublog);
+                dirty = false;
+                RefreshTitle();
             }
             catch (Exception exception)
             {

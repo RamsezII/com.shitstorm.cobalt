@@ -1,37 +1,22 @@
 ﻿using _UTIL_;
+using UnityEngine;
 
 namespace _COBALT_
 {
     partial class ScriptView
     {
-        enum States : byte
-        {
-            NoFile,
-            NoChanges,
-            Changes,
-        }
-
-        readonly ValueNotifier<States> state = new();
+        [SerializeField] bool dirty;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        void InitState()
+        void RefreshTitle()
         {
-            state.AddListener(value =>
-            {
-                switch (value)
-                {
-                    case States.NoFile:
-                        
-                        break;
-
-                    case States.NoChanges:
-                        break;
-
-                    case States.Changes:
-                        break;
-                }
-            });
+            if (file == null)
+                tab.trad_title.SetTraductions(new() { french = "Sans Titre*", english = "Untitled*", });
+            else if (dirty)
+                tab.trad_title.SetText($"{file.Name} *");
+            else
+                tab.trad_title.SetText(file.Name);
         }
     }
 }
