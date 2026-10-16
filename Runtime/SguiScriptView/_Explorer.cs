@@ -10,23 +10,12 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitExplorerExtensions()
         {
-            SguiExplorerView.onContextClick_directory += (ContextList list, DirectoryInfo dir) =>
+            SguiExplorerView.onContextList_file += (ContextList list, FileInfo file) =>
             {
                 var button = list.AddButton_trad(new()
                 {
-                    french = $"Ouvrir ce dossier dans",
-                    english = $"Open this directory in",
-                });
-
-                button.SetupSublist(sublist =>
-                {
-                    {
-                        var button = sublist.AddButton_string("Shitpad");
-                    }
-
-                    {
-                        var button = sublist.AddButton_string("Shitcodium");
-                    }
+                    french = $"Éditer ce script",
+                    english = $"Edit script",
                 });
             };
         }
