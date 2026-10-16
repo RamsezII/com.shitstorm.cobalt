@@ -14,7 +14,7 @@ namespace _COBALT_
             if (file == null)
                 tab.trad_title.SetTraductions(new() { french = "Sans Titre*", english = "Untitled*", });
             else if (dirty)
-                tab.trad_title.SetText($"{file.Name} *");
+                tab.trad_title.SetText($"{file.Name}*");
             else
                 tab.trad_title.SetText(file.Name);
         }

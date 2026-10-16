@@ -11,7 +11,7 @@ namespace _COBALT_
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitExplorerExtensions()
         {
-            SguiExplorerView.onContextList_file += (ContextList list, FileInfo file) =>
+            SguiExplorerView.onContextList_file += (SguiExplorerView view, ContextList list, FileInfo file) =>
             {
                 var button = list.AddButton_trad(new()
                 {
