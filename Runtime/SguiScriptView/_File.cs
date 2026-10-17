@@ -1,7 +1,7 @@
 ﻿using _ARK_;
+using _BOA_;
 using _SGUI_;
 using _SGUI_.context_click;
-using _UTIL_;
 using System;
 using System.IO;
 using UnityEngine;
@@ -76,6 +76,7 @@ namespace _COBALT_
 
             dirty = false;
             RefreshTitle();
+            BoaManager.CompileScripts();
         }
 
         void SaveCurrentFile()
@@ -93,6 +94,7 @@ namespace _COBALT_
                 SguiLoggerOverlay.Log($"Saved '{file.FullName}'", this, logLevel: SguiLogLevel.Sublog);
                 dirty = false;
                 RefreshTitle();
+                BoaManager.CompileScripts();
             }
             catch (Exception exception)
             {
