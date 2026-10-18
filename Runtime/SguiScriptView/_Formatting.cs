@@ -8,6 +8,8 @@ namespace _COBALT_
     {
         float formatShortcutStartedAt = float.NegativeInfinity;
 
+        //----------------------------------------------------------------------------------------------------------
+
         void FormatDocument()
         {
             try
