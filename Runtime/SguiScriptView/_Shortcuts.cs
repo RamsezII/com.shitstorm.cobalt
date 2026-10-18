@@ -10,6 +10,19 @@ namespace _COBALT_
         static void AssignShortcuts()
         {
             ArkShortcuts.AddShortcut_keyboard(
+                shortcutName: "complete_code",
+                action: static () =>
+                {
+                    var selected = EventSystem.current?.currentSelectedGameObject;
+                    var instance = selected == null ? null : selected.GetComponentInParent<ScriptView>();
+                    if (instance != null && instance.input_field.isFocused)
+                        instance.RefreshCompletions(force: true);
+                },
+                control: true,
+                bindings: UnityEngine.InputSystem.Key.Space
+            );
+
+            ArkShortcuts.AddShortcut_keyboard(
                 shortcutName: "save",
                 action: static () =>
                 {

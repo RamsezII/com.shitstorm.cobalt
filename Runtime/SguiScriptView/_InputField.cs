@@ -12,6 +12,7 @@ namespace _COBALT_
         {
             input_field.onValueChanged.AddListener(OnValueChanged);
             input_field.onValidateInput += OnValidateInput;
+            input_field.onFocusSelectAll = false;
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -55,23 +56,20 @@ namespace _COBALT_
 
         char OnValidateInput(string text, int charIndex, char addedChar)
         {
-            if (SguiCompletor.instance.toggle.Value)
+            var completor = SguiCompletor.instance;
+            if (completor != null && completor.toggle.Value && ReferenceEquals(completor.owner, this))
                 switch (addedChar)
                 {
                     case ' ' when space_confirms_completion:
                     case '\n':
                     case '\t':
                         {
-                            string completion = SguiCompletor.instance.GetSelectedValue();
-                            if (!string.IsNullOrWhiteSpace(completion))
-                            {
-                                text = text[..SguiCompletor.instance.compl_start] + completion + text[SguiCompletor.instance.compl_end..];
-                                input_field.text = text;
-                                input_field.caretPosition = SguiCompletor.instance.compl_start + completion.Length;
-                            }
-                            SguiCompletor.instance.ResetIntellisense();
+                            string completion = completor.GetSelectedValue();
+                            if (!string.IsNullOrWhiteSpace(completion) && ApplyCompletion(completion))
+                                return '\0';
+                            CancelCompletion();
                         }
-                        return '\0';
+                        break;
                 }
             return addedChar;
         }
