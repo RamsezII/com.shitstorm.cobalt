@@ -60,6 +60,7 @@ namespace _COBALT_
             InitTopRightButtons();
             InitInputField();
             InitFileButton();
+            InitButton_Edition();
             InitThemes();
             InitExecutionButton();
 

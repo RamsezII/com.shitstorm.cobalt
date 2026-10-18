@@ -41,6 +41,37 @@ namespace _COBALT_
                 shift: true,
                 bindings: UnityEngine.InputSystem.Key.S
             );
+
+            ArkShortcuts.AddShortcut_keyboard(
+                shortcutName: "format_prefix",
+                action: static () =>
+                {
+                    var selected = EventSystem.current?.currentSelectedGameObject;
+                    var instance = selected == null ? null : selected.GetComponentInParent<ScriptView>();
+                    if (instance != null && instance.input_field.isFocused)
+                        instance.formatShortcutStartedAt = Time.unscaledTime;
+                },
+                control: true,
+                bindings: UnityEngine.InputSystem.Key.K
+            );
+
+            ArkShortcuts.AddShortcut_keyboard(
+                shortcutName: "format_document",
+                action: static () =>
+                {
+                    var selected = EventSystem.current?.currentSelectedGameObject;
+                    var instance = selected == null ? null : selected.GetComponentInParent<ScriptView>();
+                    if (instance == null)
+                        return;
+
+                    float elapsed = Time.unscaledTime - instance.formatShortcutStartedAt;
+                    instance.formatShortcutStartedAt = float.NegativeInfinity;
+                    if (instance.input_field.isFocused && elapsed >= 0 && elapsed <= 2f)
+                        instance.FormatDocument();
+                },
+                control: true,
+                bindings: UnityEngine.InputSystem.Key.D
+            );
         }
     }
 }
