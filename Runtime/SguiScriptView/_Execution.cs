@@ -1,4 +1,6 @@
-﻿namespace _COBALT_
+﻿using _BOA_;
+
+namespace _COBALT_
 {
     partial class ScriptView
     {
@@ -7,9 +9,8 @@
 
         void InitExecutionButton()
         {
-            var button_execution = AddTopRightButton(new() { french = "Lancer", english = "Run", });
-
-            button_execution.button.onClick.AddListener(() => SguiLoggerOverlay.Log($"{this}.Execute: get terminal window to run script at path", this, timer: 10, logLevel: SguiLogLevel.Warning));
+            var button_execution = AddTopRightButton(new() { french = "Compiler", english = "Compile", });
+            button_execution.button.onClick.AddListener(static () => BoaManager.CompileScripts());
         }
     }
 }
