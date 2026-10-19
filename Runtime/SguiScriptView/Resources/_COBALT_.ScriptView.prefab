@@ -1396,6 +1396,7 @@ MonoBehaviour:
   ark_id: 168
   pview: {fileID: 0}
   tab: {fileID: 0}
+  header: {fileID: 0}
   canvas: {fileID: 0}
   raycaster: {fileID: 0}
   window_icon: {fileID: 2800000, guid: 1beb16d2df01a934e9e8363ceb3570aa, type: 3}
