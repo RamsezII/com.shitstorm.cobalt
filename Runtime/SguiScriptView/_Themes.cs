@@ -19,11 +19,14 @@ namespace _COBALT_
 
         void InitThemes()
         {
-            var button_theme = AddTopRightButton(new()
-            {
-                french = "Thème",
-                english = "Theme",
-            });
+            var button_theme = header.AddButton(
+                label: new()
+                {
+                    french = "Thème",
+                    english = "Theme",
+                },
+                arrow: true
+            );
 
             button_theme.onList += (ContextList list) =>
             {
@@ -34,7 +37,7 @@ namespace _COBALT_
             current_theme.AddListener(value =>
             {
                 if (current_theme.HasNot)
-                    button_theme.trad_label.SetTraductions(new()
+                    button_theme.label.SetTraductions(new()
                     {
                         french = "Thème",
                         english = "Theme",
@@ -42,7 +45,7 @@ namespace _COBALT_
                 else
                 {
                     graphic_background.color = current_theme._value.background;
-                    button_theme.trad_label.SetTraductions(new()
+                    button_theme.label.SetTraductions(new()
                     {
                         french = $"Thème : {current_theme._value.name.french.Bold()}",
                         english = $"Theme: {current_theme._value.name.english.Bold()}",

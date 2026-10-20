@@ -57,7 +57,6 @@ namespace _COBALT_
             input_field.text = string.Empty;
             text_lint.text = string.Empty;
 
-            InitTopRightButtons();
             InitInputField();
             InitFileButton();
             InitButton_Edition();

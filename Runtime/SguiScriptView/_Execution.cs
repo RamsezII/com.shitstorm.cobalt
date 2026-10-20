@@ -9,7 +9,11 @@ namespace _COBALT_
 
         void InitExecutionButton()
         {
-            var button_execution = AddTopRightButton(new() { french = "Compiler", english = "Compile", });
+            var button_execution = header.AddButton(
+                label: new() { french = "Compiler", english = "Compile", },
+                arrow: false
+            );
+
             button_execution.button.onClick.AddListener(static () => BoaManager.CompileScripts());
         }
     }
