@@ -68,6 +68,8 @@ namespace _COBALT_
 
         void SaveAs()
         {
+            FormatDocument();
+
             if (file == null)
             {
                 SguiLoggerOverlay.Log($"No file selected for {this}", this, logLevel: SguiLogLevel.Warning);
@@ -81,6 +83,8 @@ namespace _COBALT_
 
         void SaveCurrentFile()
         {
+            FormatDocument();
+
             if (file == null)
             {
                 SguiLoggerOverlay.Log($"No file selected for {this}", this, logLevel: SguiLogLevel.Warning);
