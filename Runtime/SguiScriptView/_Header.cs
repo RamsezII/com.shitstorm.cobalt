@@ -9,11 +9,7 @@ namespace _COBALT_
 
         void InitButton_Edition()
         {
-            var button = header.AddButton(
-                label: new() { french = "Édition", english = "Edition", },
-                arrow: false
-            );
-
+            var button = header.AddButton(new() { french = "Édition", english = "Edition", });
             button.onList += (ContextList list) =>
             {
                 var button_indent = list.AddButton_trad(new() { french = "Indenter", english = "Indent", });

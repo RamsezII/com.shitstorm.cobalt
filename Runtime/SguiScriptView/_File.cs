@@ -18,11 +18,7 @@ namespace _COBALT_
 
         void InitFileButton()
         {
-            var button_file = header.AddButton(
-                label: new() { french = "Fichier", english = "File", },
-                arrow: false
-            );
-
+            var button_file = header.AddButton(new() { french = "Fichier", english = "File", });
             button_file.onList += (ContextList list) =>
             {
                 if (file != null)
