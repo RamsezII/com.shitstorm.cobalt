@@ -25,7 +25,7 @@ namespace _COBALT_
                     french = "Thème",
                     english = "Theme",
                 },
-                arrow: true
+                show_arrow: true
             );
 
             button_theme.onList += (ContextList list) =>
