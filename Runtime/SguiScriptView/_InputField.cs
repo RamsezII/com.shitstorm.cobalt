@@ -51,7 +51,7 @@ namespace _COBALT_
             input_field.caretColor = current_theme._value.cursor;
             text_placeholder.color = current_theme._value.placeholder;
 
-            text_lint.text = _BOA_.Shell.HighlightCode(text, current_theme._value);
+            text_lint.text = _BOA_.BoaCode.HighlightCode(text, current_theme._value);
             text_error.text = string.Empty;
             text_error.gameObject.SetActive(false);
             RefreshDiagnostics(text, current_theme._value);
@@ -65,7 +65,7 @@ namespace _COBALT_
             {
                 await Task.Delay(250, token);
                 token.ThrowIfCancellationRequested();
-                string error = await _BOA_.Shell.GetCodeDiagnosticAsync(text, theme, token);
+                string error = await _BOA_.BoaCode.GetCodeDiagnosticAsync(text, theme, token);
                 if (token.IsCancellationRequested || this == null || !isActiveAndEnabled || diagnosticsCancellation != request || input_field.text != text)
                     return;
 

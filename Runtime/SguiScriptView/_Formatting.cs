@@ -17,7 +17,7 @@ namespace _COBALT_
                 string source = input_field.text;
                 int anchor = input_field.selectionStringAnchorPosition;
                 int focus = input_field.selectionStringFocusPosition;
-                string formatted = _BOA_.Shell.FormatCode(source, ref anchor, ref focus);
+                string formatted = _BOA_.BoaCode.FormatCode(source, ref anchor, ref focus);
                 if (formatted == source)
                     return;
 

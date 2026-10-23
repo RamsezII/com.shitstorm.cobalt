@@ -80,7 +80,7 @@ namespace _COBALT_
             CodeActionsResult result = null;
             try
             {
-                result = await Shell.GetCodeActionsAsync(source, cursor, path, GetScriptsDir().FullName, token);
+                result = await BoaCode.GetCodeActionsAsync(source, cursor, path, GetScriptsDir().FullName, token);
                 if (token.IsCancellationRequested || this == null || !isActiveAndEnabled || list == null || codeActionsMenu != list || input_field.text != source || file?.FullName != path)
                     return;
 

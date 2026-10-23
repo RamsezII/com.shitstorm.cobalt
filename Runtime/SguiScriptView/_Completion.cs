@@ -72,7 +72,7 @@ namespace _COBALT_
             {
                 if (!force)
                     await Task.Delay(120, token);
-                result = await Shell.CompleteCodeAsync(text, cursor, path, directory, token, explicitInvocation: force);
+                result = await BoaCode.CompleteCodeAsync(text, cursor, path, directory, token, explicitInvocation: force);
                 if (token.IsCancellationRequested || this == null || !isActiveAndEnabled || !input_field.isFocused || !isFocused._value || input_field.text != text || input_field.selectionStringFocusPosition != cursor || input_field.selectionStringAnchorPosition != cursor || file?.FullName != path)
                     return;
                 if (result.Suggestions.Length == 0)
