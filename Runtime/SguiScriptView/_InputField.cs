@@ -1,10 +1,15 @@
 ﻿using _ARK_;
 using _SGUI_;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace _COBALT_
 {
     partial class ScriptView
     {
+        CancellationTokenSource diagnosticsCancellation;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -27,31 +32,72 @@ namespace _COBALT_
             RefreshInputField();
         }
 
-        void RefreshInputField() => Util.AddActionOnce(ref NUCLEOR.delegates.LateUpdate_onEndOfFrame_once, RefreshInputField_now);
+        void RefreshInputField()
+        {
+            CancelDiagnostics();
+            Util.AddActionOnce(ref NUCLEOR.delegates.LateUpdate_onEndOfFrame_once, RefreshInputField_now);
+        }
+
         void RefreshInputField_now()
         {
+            if (this == null || !isActiveAndEnabled || !current_theme.Has)
+                return;
+
             string text = input_field.text;
 
+            graphic_background.color = current_theme._value.background;
+            input_field.caretColor = current_theme._value.cursor;
+            text_placeholder.color = current_theme._value.placeholder;
+
+            text_lint.text = _BOA_.Shell.HighlightCode(text, current_theme._value);
+            text_error.text = string.Empty;
+            text_error.gameObject.SetActive(false);
+            RefreshDiagnostics(text, current_theme._value);
+        }
+
+        async void RefreshDiagnostics(string text, LintTheme theme)
+        {
+            var request = diagnosticsCancellation = new CancellationTokenSource();
+            var token = request.Token;
+            try
+            {
+                await Task.Delay(250, token);
+                token.ThrowIfCancellationRequested();
+                string error = await _BOA_.Shell.GetCodeDiagnosticAsync(text, theme, token);
+                if (token.IsCancellationRequested || this == null || !isActiveAndEnabled || diagnosticsCancellation != request || input_field.text != text)
+                    return;
+
+                bool hasError = !string.IsNullOrWhiteSpace(error);
+                text_error.text = hasError ? $"{new string(' ', text.Length)}{error}" : string.Empty;
+                text_error.gameObject.SetActive(hasError);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception exception)
+            {
+                if (this != null && !token.IsCancellationRequested)
+                    Debug.LogException(exception, this);
+            }
+            finally
+            {
+                if (diagnosticsCancellation == request)
+                    diagnosticsCancellation = null;
+                request.Dispose();
+            }
+        }
+
+        void CancelDiagnostics()
+        {
+            diagnosticsCancellation?.Cancel();
+            diagnosticsCancellation = null;
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
             if (current_theme.Has)
-            {
-                graphic_background.color = current_theme._value.background;
-                input_field.caretColor = current_theme._value.cursor;
-                text_placeholder.color = current_theme._value.placeholder;
-            }
-
-            _BOA_.Shell.Lint(text, current_theme._value, out var lint_text, out var error);
-            text_lint.text = lint_text;
-
-            if (!string.IsNullOrWhiteSpace(error))
-            {
-                text_error.gameObject.SetActive(true);
-                text_error.text = $"{new string(' ', text.Length)}{error}";
-            }
-            else
-            {
-                text_error.text = string.Empty;
-                text_error.gameObject.SetActive(false);
-            }
+                RefreshInputField();
         }
 
         char OnValidateInput(string text, int charIndex, char addedChar)

@@ -172,6 +172,8 @@ namespace _COBALT_
 
         protected override void OnDisable()
         {
+            CancelDiagnostics();
+            NUCLEOR.delegates.LateUpdate_onEndOfFrame_once -= RefreshInputField_now;
             CancelCompletion();
             completionCursor = -1;
             base.OnDisable();
