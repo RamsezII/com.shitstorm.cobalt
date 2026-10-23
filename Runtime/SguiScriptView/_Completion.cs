@@ -21,6 +21,8 @@ namespace _COBALT_
 
         void LateUpdate()
         {
+            RefreshScrollView();
+
             if (codeActionsMenu != null || committingCodeAction)
             {
                 if (!isFocused._value)

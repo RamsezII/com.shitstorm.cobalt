@@ -18,7 +18,31 @@ namespace _COBALT_
             input_field.onValueChanged.AddListener(OnValueChanged);
             input_field.onValidateInput += OnValidateInput;
             input_field.onFocusSelectAll = false;
+            input_field.textComponent.textWrappingMode = TMPro.TextWrappingModes.PreserveWhitespaceNoWrap;
+            input_field.gameObject.AddComponent<_UTIL_.ScrollHandler>().onScroll += scrollview.OnScroll;
             InitCodeActions();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        void RefreshScrollView()
+        {
+            if (scrollview == null || input_field == null)
+                return;
+
+            var viewportSize = scrollview.viewport.rect.size;
+            var text = input_field.textComponent;
+            var size = Vector2.Max(viewportSize, new Vector2(Mathf.Ceil(text.preferredWidth + input_field.caretWidth), Mathf.Ceil(text.preferredHeight)));
+            if (scrollview.content.rect.size == size)
+                return;
+
+            scrollview.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+            scrollview.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
+
+            var position = scrollview.content.anchoredPosition;
+            position.x = Mathf.Clamp(position.x, viewportSize.x - size.x, 0);
+            position.y = Mathf.Clamp(position.y, 0, size.y - viewportSize.y);
+            scrollview.content.anchoredPosition = position;
         }
 
         //--------------------------------------------------------------------------------------------------------------
