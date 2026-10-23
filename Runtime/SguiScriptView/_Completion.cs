@@ -21,6 +21,14 @@ namespace _COBALT_
 
         void LateUpdate()
         {
+            if (codeActionsMenu != null || committingCodeAction)
+            {
+                if (!isFocused._value)
+                    CancelCodeActions();
+                CancelCompletion();
+                return;
+            }
+
             if (committingCompletion)
             {
                 if (!use_intellisense || !isFocused._value || input_field.text != completionText || input_field.selectionStringFocusPosition != completionCursor || input_field.selectionStringAnchorPosition != completionCursor || file?.FullName != completionPath)
@@ -172,6 +180,7 @@ namespace _COBALT_
 
         protected override void OnDisable()
         {
+            CancelCodeActions();
             CancelDiagnostics();
             NUCLEOR.delegates.LateUpdate_onEndOfFrame_once -= RefreshInputField_now;
             CancelCompletion();

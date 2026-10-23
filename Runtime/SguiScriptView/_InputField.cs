@@ -18,6 +18,7 @@ namespace _COBALT_
             input_field.onValueChanged.AddListener(OnValueChanged);
             input_field.onValidateInput += OnValidateInput;
             input_field.onFocusSelectAll = false;
+            InitCodeActions();
         }
 
         //--------------------------------------------------------------------------------------------------------------
@@ -34,6 +35,7 @@ namespace _COBALT_
 
         void RefreshInputField()
         {
+            CancelCodeActions();
             CancelDiagnostics();
             Util.AddActionOnce(ref NUCLEOR.delegates.LateUpdate_onEndOfFrame_once, RefreshInputField_now);
         }
