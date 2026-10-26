@@ -34,7 +34,7 @@ namespace _COBALT_
             };
         }
 
-        internal bool LoadFile(in FileInfo file)
+        internal bool LoadFile(in FileInfo file, bool onlyIfChanged = false)
         {
             file.Refresh();
             if (!file.Exists)
@@ -49,6 +49,9 @@ namespace _COBALT_
             }
 
             string content = File.ReadAllText(file.FullName);
+            if (onlyIfChanged && this.file?.FullName == file.FullName && input_field.text == content)
+                return true;
+
             this.file = file;
             input_field.SetTextWithoutNotify(content);
             text_lint.text = string.Empty;
@@ -61,19 +64,29 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
+        void ReloadCurrentFile()
+        {
+            if (file == null || dirty)
+                return;
+
+            try
+            {
+                file.Refresh();
+                if (file.Exists)
+                    LoadFile(file, onlyIfChanged: true);
+            }
+            catch (Exception exception)
+            {
+                text_error.text = exception.Message;
+                Debug.LogException(exception, this);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
         void SaveAs()
         {
-            FormatDocument();
-
-            if (file == null)
-            {
-                SguiLoggerOverlay.Log($"No file selected for {this}", this, logLevel: SguiLogLevel.Warning);
-                return;
-            }
-
-            dirty = false;
-            RefreshTitle();
-            BoaManager.CompileScripts();
+            SguiCustom.ShowAlert(SguiDialogs.Info, out _, new("Save as is not implemented."));
         }
 
         void SaveCurrentFile()

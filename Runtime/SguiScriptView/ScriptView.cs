@@ -68,12 +68,40 @@ namespace _COBALT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-#if UNITY_EDITOR
+        protected override void Start()
+        {
+            base.Start();
+
+            NUCLEOR.delegates.OnApplicationFocus += OnNucleorFocus;
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        void OnNucleorFocus()
+        {
+            ReloadCurrentFile();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        protected override void OnToggleFocus(bool focus)
+        {
+            base.OnToggleFocus(focus);
+            if (focus)
+                ReloadCurrentFile();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
         protected override void OnDestroy()
         {
+            NUCLEOR.delegates.OnApplicationFocus -= OnNucleorFocus;
+
             base.OnDestroy();
+
+#if UNITY_EDITOR
             ArkUI._VisibleInEditor.Remove(gameObject);
-        }
 #endif
+        }
     }
 }

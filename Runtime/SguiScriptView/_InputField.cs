@@ -122,6 +122,7 @@ namespace _COBALT_
         protected override void OnEnable()
         {
             base.OnEnable();
+            ReloadCurrentFile();
             if (current_theme.Has)
                 RefreshInputField();
         }
