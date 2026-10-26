@@ -14,7 +14,7 @@ namespace _COBALT_
             {
                 var button_indent = list.AddButton_trad(new() { french = "Indenter", english = "Indent", });
                 button_indent.label_right.SetText("Ctrl+K, Ctrl+D");
-                button_indent._button.onClick.AddListener(FormatDocument);
+                button_indent.action += FormatDocument;
             };
         }
     }

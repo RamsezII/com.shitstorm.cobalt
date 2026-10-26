@@ -43,7 +43,7 @@ namespace _COBALT_
                     if (theme == lint_theme._value)
                         sublist.SelectButton(button);
 
-                    button._button.onClick.AddListener(() => lint_theme.Value = theme);
+                    button.action += () => lint_theme.Value = theme;
                 }
             });
         }

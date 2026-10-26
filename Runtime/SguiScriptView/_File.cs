@@ -25,12 +25,12 @@ namespace _COBALT_
                 {
                     var button_save = list.AddButton_trad(new() { french = "Sauvegarder", english = "Save", });
                     button_save.label_right.SetText("Ctrl+S");
-                    button_save._button.onClick.AddListener(SaveCurrentFile);
+                    button_save.action += SaveCurrentFile;
                 }
 
                 var button_saveAs = list.AddButton_trad(new() { french = "Sauvegarder sous", english = "Save as", });
                 button_saveAs.label_right.SetTraductions(new() { french = "Ctrl+Maj+S", english = "Ctrl+Shift+S", });
-                button_saveAs._button.onClick.AddListener(SaveAs);
+                button_saveAs.action += SaveAs;
             };
         }
 

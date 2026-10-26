@@ -70,7 +70,8 @@ namespace _COBALT_
             AddCommand(new() { french = "Coller", english = "Paste" }, KeyCode.V, "Ctrl+V", !string.IsNullOrEmpty(GUIUtility.systemCopyBuffer));
             AddCommand(new() { french = "Tout sélectionner", english = "Select all" }, KeyCode.A, "Ctrl+A", source.Length > 0);
             list.AddLine();
-            list.AddButton_trad(new() { french = "Formater le document", english = "Format document" })._button.onClick.AddListener(FormatDocument);
+            list.AddButton_trad(new() { french = "Insérer une ligne de commentaire", english = "Insert comment line" }).action += () => InsertCommentLine(cursor);
+            list.AddButton_trad(new() { french = "Formater le document", english = "Format document" }).action += FormatDocument;
             list.AddLine();
             var first = list.AddButton_trad(new() { french = "Recherche des corrections…", english = "Finding corrections…" });
             first._button.interactable = false;
@@ -95,7 +96,7 @@ namespace _COBALT_
                         foreach (var label in button.label_left.GetComponentsInChildren<TMP_Text>(true))
                             label.richText = false;
                         button._button.interactable = true;
-                        button._button.onClick.AddListener(() => ApplyCodeAction(index, source, path));
+                        button.action += () => ApplyCodeAction(index, source, path);
                     }
                 codeActionsResult = result;
                 result = null;
@@ -124,7 +125,7 @@ namespace _COBALT_
                 var button = list.AddButton_trad(title);
                 button.label_right.SetText(shortcut);
                 button._button.interactable = enabled;
-                button._button.onClick.AddListener(() =>
+                button.action += () =>
                 {
                     if (this == null || input_field.text != source)
                         return;
@@ -132,8 +133,15 @@ namespace _COBALT_
                     input_field.selectionStringFocusPosition = focus;
                     input_field.ProcessEvent(new Event { type = EventType.KeyDown, keyCode = key, modifiers = EventModifiers.Control });
                     RestoreCodeSelection(input_field.selectionStringAnchorPosition, input_field.selectionStringFocusPosition);
-                });
+                };
             }
+        }
+
+        void InsertCommentLine(int cursor)
+        {
+            const string line = "//----------------------------------------------------------------------------------------------------------";
+            input_field.text = input_field.text.Insert(cursor, line);
+            RestoreCodeSelection(cursor + line.Length, cursor + line.Length);
         }
 
         async void ApplyCodeAction(int index, string source, string path)

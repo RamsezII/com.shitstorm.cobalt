@@ -31,7 +31,7 @@ namespace _COBALT_
             button_theme.onList += (ContextList list) =>
             {
                 foreach (var theme in lint_themes.themes)
-                    list.AddButton_trad(theme.name)._button.onClick.AddListener(() => current_theme.Value = theme);
+                    list.AddButton_trad(theme.name).action += () => current_theme.Value = theme;
             };
 
             current_theme.AddListener(value =>

@@ -19,7 +19,7 @@ namespace _COBALT_
                     english = "Execute a terminal",
                 });
 
-                button._button.onClick.AddListener(() =>
+                button.action += () =>
                 {
                     ShellView terminal = (ShellView)OSView.instance.softwaresButtons[typeof(ShellView)].InstantiateSoftware();
                     NUCLEOR.instance.routinizer.AddRoutine(Util.EWaitForFrames(3, "execute in a terminal", terminal, () =>
@@ -27,7 +27,7 @@ namespace _COBALT_
                         string line = $"run_script \"{file.FullName.NormalizePath()}\"";
                         terminal.ExecuteLine(line);
                     }));
-                });
+                };
             };
         }
     }
