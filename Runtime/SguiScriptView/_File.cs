@@ -10,7 +10,7 @@ namespace _COBALT_
 {
     partial class ScriptView
     {
-        const int MAX_FILE_SIZE = 1024;
+        const int MAX_FILE_SIZE = 2 * 1024;
         internal FileInfo file;
         public static DirectoryInfo GetScriptsDir() => Path.Combine(NUCLEOR.DFHome.FullName, "scripts").ForceDir();
 
